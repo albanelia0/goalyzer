@@ -7,7 +7,18 @@ const CheckDays = () => {
 
   return (
     <View style={styles.container}>
-      {Days.map(day =><Text style={styles.list}>{day}</Text>)}
+      <View style={styles.days}>
+        {Days.map((day, i) =><Text key={i} style={styles.daysList}>{day}</Text>)}
+      </View>
+      <View style={styles.squareContainer}>
+        <View style={styles.squarecontent}/>
+        <View style={styles.squarecontent}/>
+        <View style={styles.squarecontent}/>
+        <View style={styles.squarecontent}/>
+        <View style={styles.squarecontent}/>
+        <View style={styles.squarecontent}/>
+        <View style={styles.squarecontent}/>
+      </View>
     </View>
   )
 }
