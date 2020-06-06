@@ -10,7 +10,7 @@ export default function App(props) {
 
     return (
       <SafeAreaView style={styles.container} >
-        <View>
+        <View style={{margin: 30}}>
           <HomeScreen/>
         </View>
       </SafeAreaView>
