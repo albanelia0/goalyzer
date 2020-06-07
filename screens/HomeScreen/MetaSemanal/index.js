@@ -15,7 +15,6 @@ import CheckDays from '../../../components/CheckDays'
 export default function MetaSemanal() {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
-  console.log('arrayAllGoal', arrayAllGoal)
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
@@ -23,6 +22,7 @@ export default function MetaSemanal() {
       setArrayAllGoal(parsedJson)
     })
   }, [])
+
   const onInputSubmit = () => {
     if (value !== '') {
       setArrayAllGoal(prev => {
@@ -56,11 +56,16 @@ export default function MetaSemanal() {
                 <Text>Save</Text>
               </TouchableOpacity>
          </View>
-            <View style={styles.goalContainer}>
-              {arrayAllGoal && arrayAllGoal.map((goal, i) => (
-                <Text style={styles.goalTitles} key={i}>☆ {goal}</Text>
-              ))}
-            </View>
+          <View style={styles.goalContainer}>
+            {arrayAllGoal && arrayAllGoal.map((goal, i) => (
+              <View key={i} style={styles.goalItem}>
+                <Text style={styles.goalTitles}>☆ {goal}</Text>
+                <TouchableOpacity onPress={() => console.log('')}>
+                  <Text style={styles.deleteGoal}>🗑</Text>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
           <Text style={styles.textForDay}>Cosas que hacer por día para cumplir la meta:</Text>
           <TextInput style={styles.inputTask}/>
         </View>

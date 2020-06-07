@@ -1,4 +1,5 @@
-import { Platform, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import color from '../../../constants/Colors'
 
 export const styles = StyleSheet.create({
   title: {
@@ -45,10 +46,8 @@ export const styles = StyleSheet.create({
     color: '#543864'
   },
   goalContainer: {
-    flex:1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
     marginTop: 20,
     padding:10,
     borderStyle: 'solid',
@@ -57,13 +56,22 @@ export const styles = StyleSheet.create({
     borderColor: 'pink',
   },
   goalTitles: {
-    fontSize: 20,
-    color: '#8d6262'
+    fontSize: 22,
+    color: color.goalColor,
+    flexShrink: 0,
+    flexWrap: 'wrap',
+    minWidth: 110
   },
-  oneGoal: {
-    fontSize: 25,
-    color: '#8d6262',
-    paddingTop: 20,
-    paddingRight: 10
-  }
+  goalItem: {
+    flexShrink: 0,
+    flexGrow: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingBottom: 10
+  },
+  deleteGoal: {
+    marginLeft: 5,
+    color: color.deleteGoal,
+  },
 })

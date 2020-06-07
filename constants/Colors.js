@@ -11,4 +11,6 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
+  goalColor: '#8d6262',
+  deleteGoal: '#556e53'
 };
