@@ -24,12 +24,14 @@ export default function MetaSemanal() {
     })
   }, [])
   const onInputSubmit = () => {
-    setArrayAllGoal(prev => {
-      const arrayWithNewItem = [...prev, value]
-      AsyncStorage.setItem('allGoalWeek', JSON.stringify(arrayWithNewItem))
-      return arrayWithNewItem
-    })
-    setValue('')
+    if (value !== '') {
+      setArrayAllGoal(prev => {
+        const arrayWithNewItem = [...prev, value]
+        AsyncStorage.setItem('allGoalWeek', JSON.stringify(arrayWithNewItem))
+        return arrayWithNewItem
+      })
+      setValue('')
+    } else return
   }
 
   return (
@@ -50,7 +52,7 @@ export default function MetaSemanal() {
               value={value}
               />
            </View>
-              <TouchableOpacity onPress={value !== '' && onInputSubmit}>
+              <TouchableOpacity onPress={onInputSubmit}>
                 <Text>Save</Text>
               </TouchableOpacity>
          </View>
@@ -66,7 +68,3 @@ export default function MetaSemanal() {
     </KeyboardAvoidingView>
   );
 }
-
-// MetaSemanal.navigationOptions = {
-//   header: null,
-// };

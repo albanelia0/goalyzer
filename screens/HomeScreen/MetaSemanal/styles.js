@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 25
   },
   allWeekContainer: {
     padding: 20
@@ -18,7 +19,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 20
   },
   inputGoal: {
     marginTop: 10,
