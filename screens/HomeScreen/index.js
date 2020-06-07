@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {styles} from './styles'
 import { ScrollView, View } from 'react-native';
-import MetaSemanal from '../../components/MetaSemanal';
+import MetaSemanal from './MetaSemanal';
 
 export default function HomeScreen() {
   return (
@@ -13,3 +13,6 @@ export default function HomeScreen() {
     </View>
   );
 }
+// HomeScreen.navigationOptions = {
+//   header: null,
+// };

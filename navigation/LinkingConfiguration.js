@@ -8,6 +8,8 @@ export default {
       screens: {
         Home: 'home',
         Links: 'links',
+        Week: 'week',
+        Month: 'month'
       },
     },
   },

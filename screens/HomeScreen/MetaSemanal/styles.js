@@ -11,6 +11,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center'
   },
+  allWeekContainer: {
+    padding: 20
+  },
   inputContainer: {
     flex: 1,
     flexDirection: 'row',

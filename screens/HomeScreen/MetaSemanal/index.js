@@ -10,7 +10,7 @@ import {
   AsyncStorage,
   KeyboardAvoidingView
 } from 'react-native';
-import CheckDays from '../CheckDays'
+import CheckDays from '../../../components/CheckDays'
 
 export default function MetaSemanal() {
   const [value, setValue]= useState('')
@@ -19,7 +19,7 @@ export default function MetaSemanal() {
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
-      const parsedJson = JSON.parse(json)
+      const parsedJson = JSON.parse(json) || []
       setArrayAllGoal(parsedJson)
     })
   }, [])
@@ -34,7 +34,7 @@ export default function MetaSemanal() {
 
   return (
     <KeyboardAvoidingView behavior="position">
-      <ScrollView keyboardShouldPersistTaps='handled'>
+      <ScrollView style={styles.allWeekContainer} keyboardShouldPersistTaps='handled'>
         <View>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Meta Semanal</Text>
@@ -66,3 +66,7 @@ export default function MetaSemanal() {
     </KeyboardAvoidingView>
   );
 }
+
+// MetaSemanal.navigationOptions = {
+//   header: null,
+// };
