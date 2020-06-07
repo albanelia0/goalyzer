@@ -1,15 +1,50 @@
-import { Ionicons } from '@expo/vector-icons';
+import {
+  Ionicons,
+  FontAwesome5,
+  MaterialCommunityIcons
+} from '@expo/vector-icons';
 import * as React from 'react';
 
 import Colors from '../constants/Colors';
 
 export default function TabBarIcon(props) {
-  return (
-    <Ionicons
-      name={props.name}
-      size={30}
-      style={{ marginBottom: -3 }}
-      color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
-    />
-  );
+  if (props.today) {
+    return (
+      <Ionicons
+        name={props.today}
+        size={25}
+        style={{ marginBottom: -3 }}
+        color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+      />
+    )
+  } else if(props.week) {
+    return (
+      <FontAwesome5
+        name={props.week}
+        size={25}
+        style={{ marginBottom: -3 }}
+        color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+      />
+    )
+  } else if(props.month) {
+    return (
+      <FontAwesome5
+        name={props.month}
+        size={25}
+        style={{ marginBottom: -3 }}
+        color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+      />
+    )
+  } else if (props.history) {
+    return (
+      <MaterialCommunityIcons
+        name={props.history}
+        size={25}
+        style={{ marginBottom: -3 }}
+        color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+      />
+    )
+  } else {
+    return ''
+  }
 }

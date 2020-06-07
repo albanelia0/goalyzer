@@ -7,7 +7,7 @@ export default {
       path: 'root',
       screens: {
         Home: 'home',
-        Links: 'links',
+        Links: 'Day',
         Week: 'week',
         Month: 'month'
       },

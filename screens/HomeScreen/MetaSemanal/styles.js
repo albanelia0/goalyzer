@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     marginTop: 25
   },
   allWeekContainer: {
-    padding: 20
+    padding: 25
   },
   inputContainer: {
     flex: 1,

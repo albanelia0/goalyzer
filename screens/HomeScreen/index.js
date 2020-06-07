@@ -13,6 +13,3 @@ export default function HomeScreen() {
     </View>
   );
 }
-// HomeScreen.navigationOptions = {
-//   header: null,
-// };

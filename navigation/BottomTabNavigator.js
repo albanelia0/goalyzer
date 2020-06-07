@@ -4,9 +4,12 @@ import * as React from 'react';
 import TabBarIcon from '../components/TabBarIcon';
 import LinksScreen from '../screens/LinksScreen';
 import MetaSemanal from '../screens/HomeScreen/MetaSemanal';
+import MetaDiaria from '../screens/HomeScreen/MetaDiaria';
+import MetaMensual from '../screens/HomeScreen/MetaMensual';
+import Historial from '../screens/HomeScreen/Historial';
 
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Home';
+const INITIAL_ROUTE_NAME = 'Day';
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
@@ -17,35 +20,35 @@ export default function BottomTabNavigator({ navigation, route }) {
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
       <BottomTab.Screen
-        name="Home"
-        component={MetaSemanal}
+        name="Day"
+        component={MetaDiaria}
         options={{
-          title: 'Meta Semanala',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
-        }}
-      />
-      <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
-        options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+          title: 'Meta Diaria',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} today="md-today" />,
         }}
       />
       <BottomTab.Screen
         name="Week"
-        component={LinksScreen}
+        component={MetaSemanal}
         options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+          title: 'Meta Semanal',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} week="calendar-day" />,
         }}
       />
       <BottomTab.Screen
         name="Month"
-        component={LinksScreen}
+        component={MetaMensual}
         options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+          title: 'Meta Mensual',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} month="calendar-week" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="History"
+        component={Historial}
+        options={{
+          title: 'Historial',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} history="history" />,
         }}
       />
     </BottomTab.Navigator>

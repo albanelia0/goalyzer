@@ -12,8 +12,8 @@ const CheckDays = () => {
         <View style={styles.days}>
           {Days.map((day, i) => {
             return (
-              <View style={styles.squareContainer}>
-                <Text key={i} style={styles.smallDaysList}>{day}</Text>
+              <View key={i} style={styles.squareContainer}>
+                <Text style={styles.smallDaysList}>{day}</Text>
                 <View style={styles.smallSquareContent}/>
               </View>
             )
@@ -27,8 +27,8 @@ const CheckDays = () => {
         <View style={styles.days}>
           {Days.map((day, i) => {
             return (
-              <View style={styles.squareContainer}>
-                <Text key={i} style={styles.daysList}>{day}</Text>
+              <View key={i} style={styles.squareContainer}>
+                <Text style={styles.daysList}>{day}</Text>
                 <View style={styles.squareContainer}/>
               </View>
             )
