@@ -1,5 +1,5 @@
 import { StyleSheet} from 'react-native';
-import allFonts from '../../constants/fonts'
+import color from '../../constants/Colors'
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     padding: 10,
     fontSize: 30,
     margin: 5,
-    color: 'pink'
+    color: color.containerDay
   },
   squareContainer: {
     flex: 1,
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: 'pink',
+    borderColor: color.containerDay,
     margin: 5
   },
   // when the screen is small
@@ -37,11 +37,12 @@ export const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: 'pink',
+    borderColor: color.containerDay,
     marginTop: 5
   },
   smallDaysList: {
     fontSize: 20,
-    color: 'pink'
+    color: color.containerDay
+
   },
 })

@@ -4,7 +4,7 @@ import color from '../../../constants/Colors'
 export const styles = StyleSheet.create({
   title: {
     fontSize: 35,
-    color: 'gray'
+    color: color.titleColor
   },
   titleContainer: {
     flex: 1,

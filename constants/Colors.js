@@ -1,7 +1,8 @@
-const tintColor = '#2f95dc';
+const utilColor = '#ff6768'
 
 export default {
-  tintColor,
+  titleColor: 'gray',
+  containerDay: utilColor,
   tabIconDefault: '#ccc',
   tabIconSelected: 'pink',
   tabBar: '#fefefe',
@@ -9,8 +10,8 @@ export default {
   errorText: '#fff',
   warningBackground: '#EAEB5E',
   warningText: '#666804',
-  noticeBackground: tintColor,
   noticeText: '#fff',
-  goalColor: '#8d6262',
-  deleteGoal: '#556e53'
+  goalColor: '#543864',
+  deleteGoal: '#556e53',
+  currentTitleDay: utilColor
 };
