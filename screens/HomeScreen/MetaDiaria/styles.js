@@ -1,5 +1,6 @@
 import {  StyleSheet} from 'react-native';
 import colors from '../../../constants/Colors'
+import Layout from '../../../constants/Layout'
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,9 +18,21 @@ export const styles = StyleSheet.create({
     marginTop: 25
   },
   currentTitleDay: {
-    fontSize: 25,
+    fontSize: 20,
+    textAlign: 'center',
     color: colors.currentTitleDay,
     margin: 10,
     letterSpacing: 40
-  }
+  },
+  goalDayContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  smallCurrentTitleDay: {
+    fontSize: 15,
+    textAlign: 'center',
+    color: colors.currentTitleDay,
+    margin: 10,
+    letterSpacing: 40
+  },
 });

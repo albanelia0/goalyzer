@@ -14,7 +14,7 @@ export default function TabBarIcon(props) {
         name={props.today}
         size={25}
         style={{ marginBottom: -3 }}
-        color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+        color={props.focused ? Colors.containerDay : Colors.tabIconDefault}
       />
     )
   } else if(props.week) {
@@ -23,7 +23,7 @@ export default function TabBarIcon(props) {
         name={props.week}
         size={25}
         style={{ marginBottom: -3 }}
-        color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+        color={props.focused ? Colors.containerDay : Colors.tabIconDefault}
       />
     )
   } else if(props.month) {
@@ -32,7 +32,7 @@ export default function TabBarIcon(props) {
         name={props.month}
         size={25}
         style={{ marginBottom: -3 }}
-        color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+        color={props.focused ? Colors.containerDay : Colors.tabIconDefault}
       />
     )
   } else if (props.history) {
@@ -41,7 +41,7 @@ export default function TabBarIcon(props) {
         name={props.history}
         size={25}
         style={{ marginBottom: -3 }}
-        color={props.focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+        color={props.focused ? Colors.containerDay : Colors.tabIconDefault}
       />
     )
   } else {
