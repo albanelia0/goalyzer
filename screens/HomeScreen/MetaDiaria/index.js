@@ -44,6 +44,12 @@ export default function MetaDiaria() {
     } else return
   }
 
+  const onPressIconDeleteTask = (item) => {
+    const newArray = dailyGoalItem.filter(itemForDelete => itemForDelete !== item)
+    AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
+    setDailyGoalItem(newArray)
+  }
+
     return (
     <KeyboardAvoidingView >
       <ScrollView style={styles.container}>
@@ -67,7 +73,7 @@ export default function MetaDiaria() {
               <SafeAreaView style={{flex:1}}>
                 <ScrollView>
                   <View style={styles.goalDayContainer}>
-                    <GoalDay goalDay={dailyGoal} />
+                    <GoalDay goalDay={dailyGoal} onDelete={() => onPressIconDeleteTask(dailyGoal)} />
                   </View>
                 </ScrollView>
               </SafeAreaView>

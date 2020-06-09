@@ -1,12 +1,9 @@
 import React from 'react'
 import {
-  ScrollView,
   Text,
   TextInput,
   View,
   TouchableOpacity,
-  AsyncStorage,
-  KeyboardAvoidingView
 } from 'react-native';
 
 import {styles} from './styles'
