@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderStyle: 'solid',
     borderWidth: 0.5,
-    borderColor: color.currentTitleDay,
-    margin: 10,
+    borderColor: color.goalColor,
+    marginTop: 15,
     padding: 10
   },
   goalDayContainer: {
@@ -22,7 +22,8 @@ export const styles = StyleSheet.create({
     borderStyle: 'dashed',
     borderBottomColor: color.titleColor,
     borderBottomWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
+    color: color.goalColor
   },
   done: {
     borderStyle: 'solid',

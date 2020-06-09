@@ -59,17 +59,19 @@ export default function MetaDiaria() {
               {currentDay}
           </Text>
         </View>
-          <Text style={styles.textForDay}>Cosas diarias que hacer por día para cumplir tus metas:</Text>
+          <Text style={styles.textForDay}>Que hacer hoy para cumplir mis metas:</Text>
          <Input value={valueInput} onPress={onSaveTaskInput} onChangeText={(text) => setValueInput(text)}/>
         {dailyGoalItem && dailyGoalItem.map((dailyGoal, i) => {
           return (
-          <SafeAreaView style={{flex:1}}>
-            <ScrollView>
-              <View key={i} style={styles.goalDayContainer}>
-                <GoalDay goalDay={dailyGoal} />
-              </View>
-            </ScrollView>
-          </SafeAreaView>
+            <View key={i}>
+              <SafeAreaView style={{flex:1}}>
+                <ScrollView>
+                  <View style={styles.goalDayContainer}>
+                    <GoalDay goalDay={dailyGoal} />
+                  </View>
+                </ScrollView>
+              </SafeAreaView>
+            </View>
             )
           })}
       </ScrollView>

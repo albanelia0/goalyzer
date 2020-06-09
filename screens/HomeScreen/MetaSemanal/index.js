@@ -42,7 +42,7 @@ export default function MetaSemanal() {
     setArrayAllGoal(newArray)
   }
   return (
-    <KeyboardAvoidingView behavior="position">
+    <KeyboardAvoidingView>
       <ScrollView style={styles.allWeekContainer} keyboardShouldPersistTaps='handled'>
         <View>
           <View style={styles.titleContainer}>

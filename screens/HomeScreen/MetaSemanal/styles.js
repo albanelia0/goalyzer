@@ -34,14 +34,13 @@ export const styles = StyleSheet.create({
   },
 
   goalContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
     marginTop: 20,
+    marginBottom: 20,
     padding:10,
     borderStyle: 'solid',
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: 'pink',
+    borderColor: color.goalColor,
   },
   goalTitles: {
     fontSize: 22,
@@ -54,9 +53,13 @@ export const styles = StyleSheet.create({
     flexShrink: 0,
     flexGrow: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: 10
+    paddingBottom: 10,
+    borderStyle: 'solid',
+    borderBottomColor: color.goalColor,
+    borderBottomWidth: 1,
+    margin: 5
   },
   deleteGoal: {
     marginLeft: 5,
