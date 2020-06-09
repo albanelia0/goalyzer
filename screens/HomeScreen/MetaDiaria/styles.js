@@ -15,7 +15,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginTop: 25
+    marginTop: 25,
+    marginBottom: 20
   },
   containerCurrentDay: {
     minWidth: Layout.window.width
@@ -42,16 +43,9 @@ export const styles = StyleSheet.create({
   remenberOfDay: {
 
   },
-  inputTask: {
-    marginTop: 10,
-    padding: 6,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: 'pink',
-  },
   textForDay: {
     paddingTop: 20,
+    marginBottom: 10,
     fontSize: 20,
     color: '#543864'
   },

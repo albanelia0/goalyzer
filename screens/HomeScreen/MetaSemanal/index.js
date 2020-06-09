@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
+import Input from '../../../components/Input'
+
 import {styles} from './styles'
 import {
   ScrollView,
@@ -48,19 +50,7 @@ export default function MetaSemanal() {
             <Text>🔔</Text>
           </View>
          <CheckDays/>
-         <View style={styles.inputContainer}>
-           <View>
-            <TextInput
-              onChangeText={text => setValue(text)}
-              style={styles.inputGoal}
-              placeholder="Create your goal"
-              value={value}
-              />
-           </View>
-              <TouchableOpacity onPress={onInputSubmit}>
-                <Text>Save</Text>
-              </TouchableOpacity>
-         </View>
+         <Input value={value} onPress={onInputSubmit} onChangeText={text => setValue(text)}/>
           <View style={styles.goalContainer}>
             {arrayAllGoal && arrayAllGoal.map((goal, i) => (
               <View key={i} style={styles.goalItem}>

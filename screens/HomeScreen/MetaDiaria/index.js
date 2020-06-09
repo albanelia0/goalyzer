@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
+import Input from '../../../components/Input'
+
 import {styles} from './styles'
 import {
   ScrollView,
@@ -9,6 +11,7 @@ import {
   KeyboardAvoidingView,
   AsyncStorage,
   TextInput,
+  TouchableHighlight
 } from 'react-native';
 import Layout from '../../../constants/Layout'
 import GoalDay from '../../../components/GoalDay';
@@ -20,18 +23,30 @@ let currentDay = weekDaysNames[Day]
 export default function MetaDiaria() {
 
   const [dailyGoalItem, setDailyGoalItem] = useState([])
+  const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
 
   useEffect(() => {
-    AsyncStorage.getItem('allGoalWeek').then(json => {
+    AsyncStorage.getItem('taskForDay').then(json => {
       const parsedJson = JSON.parse(json) || []
       setDailyGoalItem(parsedJson)
     })
-  },[dailyGoalItem] )
+  },[] )
+
+  const onSaveTaskInput = () => {
+    if (valueInput !== '') {
+      setDailyGoalItem(prev => {
+        const arrayWithNewItem = [...prev, valueInput]
+        AsyncStorage.setItem('taskForDay', JSON.stringify(arrayWithNewItem))
+        return arrayWithNewItem
+      })
+      setValueInput('')
+    } else return
+  }
 
     return (
-    <KeyboardAvoidingView behavior="position">
-      <ScrollView style={styles.container} keyboardShouldPersistTaps='handled'>
+    <KeyboardAvoidingView >
+      <ScrollView style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Meta Diaria</Text>
           <Text onPress={() => setBellRemember(!bellRemember)}>🔔</Text>
@@ -44,19 +59,19 @@ export default function MetaDiaria() {
               {currentDay}
           </Text>
         </View>
-          <Text style={styles.textForDay}>Cosas que hacer por día para cumplir la meta:</Text>
-          <TextInput style={styles.inputTask}/>
-            {dailyGoalItem.map((dailyGoal, i) => {
-              return (
-              <SafeAreaView style={{flex:1}}>
-                <ScrollView>
-                  <View key={i} style={styles.goalDayContainer}>
-                    <GoalDay goalDay={dailyGoal} />
-                  </View>
-                </ScrollView>
-              </SafeAreaView>
-                )
-              })}
+          <Text style={styles.textForDay}>Cosas diarias que hacer por día para cumplir tus metas:</Text>
+         <Input value={valueInput} onPress={onSaveTaskInput} onChangeText={(text) => setValueInput(text)}/>
+        {dailyGoalItem && dailyGoalItem.map((dailyGoal, i) => {
+          return (
+          <SafeAreaView style={{flex:1}}>
+            <ScrollView>
+              <View key={i} style={styles.goalDayContainer}>
+                <GoalDay goalDay={dailyGoal} />
+              </View>
+            </ScrollView>
+          </SafeAreaView>
+            )
+          })}
       </ScrollView>
     </KeyboardAvoidingView>
     )
