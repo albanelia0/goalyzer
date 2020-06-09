@@ -32,19 +32,7 @@ export const styles = StyleSheet.create({
     borderColor: 'pink',
     minWidth: '80%'
   },
-  inputTask: {
-    marginTop: 10,
-    padding: 6,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: 'pink',
-  },
-  textForDay: {
-    paddingTop: 20,
-    fontSize: 20,
-    color: '#543864'
-  },
+
   goalContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',

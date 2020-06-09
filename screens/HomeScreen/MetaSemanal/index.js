@@ -71,8 +71,6 @@ export default function MetaSemanal() {
               </View>
             ))}
           </View>
-          <Text style={styles.textForDay}>Cosas que hacer por día para cumplir la meta:</Text>
-          <TextInput style={styles.inputTask}/>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

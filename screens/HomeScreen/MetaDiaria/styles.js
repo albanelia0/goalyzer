@@ -17,22 +17,51 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 25
   },
+  containerCurrentDay: {
+    minWidth: Layout.window.width
+  },
   currentTitleDay: {
     fontSize: 20,
-    textAlign: 'center',
     color: colors.currentTitleDay,
-    margin: 10,
-    letterSpacing: 40
+    marginTop: 10,
+    letterSpacing: 20,
+    minWidth: Layout.window.width
+
   },
   goalDayContainer:{
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
   },
   smallCurrentTitleDay: {
     fontSize: 15,
-    textAlign: 'center',
     color: colors.currentTitleDay,
-    margin: 10,
-    letterSpacing: 40
+    marginTop: 10,
+    letterSpacing: 20,
+    minWidth: Layout.window.width
+  },
+  remenberOfDay: {
+
+  },
+  inputTask: {
+    marginTop: 10,
+    padding: 6,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: 'pink',
+  },
+  textForDay: {
+    paddingTop: 20,
+    fontSize: 20,
+    color: '#543864'
+  },
+  inputRemember: {
+    marginTop: 10,
+    padding: 6,
+    borderStyle: 'dashed',
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: 'pink',
+    minWidth: '80%'
   },
 });

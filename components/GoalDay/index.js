@@ -1,7 +1,7 @@
 import React from 'react'
 import {styles} from './styles'
 import isSmallDevice from '../../constants/Layout'
-import { Text, View, TouchableHighlight } from 'react-native';
+import { Text, View, TouchableHighlight, ScrollView, SafeAreaView } from 'react-native';
 
 const GoalDay = ({goalDay}) => {
   return (
