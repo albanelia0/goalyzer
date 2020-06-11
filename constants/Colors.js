@@ -11,9 +11,10 @@ export default {
   warningBackground: '#EAEB5E',
   warningText: '#666804',
   goalDone: '#16817a',
-  goalFailed: '#888888',
+  goalFailed: '#c5c5c5',
   goalColor: '#543864',
   goalDeleted: '#ccafaf',
   deleteGoal: '#556e53',
+  goalSuccessed: '#bfd8d5',
   currentTitleDay: utilColor
 };

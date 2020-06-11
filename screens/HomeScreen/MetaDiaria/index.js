@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView,
   AsyncStorage,
   TextInput,
-  TouchableHighlight
 } from 'react-native';
 import Layout from '../../../constants/Layout'
 import GoalDay from '../../../components/GoalDay';
@@ -25,6 +24,8 @@ export default function MetaDiaria() {
   const [dailyGoalItem, setDailyGoalItem] = useState([])
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
+  // Change background when the task has success or failed
+  const [successTask, setSuccessTask] = useState(false)
 
   useEffect(() => {
     AsyncStorage.getItem('taskForDay').then(json => {
@@ -36,7 +37,7 @@ export default function MetaDiaria() {
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
       setDailyGoalItem(prev => {
-        const arrayWithNewItem = [...prev, valueInput]
+        const arrayWithNewItem = [...prev, { name: valueInput, success: false}]
         AsyncStorage.setItem('taskForDay', JSON.stringify(arrayWithNewItem))
         return arrayWithNewItem
       })
@@ -44,10 +45,21 @@ export default function MetaDiaria() {
     } else return
   }
 
-  const onPressIconDeleteTask = (item) => {
-    const newArray = dailyGoalItem.filter(itemForDelete => itemForDelete !== item)
-    AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
-    setDailyGoalItem(newArray)
+  const handleFromIconButtonTask = (item, icon) => {
+    if (icon === 'delete') {
+      const newArray = dailyGoalItem.filter(itemForDelete => itemForDelete.name !== item.name)
+      AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
+      setDailyGoalItem(newArray)
+    } else if (icon === 'success') {
+      const existingObject = dailyGoalItem.find(obj => obj.name === item.name)
+      const newObject = { ...existingObject, success: !existingObject.success }
+      setDailyGoalItem(prev => {
+        const newArray = prev.map(obj => obj.name === item.name ? newObject : obj)
+        AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
+        console.log(newArray)
+        return newArray
+      })
+    }
   }
 
     return (
@@ -71,11 +83,16 @@ export default function MetaDiaria() {
           return (
             <View key={i}>
               <SafeAreaView style={{flex:1}}>
-                <ScrollView>
                   <View style={styles.goalDayContainer}>
-                    <GoalDay goalDay={dailyGoal} onDelete={() => onPressIconDeleteTask(dailyGoal)} />
+                    <ScrollView>
+                      <GoalDay
+                        successStyle = {dailyGoal.success}
+                        goalDay={dailyGoal.name}
+                        onDelete={() => handleFromIconButtonTask(dailyGoal, 'delete')}
+                        onSuccess={() => handleFromIconButtonTask(dailyGoal, 'success')}
+                        />
+                    </ScrollView>
                   </View>
-                </ScrollView>
               </SafeAreaView>
             </View>
             )

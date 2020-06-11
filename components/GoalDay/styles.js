@@ -10,6 +10,15 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     padding: 10
   },
+  success: {
+    alignItems: 'center',
+    borderStyle: 'solid',
+    borderWidth: 0.5,
+    borderColor: color.goalColor,
+    marginTop: 15,
+    padding: 10,
+    backgroundColor: color.goalSuccessed,
+  },
   goalDayContainer: {
     alignItems: 'center',
   },

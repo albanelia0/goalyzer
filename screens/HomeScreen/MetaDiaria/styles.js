@@ -29,6 +29,11 @@ export const styles = StyleSheet.create({
     minWidth: Layout.window.width
 
   },
+  success: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    backgroundColor: 'gray'
+  },
   goalDayContainer:{
     flexDirection: 'column',
     justifyContent: 'space-between',
