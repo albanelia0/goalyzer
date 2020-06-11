@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 0.5,
     borderColor: color.goalColor,
+    borderRadius: 20,
     marginTop: 15,
     padding: 10
   },
@@ -15,6 +16,7 @@ export const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 0.5,
     borderColor: color.goalColor,
+    borderRadius: 20,
     marginTop: 15,
     padding: 10,
     backgroundColor: color.goalSuccessed,
@@ -24,35 +26,45 @@ export const styles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-end',
   },
   textGoal: {
     fontSize: 20,
     borderStyle: 'dashed',
-    borderBottomColor: color.titleColor,
-    borderBottomWidth: 1,
+    borderColor: color.titleColor,
+    color: color.goalColor,
+    backgroundColor: '#e7f3ee',
+    borderWidth: 0.5,
+    borderRadius: 15,
     marginBottom: 5,
-    color: color.goalColor
+    marginTop: -11,
+    padding: 10,
+    minWidth: 280,
+    minHeight: 50,
+    textAlign: 'center',
   },
   done: {
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderRadius: 5,
     backgroundColor: color.goalDone,
     width: 30,
-    marginRight: 5
+    marginRight: 50,
   },
   failed: {
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: color.goalColor,
     backgroundColor: color.goalFailed,
     width: 30,
     marginRight: 5
   },
   deleted: {
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: color.goalColor,
     backgroundColor: color.goalDeleted,
     width: 30,
+    marginLeft: 50
   },
   iconText: {
     textAlign: 'center',

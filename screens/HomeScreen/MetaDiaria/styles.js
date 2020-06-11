@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     paddingTop: 20,
     marginBottom: 10,
     fontSize: 20,
-    color: '#543864'
+    color: colors.paragraphs
   },
   inputRemember: {
     marginTop: 10,

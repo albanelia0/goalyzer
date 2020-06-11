@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     padding:10,
     borderStyle: 'solid',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 15,
     borderColor: color.goalColor,
   },
   goalTitles: {
@@ -56,9 +56,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 10,
-    borderStyle: 'solid',
     borderBottomColor: color.goalColor,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     margin: 5
   },
   deleteGoal: {

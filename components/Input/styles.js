@@ -11,11 +11,13 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     borderColor: 'pink',
-    minWidth: '80%'
+    minWidth: 200,
+    maxWidth: 200,
   },
   inputContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexWrap: 'wrap'
   }
 })
