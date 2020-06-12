@@ -6,37 +6,20 @@ import { Text, View } from 'react-native';
 const Days = ["L", "M", "X", "J", "V", "S", "D"]
 const CheckDays = () => {
 
-  if (isSmallDevice) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.days}>
-          {Days.map((day, i) => {
-            return (
-              <View key={i} style={styles.squareContainer}>
-                <Text style={styles.smallDaysList}>{day}</Text>
-                <View style={styles.smallSquareContent}/>
-              </View>
-            )
-          })}
-        </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.days}>
+        {Days.map((day, i) => {
+          return (
+            <View key={i} style={styles.squareContainer}>
+              <Text style={isSmallDevice ? styles.smallDaysList:daysList }>{day}</Text>
+              <View style={isSmallDevice? styles.smallSquareContent: squareContainer}/>
+            </View>
+          )
+        })}
       </View>
-    )
-  } else {
-    return (
-      <View style={styles.container}>
-        <View style={styles.days}>
-          {Days.map((day, i) => {
-            return (
-              <View key={i} style={styles.squareContainer}>
-                <Text style={styles.daysList}>{day}</Text>
-                <View style={styles.squareContainer}/>
-              </View>
-            )
-          })}
-        </View>
-      </View>
-    )
-  }
+    </View>
+  )
 }
 
 export default CheckDays

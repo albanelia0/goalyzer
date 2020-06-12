@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {styles} from './styles'
-import isSmallDevice from '../../constants/Layout'
+import mobileScreen from '../../constants/Layout'
 import { Text, View,TouchableOpacity } from 'react-native';
 
 const GoalDay = ({
@@ -20,11 +20,12 @@ const GoalDay = ({
         return {}
     }
   }
+  const isSmallScreen = () => mobileScreen.isSmallDevice && {minWidth: 282}
 
   return (
     <View style={{...styles.wrapper, ...getStatusStyle()}}>
       <View style={styles.goalDayContainer}>
-        <Text style={styles.textGoal}>{goalDay}</Text>
+        <Text style={{...styles.textGoal, ...isSmallScreen()}}>{goalDay}</Text>
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={onSuccess} style={styles.done}>
             <Text style={styles.iconText}>✔️</Text>

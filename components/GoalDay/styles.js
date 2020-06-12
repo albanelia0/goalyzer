@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     marginBottom: 5,
     marginTop: -11,
     padding: 10,
-    minWidth: 280,
+    minWidth: 332,
     minHeight: 50,
     textAlign: 'center',
   },
