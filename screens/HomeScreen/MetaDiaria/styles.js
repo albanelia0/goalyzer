@@ -50,7 +50,6 @@ export const styles = StyleSheet.create({
   },
   textForDay: {
     paddingTop: 20,
-    marginBottom: 10,
     fontSize: 20,
     color: colors.paragraphs
   },

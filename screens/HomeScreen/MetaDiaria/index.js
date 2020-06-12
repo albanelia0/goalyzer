@@ -24,8 +24,6 @@ export default function MetaDiaria() {
   const [dailyGoalItem, setDailyGoalItem] = useState([])
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
-  // Change background when the task has success or failed
-  const [successTask, setSuccessTask] = useState(false)
 
   useEffect(() => {
     AsyncStorage.getItem('taskForDay').then(json => {
@@ -37,7 +35,7 @@ export default function MetaDiaria() {
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
       setDailyGoalItem(prev => {
-        const arrayWithNewItem = [...prev, { name: valueInput, success: false}]
+        const arrayWithNewItem = [...prev, { name: valueInput, success: false, failed: false}]
         AsyncStorage.setItem('taskForDay', JSON.stringify(arrayWithNewItem))
         return arrayWithNewItem
       })
@@ -45,18 +43,26 @@ export default function MetaDiaria() {
     } else return
   }
 
-  const handleFromIconButtonTask = (item, icon) => {
-    if (icon === 'delete') {
+  const handleFromIconButtonTask = (item, action) => {
+    if (action === 'delete') {
       const newArray = dailyGoalItem.filter(itemForDelete => itemForDelete.name !== item.name)
       AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
       setDailyGoalItem(newArray)
-    } else if (icon === 'success') {
+    } else if (action === 'success') {
       const existingObject = dailyGoalItem.find(obj => obj.name === item.name)
-      const newObject = { ...existingObject, success: !existingObject.success }
+      const newObject = { ...existingObject, success: !existingObject.success, failed: false }
       setDailyGoalItem(prev => {
         const newArray = prev.map(obj => obj.name === item.name ? newObject : obj)
         AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
-        console.log(newArray)
+        return newArray
+      })
+      return existingObject
+    } else if (action === 'failed') {
+      const existingObject = dailyGoalItem.find(obj => obj.name === item.name)
+      const newObject = { ...existingObject, failed: !existingObject.failed, success: false }
+      setDailyGoalItem(prev => {
+        const newArray = prev.map(obj => obj.name === item.name ? newObject : obj)
+        AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
         return newArray
       })
     }
@@ -80,17 +86,24 @@ export default function MetaDiaria() {
           <Text style={styles.textForDay}>Que hacer hoy para cumplir mis metas:</Text>
          <Input value={valueInput} onPress={onSaveTaskInput} onChangeText={(text) => setValueInput(text)}/>
         {dailyGoalItem && dailyGoalItem.map((dailyGoal, i) => {
+          const getStatus = () => {
+            const {success, failed} = dailyGoal
+            if (success) return 'success'
+            if (failed) return 'failed'
+            return null
+          }
           return (
             <View key={i}>
               <SafeAreaView style={{flex:1}}>
                   <View style={styles.goalDayContainer}>
                     <ScrollView>
                       <GoalDay
-                        successStyle = {dailyGoal.success}
+                        status={getStatus()}
                         goalDay={dailyGoal.name}
                         onDelete={() => handleFromIconButtonTask(dailyGoal, 'delete')}
                         onSuccess={() => handleFromIconButtonTask(dailyGoal, 'success')}
-                        />
+                        onFailed={() => handleFromIconButtonTask(dailyGoal, 'failed')}
+                      />
                     </ScrollView>
                   </View>
               </SafeAreaView>

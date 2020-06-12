@@ -9,18 +9,22 @@ export const styles = StyleSheet.create({
     borderColor: color.goalColor,
     borderRadius: 20,
     marginTop: 15,
-    padding: 10
-  },
-  success: {
-    alignItems: 'center',
-    borderStyle: 'solid',
-    borderWidth: 0.5,
-    borderColor: color.goalColor,
-    borderRadius: 20,
-    marginTop: 15,
     padding: 10,
+  },
+  wrapperStatusSuccess: {
     backgroundColor: color.goalSuccessed,
   },
+  wrapperStatusFailed: {
+    backgroundColor: color.goalFailed,
+  },
+  done: {
+    borderStyle: 'solid',
+    borderRadius: 5,
+    backgroundColor: color.goalDone,
+    width: 30,
+    marginRight: 50,
+  },
+
   goalDayContainer: {
     alignItems: 'center',
   },
@@ -42,13 +46,6 @@ export const styles = StyleSheet.create({
     minWidth: 280,
     minHeight: 50,
     textAlign: 'center',
-  },
-  done: {
-    borderStyle: 'solid',
-    borderRadius: 5,
-    backgroundColor: color.goalDone,
-    width: 30,
-    marginRight: 50,
   },
   failed: {
     borderStyle: 'solid',
