@@ -28,7 +28,7 @@ const CheckDays = ({dayComplete}) => {
     })
   }, [])
 
-  const onColorStatusChange = () => {
+  const getStylesObjectFromStatusString = () => {
 
     switch (dayComplete) {
       case 'greenStatus':
@@ -42,30 +42,34 @@ const CheckDays = ({dayComplete}) => {
     }
   }
 
-  // const handleChangeBacgroundDayColor = () => {
-  //   Days.map(day => {
-  //     if (currentDay.day === day.day && day.done === true) {
-  //       return (
-  //         <View style={isSmallDevice ?
-  //           {...styles.smallSquareContent, ...onColorStatusChange()}:
-  //           {...styles.squarecontent, ...onColorStatusChange()}
-  //         }/>
-  //       )
-  //     } else {
-  //       return (
-  //         <View style={isSmallDevice ?
-  //           styles.smallSquareContent: styles.squarecontent
-  //         }/>
-  //       )
-  //     }
-  //   })
-  // }
+  const renderChangeBackgroundDayColor = (day, done, status) => {
+    if (currentDay.day === day && done === true) {
+      return (
+        <View style={isSmallDevice ?
+          {...styles.smallSquareContent, ...getStylesObjectFromStatusString()}:
+          {...styles.squarecontent, ...getStylesObjectFromStatusString()}
+        }/>
+      )
+    } else if(currentDay.day !== day && status !== false){
+      return (
+        <View style={isSmallDevice ?
+          {...styles.smallSquareContent, ...status}:
+          {...styles.squarecontent, ...status}
+        }/>
+      )
+    } else {
+      return (
+        <View style={isSmallDevice ?
+          styles.smallSquareContent: styles.squarecontent
+        }/>
+      )
+    }
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.days}>
         {Days.map(({day, done, allTask, status}, i) => {
-            console.log(currentDay)
           if (currentDay.day === day) {
             if (done !== true) {
               done = true
@@ -77,22 +81,13 @@ const CheckDays = ({dayComplete}) => {
               })
             }
             if (status === false) {
-              status = onColorStatusChange()
+              status = getStylesObjectFromStatusString()
             }
           }
-          console.log('status', status)
           return (
             <View key={i} style={styles.squareContainer}>
               <Text style={isSmallDevice ? styles.smallDaysList:styles.daysList }>{day}</Text>
-              {currentDay.day === day && done === true ?
-                <View style={isSmallDevice ?
-                  {...styles.smallSquareContent, ...onColorStatusChange()}:
-                  {...styles.squarecontent, ...onColorStatusChange()}
-                }/>:
-                <View style={isSmallDevice ?
-                  styles.smallSquareContent: styles.squarecontent
-                }/>
-              }
+              {renderChangeBackgroundDayColor(day, done, status)}
             </View>
           )
         })}

@@ -18,7 +18,6 @@ export default function MetaSemanal({navigation}) {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
   const [arrayAllTask, setArrayAllTask] = useState([])
-  const [arrayAllWeekTask, setArrayAllWeekTask] = useState([])
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
@@ -32,10 +31,6 @@ export default function MetaSemanal({navigation}) {
       AsyncStorage.getItem('taskForDay').then(json => {
         const parsedJson = JSON.parse(json) || []
         setArrayAllTask(parsedJson)
-      })
-      AsyncStorage.getItem('allWeekDays').then(json => {
-        const parsedJson = JSON.parse(json) || []
-        setArrayAllWeekTask(parsedJson)
       })
     })
     return unsubscribe
