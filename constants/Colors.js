@@ -1,10 +1,13 @@
 const utilColor = '#f2a6a6'
 
-const gray = '#eeeeee'
 const lilac = '#b18ea6'
 const blue = '#484c7f'
 
+
 export default {
+  gray: '#e7dfd5',
+  orange: '#ffcb74',
+  green: '#4f8a8b',
   titleColor: '#b18ea6',
   containerDay: utilColor,
   tabIconDefault: '#ccc',

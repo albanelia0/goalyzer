@@ -14,9 +14,11 @@ import {
 } from 'react-native';
 import CheckDays from '../../../components/CheckDays'
 
-export default function MetaSemanal() {
+export default function MetaSemanal({navigation}) {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
+  const [arrayAllTask, setArrayAllTask] = useState([])
+  const [arrayAllWeekTask, setArrayAllWeekTask] = useState([])
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
@@ -25,7 +27,22 @@ export default function MetaSemanal() {
     })
   }, [])
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      AsyncStorage.getItem('taskForDay').then(json => {
+        const parsedJson = JSON.parse(json) || []
+        setArrayAllTask(parsedJson)
+      })
+      AsyncStorage.getItem('allWeekDays').then(json => {
+        const parsedJson = JSON.parse(json) || []
+        setArrayAllWeekTask(parsedJson)
+      })
+    })
+    return unsubscribe
+  }, [navigation])
+
   const onInputSubmit = () => {
+    dayComplete()
     if (value !== '') {
       setArrayAllGoal(prev => {
         const arrayWithNewItem = [...prev, value]
@@ -41,6 +58,25 @@ export default function MetaSemanal() {
     AsyncStorage.setItem('allGoalWeek', JSON.stringify(newArray))
     setArrayAllGoal(newArray)
   }
+
+  const dayComplete = () => {
+    const orangeStatus = arrayAllTask.some(dayStatus => dayStatus.success === true)
+    const greenStatus = arrayAllTask.every(dayStatus => dayStatus.success === true)
+    const grayStatus = arrayAllTask.every(dayStatus => dayStatus.failed === true)
+
+    if (greenStatus) {
+      return 'greenStatus'
+    } else if(orangeStatus) {
+      return 'orangeStatus'
+    } else if(grayStatus) {
+      return 'grayStatus'
+    }
+  }
+
+  // const passCompleteDays = () => {
+
+  // }
+
   return (
     <KeyboardAvoidingView>
       <ScrollView style={styles.allWeekContainer} keyboardShouldPersistTaps='handled'>
@@ -49,7 +85,7 @@ export default function MetaSemanal() {
             <Text style={styles.title}>Meta Semanal</Text>
             <Text>🔔</Text>
           </View>
-         <CheckDays/>
+         <CheckDays dayComplete={dayComplete()} />
          <Input value={value} onPress={onInputSubmit} onChangeText={text => setValue(text)}/>
           <View style={styles.goalContainer}>
             {arrayAllGoal && arrayAllGoal.map((goal, i) => (

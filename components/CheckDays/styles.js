@@ -6,6 +6,18 @@ export const styles = StyleSheet.create({
     flex: 1,
     marginTop: 20
   },
+  green: {
+    backgroundColor: color.green,
+    borderColor: 'transparent'
+  },
+  orange: {
+    backgroundColor: color.orange,
+    borderColor: 'transparent'
+  },
+  gray: {
+    backgroundColor: color.gray,
+    borderColor: 'transparent'
+  },
   days: {
     flex: 1,
     flexDirection: 'row',
