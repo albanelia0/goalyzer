@@ -22,7 +22,6 @@ export default function MetaSemanal({navigation}) {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
   const [arrayAllTask, setArrayAllTask] = useState([])
-  const [isDayChanged, setIsDayChanged] = useState('')
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
@@ -30,26 +29,22 @@ export default function MetaSemanal({navigation}) {
       setArrayAllGoal(parsedJson)
     })
 
-    AsyncStorage.getItem('lastUsedDay').then(day => {
-      AsyncStorage.setItem('lastUsedDay', currentDay)
-      day !== undefined && setIsDayChanged(day)
-    })
   }, [])
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       AsyncStorage.getItem('taskForDay').then(json => {
         const parsedJson = JSON.parse(json) || []
-        if (isDayChanged !== currentDay) {
-          parsedJson.map((success, failed) =>  {
-            if (success) {
-              success = false
-            } else if(failed) {
-              failed = false
-            } else ''
-          })
-          setArrayAllTask(parsedJson)
-        }
+        // if (isDayChanged !== currentDay) {
+        //   parsedJson.map((success, failed) =>  {
+        //     if (success) {
+        //       success = false
+        //     } else if(failed) {
+        //       failed = false
+        //     } else ''
+        //   })
+        // }
+        setArrayAllTask(parsedJson)
       })
     })
     return unsubscribe

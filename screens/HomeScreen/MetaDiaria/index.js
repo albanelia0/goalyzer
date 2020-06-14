@@ -24,13 +24,38 @@ export default function MetaDiaria() {
   const [dailyGoalItem, setDailyGoalItem] = useState([])
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
+  const [isDayChanged, setIsDayChanged] = useState('')
+
 
   useEffect(() => {
     AsyncStorage.getItem('taskForDay').then(json => {
       const parsedJson = JSON.parse(json) || []
       setDailyGoalItem(parsedJson)
     })
-  },[] )
+    AsyncStorage.getItem('lastUsedDay').then(day => {
+      AsyncStorage.setItem('lastUsedDay', currentDay)
+      day !== undefined && setIsDayChanged(day)
+    })
+  },[])
+
+  useEffect(() => {
+    if (isDayChanged !== currentDay) {
+
+      setDailyGoalItem(prev => {
+        const tasksWithStatusFalse = prev.map(task => {
+        let newTasks
+        if (task.success === true) {
+         return newTasks = {...task, success: false}
+        } else if(task.failed === true) {
+          return newTasks = {...task, failed: false}
+        } else return task
+      })
+        // const tasksWithStatusFalse = [...prev, { name: valueInput, success: false, failed: false}]
+        AsyncStorage.setItem('taskForDay', JSON.stringify(tasksWithStatusFalse))
+        return tasksWithStatusFalse
+      })
+    }
+  },[isDayChanged, currentDay])
 
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
