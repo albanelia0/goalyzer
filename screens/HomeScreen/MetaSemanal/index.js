@@ -34,20 +34,22 @@ export default function MetaSemanal({navigation}) {
       AsyncStorage.setItem('lastUsedDay', currentDay)
       day !== undefined && setIsDayChanged(day)
     })
-
-    AsyncStorage.getItem('allWeekDays').then(json => {
-      const parsedJson = JSON.parse(json) || []
-      if (isDayChanged !== currentDay) {
-        parsedJson.map(({done}) => done = false)
-      }
-    })
   }, [])
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       AsyncStorage.getItem('taskForDay').then(json => {
         const parsedJson = JSON.parse(json) || []
-        setArrayAllTask(parsedJson)
+        if (isDayChanged !== currentDay) {
+          parsedJson.map((success, failed) =>  {
+            if (success) {
+              success = false
+            } else if(failed) {
+              failed = false
+            } else ''
+          })
+          setArrayAllTask(parsedJson)
+        }
       })
     })
     return unsubscribe
@@ -84,10 +86,6 @@ export default function MetaSemanal({navigation}) {
       return 'grayStatus'
     }
   }
-
-  // const passCompleteDays = () => {
-
-  // }
 
   return (
     <KeyboardAvoidingView>
