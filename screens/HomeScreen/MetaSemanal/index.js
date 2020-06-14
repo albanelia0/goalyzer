@@ -14,15 +14,32 @@ import {
 } from 'react-native';
 import CheckDays from '../../../components/CheckDays'
 
+const weekDays = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
+const Day = new Date().getDay()
+let currentDay = weekDays[Day]
+
 export default function MetaSemanal({navigation}) {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
   const [arrayAllTask, setArrayAllTask] = useState([])
+  const [isDayChanged, setIsDayChanged] = useState('')
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
       const parsedJson = JSON.parse(json) || []
       setArrayAllGoal(parsedJson)
+    })
+
+    AsyncStorage.getItem('lastUsedDay').then(day => {
+      AsyncStorage.setItem('lastUsedDay', currentDay)
+      day !== undefined && setIsDayChanged(day)
+    })
+
+    AsyncStorage.getItem('allWeekDays').then(json => {
+      const parsedJson = JSON.parse(json) || []
+      if (isDayChanged !== currentDay) {
+        parsedJson.map(({done}) => done = false)
+      }
     })
   }, [])
 

@@ -3,8 +3,7 @@ import {styles} from './styles'
 import isSmallDevice from '../../constants/Layout'
 import { Text, View, AsyncStorage } from 'react-native';
 
-
-const CheckDays = ({dayComplete}) => {
+const CheckDays = ({dayComplete, isDayChanged}) => {
   const [Days, setDays]= useState([
   {day: "L", done: false, allTask: null, status: false},
   {day:"M", done: false, allTask: null, status: false},
