@@ -14,10 +14,6 @@ import {
 } from 'react-native';
 import CheckDays from '../../../components/CheckDays'
 
-const weekDays = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
-const Day = new Date().getDay()
-let currentDay = weekDays[Day]
-
 export default function MetaSemanal({navigation}) {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
@@ -35,15 +31,6 @@ export default function MetaSemanal({navigation}) {
     const unsubscribe = navigation.addListener('focus', () => {
       AsyncStorage.getItem('taskForDay').then(json => {
         const parsedJson = JSON.parse(json) || []
-        // if (isDayChanged !== currentDay) {
-        //   parsedJson.map((success, failed) =>  {
-        //     if (success) {
-        //       success = false
-        //     } else if(failed) {
-        //       failed = false
-        //     } else ''
-        //   })
-        // }
         setArrayAllTask(parsedJson)
       })
     })

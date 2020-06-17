@@ -18,7 +18,6 @@ import GoalDay from '../../../components/GoalDay';
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
-let currentTaskDay = []
 
 export default function MetaDiaria() {
 
@@ -65,7 +64,7 @@ export default function MetaDiaria() {
       })
       setIsDayChanged(currentDay)
     }
-  },[isDayChanged, currentDay])
+  },[])
 
   const onSaveTaskInput = () => {
     if (valueInput !== '') {

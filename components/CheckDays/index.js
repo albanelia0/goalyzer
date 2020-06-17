@@ -4,40 +4,53 @@ import isSmallDevice from '../../constants/Layout'
 import { Text, View, AsyncStorage } from 'react-native';
 
 const CheckDays = ({dayComplete}) => {
+  const [defaultDayStatus, setDefaultDayStatus] = useState()
   const [Days, setDays]= useState([
-    {day:"L", done: false, allTask: null, status: false},
-    {day:"M", done: false, allTask: null, status: false},
-    {day:"X", done: false, allTask: null, status: false},
-    {day:"J", done: false, allTask: null, status: false},
-    {day:"V", done: false, allTask: null, status: false},
-    {day:"S", done: false, allTask: null, status: false},
-    {day:"D", done: false, allTask: null, status: false}
+    {day:"L", allTask: null, status: false},
+    {day:"M", allTask: null, status: false},
+    {day:"X", allTask: null, status: false},
+    {day:"J", allTask: null, status: false},
+    {day:"V", allTask: null, status: false},
+    {day:"S", allTask: null, status: false},
+    {day:"D", allTask: null, status: false}
   ])
   const [previosTaskStates, setPreviosTaskStates] = useState([])
 
   const Day = new Date().getDay()
   let currentDay = Days[(Day + 6) % 7]
-  console.log('currentDay',currentDay)
-  let currentStatus = ''
+  // console.log('currentDay',currentDay)
 
   useEffect(() => {
 
-    setDays(prev => {
-      const currentDayFromStateDays =
-        prev.find(({day, status}) => day === currentDay.day && JSON.stringify(status) !== JSON.stringify(currentStatus) )
+    const getStylesObjectFromStatusString = () => {
+      switch (dayComplete) {
+        case 'greenStatus':
+          return styles.green
+          case 'orangeStatus':
+          return styles.orange
+        case 'grayStatus':
+          return styles.gray
+        default:
+          return {}
+      }
+    }
 
-      const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: {...currentStatus}}
+    setDays(prev => {
+
+      const currentDayFromStateDays =
+        prev.find(({day, status}) => day === currentDay.day)
+      const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
+
       const newArray = prev.map(item => {
-        if (item === currentDayFromStateDays) return newObjectWithCurrentStatus
+        if (item.day === currentDayFromStateDays.day) return newObjectWithCurrentStatus
         return item
       })
-
       AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
       return newArray
     })
 
-  }, [currentStatus])
-
+  }, [dayComplete])
+  // console.log('Days', Days)
   useEffect(() => {
 
     AsyncStorage.getItem('allWeekDays').then(json => {
@@ -46,6 +59,8 @@ const CheckDays = ({dayComplete}) => {
       setDays(parsedJson)
     })
   }, [])
+    // console.log('newObjectWithCurrentStatus',Days)
+
   useEffect(() => {
 
     AsyncStorage.getItem('previosTaskStates').then(json => {
@@ -53,43 +68,44 @@ const CheckDays = ({dayComplete}) => {
       if (JSON.stringify(parsedJson) !== JSON.stringify(previosTaskStates)) {
         setPreviosTaskStates(parsedJson)
       }
-      const parsedJsonToString = JSON.stringify(parsedJson)
+      const parsedJsonToString = JSON.stringify(previosTaskStates.slice(0,1))
       let previosTask = Days.map(item => {
         if (item.day === parsedJsonToString.charAt(2) || parsedJson.slice(0,1) === 'Miércoles') {
-          return [{...item, allTask: parsedJson}]
+
+          const newStatusfromPreviousDays = () => {
+            const orangeStatus = item.allTask.slice(1).some(dayStatus => dayStatus.success === true)
+            const greenStatus = item.allTask.slice(1).every(dayStatus => dayStatus.success === true)
+            const grayStatus = item.allTask.slice(1).every(dayStatus => dayStatus.failed === true)
+
+            if (greenStatus) {
+              return styles.green
+            } else if(orangeStatus) {
+              return styles.orange
+            } else if(grayStatus) {
+              return styles.gray
+            }
+          }
+          return {...item, allTask: [...parsedJson], status: {...newStatusfromPreviousDays()}}
         }
         return item
       })
+
+      AsyncStorage.setItem('allWeekDays', JSON.stringify(previosTask))
       setDays(previosTask)
     })
   }, [])
+console.log('parsedJson', Days)
 
-  console.log('DAYS', Days)
+  const renderChangeBackgroundDayColor = (day, status) => {
 
-
-  const getStylesObjectFromStatusString = () => {
-
-    switch (dayComplete) {
-      case 'greenStatus':
-        return styles.green
-        case 'orangeStatus':
-        return styles.orange
-      case 'grayStatus':
-        return styles.gray
-      default:
-        return {}
-    }
-  }
-
-  const renderChangeBackgroundDayColor = (day, done, status) => {
-    if (currentDay.day === day && done === true) {
+    if(currentDay.day === day && status !== false){
       return (
         <View style={isSmallDevice ?
-          {...styles.smallSquareContent, ...getStylesObjectFromStatusString()}:
-          {...styles.squarecontent, ...getStylesObjectFromStatusString()}
+          {...styles.smallSquareContent, ...status}:
+          {...styles.squarecontent, ...status}
         }/>
       )
-    } else if(currentDay.day !== day && status !== false){
+    } else if(currentDay.day !== day && status !== false) {
       return (
         <View style={isSmallDevice ?
           {...styles.smallSquareContent, ...status}:
@@ -108,24 +124,12 @@ const CheckDays = ({dayComplete}) => {
   return (
     <View style={styles.container}>
       <View style={styles.days}>
-        {Days.map(({day, done, allTask, status}, i) => {
-
-          if (currentDay.day === day) {
-            if (done !== true) {
-              done = true
-            }
-            if (allTask === null) {
-              AsyncStorage.getItem('taskForDay').then(json => {
-                const parsedJson = JSON.parse(json) || []
-                allTask = parsedJson
-              })
-            }
-          }
-
+        {Days.map(({day, status}, i) => {
+          // console.log('day',day,'status',status )
           return (
             <View key={i} style={styles.squareContainer}>
               <Text style={isSmallDevice ? styles.smallDaysList:styles.daysList }>{day}</Text>
-              {renderChangeBackgroundDayColor(day, done, status)}
+              {renderChangeBackgroundDayColor(day, status)}
             </View>
           )
         })}
