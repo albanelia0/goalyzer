@@ -18,6 +18,7 @@ import GoalDay from '../../../components/GoalDay';
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
+let currentTaskDay = []
 
 export default function MetaDiaria() {
 
@@ -26,7 +27,6 @@ export default function MetaDiaria() {
   const [bellRemember, setBellRemember] = useState(false)
   const [isDayChanged, setIsDayChanged] = useState('')
 
-
   useEffect(() => {
     AsyncStorage.getItem('taskForDay').then(json => {
       const parsedJson = JSON.parse(json) || []
@@ -34,26 +34,36 @@ export default function MetaDiaria() {
     })
     AsyncStorage.getItem('lastUsedDay').then(day => {
       AsyncStorage.setItem('lastUsedDay', currentDay)
-      day !== undefined && setIsDayChanged(day)
+      day !== undefined && setIsDayChanged(prev => {
+        if (prev === undefined) return day
+        return day
+      })
     })
   },[])
 
   useEffect(() => {
     if (isDayChanged !== currentDay) {
 
-      setDailyGoalItem(prev => {
-        const tasksWithStatusFalse = prev.map(task => {
-        let newTasks
-        if (task.success === true) {
-         return newTasks = {...task, success: false}
-        } else if(task.failed === true) {
-          return newTasks = {...task, failed: false}
-        } else return task
+      setDailyGoalItem(() => {
+        AsyncStorage.getItem('taskForDay').then(json => {
+          const parsedJson = JSON.parse(json) || []
+
+          const newArrayWithCurrentDay = [weekDaysNames[Day -1], ...parsedJson]
+          AsyncStorage.setItem('previosTaskStates', JSON.stringify(newArrayWithCurrentDay))
+
+          const tasksWithStatusFalse = parsedJson.map(task => {
+            let newTasks
+            if (task.success === true) {
+              return newTasks = {...task, success: false}
+            } else if(task.failed === true) {
+              return newTasks = {...task, failed: false}
+            } else return task
+          })
+          AsyncStorage.setItem('taskForDay', JSON.stringify(tasksWithStatusFalse))
+          return tasksWithStatusFalse
+        })
       })
-        // const tasksWithStatusFalse = [...prev, { name: valueInput, success: false, failed: false}]
-        AsyncStorage.setItem('taskForDay', JSON.stringify(tasksWithStatusFalse))
-        return tasksWithStatusFalse
-      })
+      setIsDayChanged(currentDay)
     }
   },[isDayChanged, currentDay])
 
