@@ -10,22 +10,28 @@ import {
   View,
   KeyboardAvoidingView,
   AsyncStorage,
-  TextInput,
 } from 'react-native';
 import Layout from '../../../constants/Layout'
 import GoalDay from '../../../components/GoalDay';
 
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
-let currentDay = weekDaysNames[0]
+let currentDay = weekDaysNames[Day]
 
 export default function MetaDiaria() {
 
-  const [dailyGoalItem, setDailyGoalItem] = useState([])
+  const [dailyTaskItem, setDailyTaskItem] = useState([])
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
-  const [isDayChanged, setIsDayChanged] = useState(currentDay)
   const [previousDays, setPreviousDays] = useState(weekDaysNames[Day -1].toString())
+  const [isDayChanged, setIsDayChanged] = useState(previousDays)
+
+  const debugSetter = (setter, x, where) => {
+    setter(prev => {
+      console.log(`[MetaDiaria:] -> ${where}`)
+      return typeof x === 'function' ? x(prev) : x
+    })
+  }
 
   useEffect(() => {
     if (Day === 0) {
@@ -35,71 +41,74 @@ export default function MetaDiaria() {
     }
     AsyncStorage.getItem('taskForDay').then(json => {
       const parsedJson = JSON.parse(json) || []
-      setDailyGoalItem(parsedJson)
+      debugSetter(setDailyTaskItem, parsedJson, 'L44')
     })
     AsyncStorage.getItem('lastUsedDay').then(day => {
+        console.log('----------------------------')
+        console.log('DAY', day,'isDayChanged',isDayChanged)
       AsyncStorage.setItem('lastUsedDay', currentDay)
-      day !== undefined && setIsDayChanged(day)
+      day !== undefined && debugSetter(setIsDayChanged, day, 'L48')
     })
   },[])
-
+  console.log('----------------------------')
+  console.log('COMPARACIONSDAY', currentDay === isDayChanged)
   useEffect(() => {
 
     if (isDayChanged !== currentDay) {
 
-      setDailyGoalItem(() => {
-        AsyncStorage.getItem('taskForDay').then(json => {
-          const parsedAllPreviousTask = JSON.parse(json) || []
-          AsyncStorage.getItem('allWeekDays').then(json => {
-            const parsedJson = JSON.parse(json) || []
+      AsyncStorage.getItem('taskForDay').then(json => {
+        const parsedAllPreviousTask = JSON.parse(json) || []
+        AsyncStorage.getItem('allWeekDays').then(json => {
+          const parsedJson = JSON.parse(json) || []
 
-            const newArray = parsedJson.find(item => previousDays === 'Miércoles' && item.day === 'X')
-            const newArrayFromTuesday = parsedJson.find(item => item.day === `${previousDays.charAt(0)}a`  && item.day !== 'X')
-            const theOthers =
-              parsedJson.find(item => item.day !== `${previousDays.charAt(0)}a` && item.day !== 'X' && item.day === previousDays.charAt(0))
+          const newArray = parsedJson.find(item => previousDays === 'Miércoles' && item.day === 'X')
+          const newArrayFromTuesday = parsedJson.find(item =>
+            item.day === 'M' && item.day === `${previousDays.charAt(0)}` && item.day !== 'X')
 
-            if (newArray) {
-              const arrayFromPreviousDay = {...newArray, allTask: parsedAllPreviousTask}
+          const theOthers =
+            parsedJson.find(item => item.day === `${previousDays.charAt(0)}` && item.day !== 'X' && item.day !== 'M')
 
-                const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
-                  if (item.day === newArray.day) return arrayFromPreviousDay
-                  return item
-                })
-                AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
-            } else if(newArrayFromTuesday) {
-              const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask}
-              const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
-                  if (item.day === newArrayFromTuesday.day) return arrayFromPreviousDay
-                  return item
-                })
-                AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
-            } else if(theOthers) {
-              const arrayFromPreviousDay = {...theOthers, allTask: parsedAllPreviousTask}
-              const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
-                  if (item.day === theOthers.day) return arrayFromPreviousDay
-                  return item
-                })
-                AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
-            }
-          })
-          const tasksWithStatusFalse = parsedAllPreviousTask.map(task => {
-            let newTasks
-            if (task.success === true) {
-              return newTasks = {...task, success: false}
-            } else if(task.failed === true) {
-              return newTasks = {...task, failed: false}
-            } else return task
-          })
-          AsyncStorage.setItem('taskForDay', JSON.stringify(tasksWithStatusFalse))
-          return tasksWithStatusFalse
+          if (newArray) {
+            const arrayFromPreviousDay = {...newArray, allTask: parsedAllPreviousTask}
+            const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
+                if (JSON.stringify(item) === JSON.stringify(newArray) && item.allTask === null) return arrayFromPreviousDay
+                return item
+            })
+            AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+          } else if(newArrayFromTuesday) {
+            const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask}
+            const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
+                if (JSON.stringify(item) === JSON.stringify(newArrayFromTuesday) && item.allTask === null) return arrayFromPreviousDay
+                return item
+            })
+            AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+          } else if(theOthers) {
+            const arrayFromPreviousDay = {...theOthers, allTask: parsedAllPreviousTask}
+            const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
+                if (JSON.stringify(item) === JSON.stringify(theOthers) && item.allTask === null) return arrayFromPreviousDay
+                return item
+            })
+            console.log('THEOTHER',newArrayWithAllTaskUpdatedFromPreviousDay)
+            AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+          }
         })
+        const tasksWithStatusFalse = parsedAllPreviousTask.map(task => {
+
+          if (task.success === true) {
+            return {...task, success: false}
+          } else if(task.failed === true) {
+            return {...task, failed: false}
+          } else return task
+        })
+        AsyncStorage.setItem('taskForDay', JSON.stringify(tasksWithStatusFalse))
+        debugSetter(setDailyTaskItem,tasksWithStatusFalse,'L100')
       })
     }
-  },[])
+  },[isDayChanged])
 
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
-      setDailyGoalItem(prev => {
+      setDailyTaskItem(prev => {
         const arrayWithNewItem = [...prev, { name: valueInput, success: false, failed: false}]
         AsyncStorage.setItem('taskForDay', JSON.stringify(arrayWithNewItem))
         return arrayWithNewItem
@@ -110,22 +119,22 @@ export default function MetaDiaria() {
 
   const handleFromIconButtonTask = (item, action) => {
     if (action === 'delete') {
-      const newArray = dailyGoalItem.filter(itemForDelete => itemForDelete.name !== item.name)
+      const newArray = dailyTaskItem.filter(itemForDelete => itemForDelete.name !== item.name)
       AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
-      setDailyGoalItem(newArray)
+      setDailyTaskItem(newArray)
     } else if (action === 'success') {
-      const existingObject = dailyGoalItem.find(obj => obj.name === item.name)
+      const existingObject = dailyTaskItem.find(obj => obj.name === item.name)
       const newObject = { ...existingObject, success: !existingObject.success, failed: false }
-      setDailyGoalItem(prev => {
+      setDailyTaskItem(prev => {
         const newArray = prev.map(obj => obj.name === item.name ? newObject : obj)
         AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
         return newArray
       })
       return existingObject
     } else if (action === 'failed') {
-      const existingObject = dailyGoalItem.find(obj => obj.name === item.name)
+      const existingObject = dailyTaskItem.find(obj => obj.name === item.name)
       const newObject = { ...existingObject, failed: !existingObject.failed, success: false }
-      setDailyGoalItem(prev => {
+      setDailyTaskItem(prev => {
         const newArray = prev.map(obj => obj.name === item.name ? newObject : obj)
         AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
         return newArray
@@ -150,7 +159,7 @@ export default function MetaDiaria() {
         </View>
           <Text style={styles.textForDay}>Que hacer hoy para cumplir mis metas:</Text>
          <Input value={valueInput} onPress={onSaveTaskInput} onChangeText={(text) => setValueInput(text)}/>
-        {dailyGoalItem && dailyGoalItem.map((dailyGoal, i) => {
+        {dailyTaskItem && dailyTaskItem.map((dailyGoal, i) => {
           const getStatus = () => {
             const {success, failed} = dailyGoal
             if (success) return 'success'

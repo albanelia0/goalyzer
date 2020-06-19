@@ -10,12 +10,20 @@ export const styles = StyleSheet.create({
     backgroundColor: color.green,
     borderColor: 'transparent'
   },
+  goalAlmostSuccess: {
+    backgroundColor: color.goalAlmostSuccess,
+    borderColor: 'transparent'
+  },
+  red: {
+    backgroundColor: color.goalFailed,
+    borderColor: 'transparent'
+  },
   orange: {
     backgroundColor: color.orange,
     borderColor: 'transparent'
   },
-  gray: {
-    backgroundColor: color.gray,
+  default: {
+    backgroundColor: color.goalNotDone,
     borderColor: 'transparent'
   },
   days: {

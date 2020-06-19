@@ -6,7 +6,6 @@ import {styles} from './styles'
 import {
   ScrollView,
   Text,
-  TextInput,
   View,
   TouchableOpacity,
   AsyncStorage,
@@ -50,22 +49,29 @@ export default function MetaSemanal({navigation}) {
   }
 
   const deleteGoal = goal => {
+    console.log('GOAL', goal)
     const newArray = arrayAllGoal.filter(isGoal => isGoal !== goal)
     AsyncStorage.setItem('allGoalWeek', JSON.stringify(newArray))
     setArrayAllGoal(newArray)
   }
 
   const dayComplete = () => {
-    const orangeStatus = arrayAllTask.some(dayStatus => dayStatus.success === true)
+    const goalAlmostSuccess = arrayAllTask.some(dayStatus => dayStatus.success === true)
     const greenStatus = arrayAllTask.every(dayStatus => dayStatus.success === true)
-    const grayStatus = arrayAllTask.every(dayStatus => dayStatus.failed === true)
+    const redStatus = arrayAllTask.every(dayStatus => dayStatus.failed === true)
+    const goalAlmostRed = arrayAllTask.some(item => item.failed && !item.success)
+    const defaultStatus = arrayAllTask.every(dayStatus => !dayStatus.success && !dayStatus.failed)
 
     if (greenStatus) {
       return 'greenStatus'
-    } else if(orangeStatus) {
-      return 'orangeStatus'
-    } else if(grayStatus) {
-      return 'grayStatus'
+    } else if(goalAlmostSuccess) {
+      return 'goalAlmostSuccess'
+    } else if(redStatus) {
+      return 'redStatus'
+    }else if(goalAlmostRed){
+      return 'goalAlmostRed'
+    } else if(defaultStatus){
+      return 'default'
     }
   }
 
@@ -78,7 +84,7 @@ export default function MetaSemanal({navigation}) {
             <Text>🔔</Text>
           </View>
          <CheckDays dayComplete={dayComplete()} />
-         <Input value={value} onPress={onInputSubmit} onChangeText={text => setValue(text)}/>
+         <Input contextMenuHidden={true} value={value} onPress={onInputSubmit} onChangeText={text => setValue(text)}/>
           <View style={styles.goalContainer}>
             {arrayAllGoal && arrayAllGoal.map((goal, i) => (
               <View key={i} style={styles.goalItem}>

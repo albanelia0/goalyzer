@@ -58,7 +58,8 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomColor: color.goalColor,
     borderBottomWidth: 0.5,
-    margin: 5
+    margin: 5,
+    maxWidth: 250,
   },
   deleteGoal: {
     marginLeft: 5,

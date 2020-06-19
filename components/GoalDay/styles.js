@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     backgroundColor: color.goalSuccessed,
   },
   wrapperStatusFailed: {
-    backgroundColor: color.goalFailed,
+    backgroundColor: color.goalNotDone,
   },
   done: {
     borderStyle: 'solid',
@@ -51,7 +51,7 @@ export const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderRadius: 5,
     borderColor: color.goalColor,
-    backgroundColor: color.goalFailed,
+    backgroundColor: color.goalNotDone,
     width: 30,
     marginRight: 5
   },
