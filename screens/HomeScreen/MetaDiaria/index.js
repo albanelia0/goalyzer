@@ -17,40 +17,72 @@ import GoalDay from '../../../components/GoalDay';
 
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
-let currentDay = weekDaysNames[Day]
+let currentDay = weekDaysNames[0]
 
 export default function MetaDiaria() {
 
   const [dailyGoalItem, setDailyGoalItem] = useState([])
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
-  const [isDayChanged, setIsDayChanged] = useState('')
+  const [isDayChanged, setIsDayChanged] = useState(currentDay)
+  const [previousDays, setPreviousDays] = useState(weekDaysNames[Day -1].toString())
 
   useEffect(() => {
+    if (Day === 0) {
+      setPreviousDays(weekDaysNames[6].toString())
+    } else {
+      setPreviousDays(weekDaysNames[Day - 1].toString())
+    }
     AsyncStorage.getItem('taskForDay').then(json => {
       const parsedJson = JSON.parse(json) || []
       setDailyGoalItem(parsedJson)
     })
     AsyncStorage.getItem('lastUsedDay').then(day => {
       AsyncStorage.setItem('lastUsedDay', currentDay)
-      day !== undefined && setIsDayChanged(prev => {
-        if (prev === undefined) return day
-        return day
-      })
+      day !== undefined && setIsDayChanged(day)
     })
   },[])
 
   useEffect(() => {
+
     if (isDayChanged !== currentDay) {
 
       setDailyGoalItem(() => {
         AsyncStorage.getItem('taskForDay').then(json => {
-          const parsedJson = JSON.parse(json) || []
+          const parsedAllPreviousTask = JSON.parse(json) || []
+          AsyncStorage.getItem('allWeekDays').then(json => {
+            const parsedJson = JSON.parse(json) || []
 
-          const newArrayWithCurrentDay = [weekDaysNames[Day -1], ...parsedJson]
-          AsyncStorage.setItem('previosTaskStates', JSON.stringify(newArrayWithCurrentDay))
+            const newArray = parsedJson.find(item => previousDays === 'Miércoles' && item.day === 'X')
+            const newArrayFromTuesday = parsedJson.find(item => item.day === `${previousDays.charAt(0)}a`  && item.day !== 'X')
+            const theOthers =
+              parsedJson.find(item => item.day !== `${previousDays.charAt(0)}a` && item.day !== 'X' && item.day === previousDays.charAt(0))
 
-          const tasksWithStatusFalse = parsedJson.map(task => {
+            if (newArray) {
+              const arrayFromPreviousDay = {...newArray, allTask: parsedAllPreviousTask}
+
+                const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
+                  if (item.day === newArray.day) return arrayFromPreviousDay
+                  return item
+                })
+                AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+            } else if(newArrayFromTuesday) {
+              const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask}
+              const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
+                  if (item.day === newArrayFromTuesday.day) return arrayFromPreviousDay
+                  return item
+                })
+                AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+            } else if(theOthers) {
+              const arrayFromPreviousDay = {...theOthers, allTask: parsedAllPreviousTask}
+              const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
+                  if (item.day === theOthers.day) return arrayFromPreviousDay
+                  return item
+                })
+                AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+            }
+          })
+          const tasksWithStatusFalse = parsedAllPreviousTask.map(task => {
             let newTasks
             if (task.success === true) {
               return newTasks = {...task, success: false}
@@ -62,7 +94,6 @@ export default function MetaDiaria() {
           return tasksWithStatusFalse
         })
       })
-      setIsDayChanged(currentDay)
     }
   },[])
 
