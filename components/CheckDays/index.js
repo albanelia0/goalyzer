@@ -7,10 +7,10 @@ const CheckDays = ({dayComplete}) => {
 /**
  * What represents any keys?.
  *
- * @param {boolean} done - To check if the status in updated.
- * @param {object} allTask - to put allTask.
+ * @param {boolean} done - To check if the status is updated.
+ * @param {object} allTask - to put all day Task.
  * @param {object} status - to put the current status from allTask.
- * @param {boolean} empty - To check if allTask, status and done if are false when the week begin.
+ * @param {boolean} empty - To check if allTask, status and done are false when the week begin.
  */
   const [Days, setDays]= useState([
     {day:"L", done: false, allTask: null, status: false, empty: false},
@@ -37,8 +37,10 @@ const CheckDays = ({dayComplete}) => {
     AsyncStorage.getItem('allWeekDays')
       .then(json => {
         const parsedJson = JSON.parse(json)
-        parsedJson.map((item, i) => {
-
+        let arrayFromWeekBegin = parsedJson[1] === null ? Days : parsedJson
+        console.log('arrayFromNextWeek',parsedJson[1] === null)
+        arrayFromWeekBegin.map((item, i) => {
+          console.log('PARSEWEII', item.day)
           if (item.allTask !== undefined && item.allTask !== null) {
             const newStatusfromPreviousDays = () => {
               const greenStatus = item.allTask.every(item => item.success === true)
@@ -59,11 +61,11 @@ const CheckDays = ({dayComplete}) => {
               } else return {}
             }
             const currentDayFromStateDays =
-              parsedJson.find(({day, done}) =>
+              arrayFromWeekBegin.find(({day, done}) =>
                 day === item.day && done === false)
             if (currentDayFromStateDays !== undefined && currentDayFromStateDays.done === false) {
               // const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: {...newStatusfromPreviousDays()}}
-              const newArray = parsedJson.map(item => {
+              const newArray = arrayFromWeekBegin.map(item => {
                 if (item.day === currentDayFromStateDays.day && item.done === false)
                   return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
                 return item
@@ -94,18 +96,19 @@ const CheckDays = ({dayComplete}) => {
     }
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json) || []
-      if (parsedJson !== []) {
-        const currentDayFromStateDays =
-          parsedJson.find(({day}) => day === currentDay.day)
-        const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
+      let arrayFromWeekBegin = parsedJson[1] === null ? Days : parsedJson
 
-        const newArray = parsedJson.map(item => {
-          if (item.day === currentDayFromStateDays.day) return newObjectWithCurrentStatus
-          return item
-        })
-        setDaysDebug(newArray, 'L90')
-        return newArray
-      }
+      const currentDayFromStateDays =
+        arrayFromWeekBegin.find(({day}) => day === currentDay.day)
+      const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
+
+      const newArray = arrayFromWeekBegin.map(item => {
+        if (item.day === currentDayFromStateDays.day) return newObjectWithCurrentStatus
+        return item
+      })
+      setDaysDebug(newArray, 'L90')
+      return newArray
+
     })
   }, [dayComplete])
 
