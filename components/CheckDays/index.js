@@ -24,20 +24,14 @@ const CheckDays = ({dayComplete}) => {
 
   const Day = new Date().getDay()
   let currentDay = Days[(Day + 6) % 7]
-  // console.log('currentDay', currentDay)
   let num = 0
   useEffect(() => {
     AsyncStorage.getItem('allWeekDays')
       .then(json => {
         const parsedJson = JSON.parse(json)
-        // if (JSON.stringify(Days) !== JSON.stringify(parsedJson) ) {
-        //   setDays(parsedJson)
-        // }
         parsedJson.map((item, i) => {
-          // console.log('RESULT' ,i, parsedJson)
 
           if (item.allTask !== undefined && item.allTask !== null) {
-            console.log('ENTRó',item.allTask !== undefined && item.allTask !== null)
             const newStatusfromPreviousDays = () => {
               const greenStatus = item.allTask.every(item => item.success === true)
               const goalAlmostSuccess = item.allTask.some(item => item.success === true)
@@ -59,7 +53,6 @@ const CheckDays = ({dayComplete}) => {
             const currentDayFromStateDays =
               parsedJson.find(({day, done}) =>
                 day === item.day && done === false)
-            console.log('ITEM-ENCONTRADO', currentDayFromStateDays)
             if (currentDayFromStateDays !== undefined && currentDayFromStateDays.done === false) {
               // const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: {...newStatusfromPreviousDays()}}
               const newArray = parsedJson.map(item => {
@@ -102,7 +95,6 @@ const CheckDays = ({dayComplete}) => {
           if (item.day === currentDayFromStateDays.day) return newObjectWithCurrentStatus
           return item
         })
-        // console.log('AVER ESTOOO:', newArray)
         setDaysDebug(newArray, 'L90')
         return newArray
     })

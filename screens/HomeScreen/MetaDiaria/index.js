@@ -16,6 +16,8 @@ import GoalDay from '../../../components/GoalDay';
 
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
+const HoursFromDay = new Date().getHours()
+
 let currentDay = weekDaysNames[Day]
 
 export default function MetaDiaria() {
@@ -23,8 +25,9 @@ export default function MetaDiaria() {
   const [dailyTaskItem, setDailyTaskItem] = useState([])
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
-  const [previousDays, setPreviousDays] = useState(weekDaysNames[Day -1].toString())
-  const [isDayChanged, setIsDayChanged] = useState(previousDays)
+  const [previousDays, setPreviousDays] = useState()
+  const [isDayChanged, setIsDayChanged] = useState(currentDay)
+
 
   const debugSetter = (setter, x, where) => {
     setter(prev => {
@@ -44,17 +47,13 @@ export default function MetaDiaria() {
       debugSetter(setDailyTaskItem, parsedJson, 'L44')
     })
     AsyncStorage.getItem('lastUsedDay').then(day => {
-        console.log('----------------------------')
-        console.log('DAY', day,'isDayChanged',isDayChanged)
       AsyncStorage.setItem('lastUsedDay', currentDay)
       day !== undefined && debugSetter(setIsDayChanged, day, 'L48')
     })
   },[])
-  console.log('----------------------------')
-  console.log('COMPARACIONSDAY', currentDay === isDayChanged)
   useEffect(() => {
 
-    if (isDayChanged !== currentDay) {
+    if (currentDay !== isDayChanged) {
 
       AsyncStorage.getItem('taskForDay').then(json => {
         const parsedAllPreviousTask = JSON.parse(json) || []
@@ -88,7 +87,6 @@ export default function MetaDiaria() {
                 if (JSON.stringify(item) === JSON.stringify(theOthers) && item.allTask === null) return arrayFromPreviousDay
                 return item
             })
-            console.log('THEOTHER',newArrayWithAllTaskUpdatedFromPreviousDay)
             AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
           }
         })

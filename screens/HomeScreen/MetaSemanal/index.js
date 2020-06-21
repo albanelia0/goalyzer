@@ -37,7 +37,6 @@ export default function MetaSemanal({navigation}) {
   }, [navigation])
 
   const onInputSubmit = () => {
-    dayComplete()
     if (value !== '') {
       setArrayAllGoal(prev => {
         const arrayWithNewItem = [...prev, value]
@@ -49,7 +48,6 @@ export default function MetaSemanal({navigation}) {
   }
 
   const deleteGoal = goal => {
-    console.log('GOAL', goal)
     const newArray = arrayAllGoal.filter(isGoal => isGoal !== goal)
     AsyncStorage.setItem('allGoalWeek', JSON.stringify(newArray))
     setArrayAllGoal(newArray)
@@ -84,13 +82,13 @@ export default function MetaSemanal({navigation}) {
             <Text>🔔</Text>
           </View>
          <CheckDays dayComplete={dayComplete()} />
-         <Input contextMenuHidden={true} value={value} onPress={onInputSubmit} onChangeText={text => setValue(text)}/>
+         <Input value={value} onPress={onInputSubmit} onChangeText={text => setValue(text)}/>
           <View style={styles.goalContainer}>
             {arrayAllGoal && arrayAllGoal.map((goal, i) => (
               <View key={i} style={styles.goalItem}>
                 <Text style={styles.goalTitles}>☆ {goal}</Text>
                 <TouchableOpacity onPress={() => deleteGoal(goal)}>
-                  <Text style={styles.deleteGoal}>🗑</Text>
+                  <Text style={styles.deleteGoal}> 🗑</Text>
                 </TouchableOpacity>
               </View>
             ))}

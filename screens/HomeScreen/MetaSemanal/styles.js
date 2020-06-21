@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     color: color.goalColor,
     flexShrink: 0,
     flexWrap: 'wrap',
-    minWidth: 110
+    maxWidth: 235
   },
   goalItem: {
     flexShrink: 0,
@@ -59,10 +59,11 @@ export const styles = StyleSheet.create({
     borderBottomColor: color.goalColor,
     borderBottomWidth: 0.5,
     margin: 5,
-    maxWidth: 250,
+    maxWidth: 300
   },
   deleteGoal: {
     marginLeft: 5,
     color: color.deleteGoal,
+    padding: 20,
   },
 })

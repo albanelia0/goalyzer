@@ -2,6 +2,7 @@ import React from 'react'
 import {styles} from './styles'
 import mobileScreen from '../../constants/Layout'
 import { Text, View,TouchableOpacity } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 
 const GoalDay = ({
   goalDay,
