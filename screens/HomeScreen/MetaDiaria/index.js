@@ -16,8 +16,6 @@ import GoalDay from '../../../components/GoalDay';
 
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
-const HoursFromDay = new Date().getHours()
-
 let currentDay = weekDaysNames[Day]
 
 export default function MetaDiaria() {
@@ -27,7 +25,6 @@ export default function MetaDiaria() {
   const [bellRemember, setBellRemember] = useState(false)
   const [previousDays, setPreviousDays] = useState()
   const [isDayChanged, setIsDayChanged] = useState(currentDay)
-
 
   const debugSetter = (setter, x, where) => {
     setter(prev => {
@@ -49,6 +46,10 @@ export default function MetaDiaria() {
     AsyncStorage.getItem('lastUsedDay').then(day => {
       AsyncStorage.setItem('lastUsedDay', currentDay)
       day !== undefined && debugSetter(setIsDayChanged, day, 'L48')
+    })
+    AsyncStorage.getItem('allWeekDays').then(json => {
+      const parsedJson = JSON.parse(json) || []
+      if(currentDay === 'Lunes') {}
     })
   },[])
   useEffect(() => {

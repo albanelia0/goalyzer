@@ -4,14 +4,22 @@ import isSmallDevice from '../../constants/Layout'
 import { Text, View, AsyncStorage } from 'react-native';
 
 const CheckDays = ({dayComplete}) => {
+/**
+ * What represents any keys?.
+ *
+ * @param {boolean} done - To check if the status in updated.
+ * @param {object} allTask - to put allTask.
+ * @param {object} status - to put the current status from allTask.
+ * @param {boolean} empty - To check if allTask, status and done if are false when the week begin.
+ */
   const [Days, setDays]= useState([
-    {day:"L", done: false, allTask: null, status: false},
-    {day:"M", done: false, allTask: null, status: false},
-    {day:"X", done: false, allTask: null, status: false},
-    {day:"J", done: false, allTask: null, status: false},
-    {day:"V", done: false, allTask: null, status: false},
-    {day:"S", done: false, allTask: null, status: false},
-    {day:"D", done: false, allTask: null, status: false}
+    {day:"L", done: false, allTask: null, status: false, empty: false},
+    {day:"M", done: false, allTask: null, status: false, empty: false},
+    {day:"X", done: false, allTask: null, status: false, empty: false},
+    {day:"J", done: false, allTask: null, status: false, empty: false},
+    {day:"V", done: false, allTask: null, status: false, empty: false},
+    {day:"S", done: false, allTask: null, status: false, empty: false},
+    {day:"D", done: false, allTask: null, status: false, empty: false}
   ])
 
   const setDaysDebug = (x, where) => {
@@ -24,7 +32,7 @@ const CheckDays = ({dayComplete}) => {
 
   const Day = new Date().getDay()
   let currentDay = Days[(Day + 6) % 7]
-  let num = 0
+
   useEffect(() => {
     AsyncStorage.getItem('allWeekDays')
       .then(json => {
@@ -85,8 +93,8 @@ const CheckDays = ({dayComplete}) => {
       }
     }
     AsyncStorage.getItem('allWeekDays').then(json => {
-      const parsedJson = JSON.parse(json)
-
+      const parsedJson = JSON.parse(json) || []
+      if (parsedJson !== []) {
         const currentDayFromStateDays =
           parsedJson.find(({day}) => day === currentDay.day)
         const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
@@ -97,6 +105,7 @@ const CheckDays = ({dayComplete}) => {
         })
         setDaysDebug(newArray, 'L90')
         return newArray
+      }
     })
   }, [dayComplete])
 
