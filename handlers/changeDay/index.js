@@ -16,35 +16,39 @@ export default function changeDay({previousDays,setDailyTaskItem}) {
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsed = JSON.parse(json)
       const parsedJson = parsed[1] === null ? Days : parsed
-      const newArray = parsedJson.find(item => previousDays === 'Miércoles' && item.day === 'X')
-      const newArrayFromTuesday = parsedJson.find(item =>
-        item.day === 'M' && item.day === `${previousDays.charAt(0)}` && item.day !== 'X')
+      AsyncStorage.getItem('currentStatus').then(json => {
+        const currentStatus = JSON.parse(json)
 
-      const theOthers =
-        parsedJson.find(item => item.day === `${previousDays.charAt(0)}` && item.day !== 'X' && item.day !== 'M')
+          const newArray = parsedJson.find(item => previousDays === 'Miércoles' && item.day === 'X')
+          const newArrayFromTuesday = parsedJson.find(item =>
+            item.day === 'M' && item.day === `${previousDays.charAt(0)}` && item.day !== 'X')
 
-      if (newArray) {
-        const arrayFromPreviousDay = {...newArray, allTask: parsedAllPreviousTask}
-        const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
-            if (JSON.stringify(item) === JSON.stringify(newArray) && item.allTask === null) return arrayFromPreviousDay
-            return item
-        })
-        AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
-      } else if(newArrayFromTuesday) {
-        const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask}
-        const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
-            if (JSON.stringify(item) === JSON.stringify(newArrayFromTuesday) && item.allTask === null) return arrayFromPreviousDay
-            return item
-        })
-        AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
-      } else if(theOthers) {
-        const arrayFromPreviousDay = {...theOthers, allTask: parsedAllPreviousTask}
-        const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
-            if (JSON.stringify(item) === JSON.stringify(theOthers) && item.allTask === null) return arrayFromPreviousDay
-            return item
-        })
-        AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
-      }
+          const theOthers =
+            parsedJson.find(item => item.day === `${previousDays.charAt(0)}` && item.day !== 'X' && item.day !== 'M')
+
+          if (newArray) {
+            const arrayFromPreviousDay = {...newArray, allTask: parsedAllPreviousTask, status: currentStatus}
+            const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
+                if (JSON.stringify(item) === JSON.stringify(newArray) && item.allTask === null) return arrayFromPreviousDay
+                return item
+            })
+            AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+          } else if(newArrayFromTuesday) {
+            const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask, status: currentStatus}
+            const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
+                if (JSON.stringify(item) === JSON.stringify(newArrayFromTuesday) && item.allTask === null) return arrayFromPreviousDay
+                return item
+            })
+            AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+          } else if(theOthers) {
+            const arrayFromPreviousDay = {...theOthers, allTask: parsedAllPreviousTask, status: currentStatus}
+            const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
+                if (JSON.stringify(item) === JSON.stringify(theOthers) && item.allTask === null) return arrayFromPreviousDay
+                return item
+            })
+            AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+          }
+      })
     })
     const tasksWithStatusFalse = parsedAllPreviousTask.map(task => {
 

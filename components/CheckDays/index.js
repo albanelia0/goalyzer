@@ -101,8 +101,12 @@ const CheckDays = ({dayComplete}) => {
       const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
 
       const newArray = arrayFromWeekBegin.map(item => {
-        if (item.day === currentDayFromStateDays.day) return newObjectWithCurrentStatus
-        return item
+        if (item.day === currentDayFromStateDays.day){
+          AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
+          return newObjectWithCurrentStatus
+        } else {
+          return item
+        }
       })
       setDaysDebug(newArray, 'L90')
       return newArray

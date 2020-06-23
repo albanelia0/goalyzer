@@ -17,15 +17,33 @@ export const styles = StyleSheet.create({
   },
   weekDay: {
     fontSize: 25,
-    color: colors.goalColor,
-
+    color: '#b1b493',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: '#b1b493',
+    textAlign: 'center',
+    padding: 10,
+    marginBottom: 15,
   },
   titleTask: {
-    fontSize: 20
+    fontSize: 23,
+    color: '#4f8a8b',
+    flexWrap: 'wrap',
+    maxWidth: 200
+  },
+  checkStatusIcon: {
+    backgroundColor: '#b1b493',
+    padding: 5,
+    maxHeight: 35
   },
   taskContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 10
+    alignItems: 'center',
+    maxWidth: 300,
+    padding: 10,
+    borderBottomColor: colors.titleColor,
+    borderBottomWidth: 1
   }
 })
