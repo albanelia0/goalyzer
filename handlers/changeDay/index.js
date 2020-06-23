@@ -1,11 +1,21 @@
 import {AsyncStorage} from 'react-native';
 
+const Days= [
+    {day:"L", done: false, allTask: null, status: false, empty: false},
+    {day:"M", done: false, allTask: null, status: false, empty: false},
+    {day:"X", done: false, allTask: null, status: false, empty: false},
+    {day:"J", done: false, allTask: null, status: false, empty: false},
+    {day:"V", done: false, allTask: null, status: false, empty: false},
+    {day:"S", done: false, allTask: null, status: false, empty: false},
+    {day:"D", done: false, allTask: null, status: false, empty: false}
+  ]
+
 export default function changeDay({previousDays,setDailyTaskItem}) {
   AsyncStorage.getItem('taskForDay').then(json => {
     const parsedAllPreviousTask = JSON.parse(json) || []
     AsyncStorage.getItem('allWeekDays').then(json => {
-      const parsedJson = JSON.parse(json) || []
-
+      const parsed = JSON.parse(json)
+      const parsedJson = parsed[1] === null ? Days : parsed
       const newArray = parsedJson.find(item => previousDays === 'Miércoles' && item.day === 'X')
       const newArrayFromTuesday = parsedJson.find(item =>
         item.day === 'M' && item.day === `${previousDays.charAt(0)}` && item.day !== 'X')

@@ -59,7 +59,6 @@ export default function MetaDiaria() {
       changeWeek(currentDay)
     }
   },[isDayChanged])
-
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
       setDailyTaskItem(prev => {

@@ -38,9 +38,7 @@ const CheckDays = ({dayComplete}) => {
       .then(json => {
         const parsedJson = JSON.parse(json)
         let arrayFromWeekBegin = parsedJson[1] === null ? Days : parsedJson
-        console.log('arrayFromNextWeek',parsedJson[1] === null)
         arrayFromWeekBegin.map((item, i) => {
-          console.log('PARSEWEII', item.day)
           if (item.allTask !== undefined && item.allTask !== null) {
             const newStatusfromPreviousDays = () => {
               const greenStatus = item.allTask.every(item => item.success === true)
