@@ -8,13 +8,13 @@ import {
 
 import {styles} from './styles'
 
-const Input = ({onChangeText, onPress, value}) => {
+const Input = ({onChangeText, onPress, value, taskToCreate}) => {
   return (
     <View style={styles.inputContainer}>
       <TextInput
         onChangeText={onChangeText}
         style={styles.inputGoal}
-        placeholder="Create your goal"
+        placeholder={`Create your ${taskToCreate}`}
         value={value}
         />
       <TouchableOpacity onPress={onPress}>

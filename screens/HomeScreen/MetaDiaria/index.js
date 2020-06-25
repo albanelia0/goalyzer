@@ -90,7 +90,12 @@ export default function MetaDiaria({navigation}) {
           </Text>
         </View>
           <Text style={styles.textForDay}>Que hacer hoy para cumplir mis metas:</Text>
-          <Input value={valueInput} onPress={onSaveTaskInput} onChangeText={(text) => setValueInput(text)}/>
+          <Input
+            value={valueInput}
+            onPress={onSaveTaskInput}
+            onChangeText={(text) => setValueInput(text)}
+            taskToCreate="Task"
+          />
         {dailyTaskItem && dailyTaskItem.map((dailyGoal, i) => {
           const getStatus = () => {
             const {success, failed} = dailyGoal

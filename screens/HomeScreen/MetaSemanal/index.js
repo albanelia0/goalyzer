@@ -82,7 +82,11 @@ export default function MetaSemanal({navigation}) {
             <Text>🔔</Text>
           </View>
          <CheckDays dayComplete={dayComplete()} />
-         <Input value={value} onPress={onInputSubmit} onChangeText={text => setValue(text)}/>
+         <Input
+          value={value}
+          onPress={onInputSubmit}
+          onChangeText={text => setValue(text)}
+          taskToCreate="goal"/>
           <View style={styles.goalContainer}>
             {arrayAllGoal && arrayAllGoal.map((goal, i) => (
               <View key={i} style={styles.goalItem}>
