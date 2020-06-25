@@ -22,7 +22,7 @@ const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Vie
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
 
-export default function MetaDiaria() {
+export default function MetaDiaria({navigation}) {
 
   const [dailyTaskItem, setDailyTaskItem] = useState([])
   const [valueInput, setValueInput] = useState('')
@@ -53,12 +53,17 @@ export default function MetaDiaria() {
     })
   },[])
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
 
-    if (currentDay !== isDayChanged) {
-      changeDay({previousDays,setDailyTaskItem})
-      changeWeek(currentDay)
-    }
-  },[isDayChanged,changeDay,changeWeek])
+      if (currentDay !== isDayChanged) {
+        changeDay({previousDays,setDailyTaskItem})
+        changeWeek(currentDay)
+      }
+    })
+    return unsubscribe
+
+  },[isDayChanged,changeDay,changeWeek,navigation])
+
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
       setDailyTaskItem(prev => {
@@ -69,8 +74,7 @@ export default function MetaDiaria() {
       setValueInput('')
     } else return
   }
-
-    return (
+  return (
     <KeyboardAvoidingView >
       <ScrollView style={styles.container}>
         <View style={styles.titleContainer}>
@@ -86,7 +90,7 @@ export default function MetaDiaria() {
           </Text>
         </View>
           <Text style={styles.textForDay}>Que hacer hoy para cumplir mis metas:</Text>
-         <Input value={valueInput} onPress={onSaveTaskInput} onChangeText={(text) => setValueInput(text)}/>
+          <Input value={valueInput} onPress={onSaveTaskInput} onChangeText={(text) => setValueInput(text)}/>
         {dailyTaskItem && dailyTaskItem.map((dailyGoal, i) => {
           const getStatus = () => {
             const {success, failed} = dailyGoal
@@ -114,5 +118,5 @@ export default function MetaDiaria() {
           })}
       </ScrollView>
     </KeyboardAvoidingView>
-    )
+  )
 }

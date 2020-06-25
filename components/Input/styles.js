@@ -13,6 +13,8 @@ export const styles = StyleSheet.create({
     borderColor: 'pink',
     minWidth: 200,
     maxWidth: 200,
+    fontSize: 20,
+    color: colors.titleColor
   },
   inputContainer: {
     flexDirection: 'row',

@@ -1,6 +1,12 @@
 import React, {useState, useEffect} from 'react';
 
-import { ScrollView, View, Text,AsyncStorage, TouchableOpacity} from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  AsyncStorage,
+  TouchableOpacity
+} from 'react-native';
 import {styles} from './styles'
 
 const changeLetterFromDayToCompletName = [

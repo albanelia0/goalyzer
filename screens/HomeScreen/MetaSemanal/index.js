@@ -47,8 +47,8 @@ export default function MetaSemanal({navigation}) {
     } else return
   }
 
-  const deleteGoal = goal => {
-    const newArray = arrayAllGoal.filter(isGoal => isGoal !== goal)
+  const deleteGoal = (index) => {
+    const newArray = arrayAllGoal.filter((_, theIndex) => theIndex !== index)
     AsyncStorage.setItem('allGoalWeek', JSON.stringify(newArray))
     setArrayAllGoal(newArray)
   }
@@ -87,7 +87,7 @@ export default function MetaSemanal({navigation}) {
             {arrayAllGoal && arrayAllGoal.map((goal, i) => (
               <View key={i} style={styles.goalItem}>
                 <Text style={styles.goalTitles}>☆ {goal}</Text>
-                <TouchableOpacity onPress={() => deleteGoal(goal)}>
+                <TouchableOpacity onPress={() => deleteGoal(i)}>
                   <Text style={styles.deleteGoal}> 🗑</Text>
                 </TouchableOpacity>
               </View>
