@@ -15,6 +15,8 @@ const changeLetterFromDayToCompletName = [
 export default function Historial() {
   const [taskHistory,setTaskHistory] = useState([])
   const [thereIsTaskOpen,setThereIsTaskOpen] = useState(false)
+  const [displayTask, setDisplayTask] = useState([])
+  const [isSameDay, setIsSameDay] = useState('')
 
   useEffect(() => {
     AsyncStorage.getItem('allWeekDays').then(json => {
@@ -24,7 +26,7 @@ export default function Historial() {
   },[])
 
   const checkStatusPreviousDays = (allTask) => {
-    console.log('allTaskiii',allTask)
+    // console.log('allTaskiii',allTask)
     if (allTask.failed === true && allTask.success === false) {
         return '𝖷'
       } else if(allTask.failed === false && allTask.success === true) {
@@ -34,30 +36,35 @@ export default function Historial() {
     }
   }
 
-  const displayAllTask = (allTask) => {
-    return allTask.map((allTask, i) => {
-      return (
-        <View key={i} style={styles.taskContainer}>
-          <Text style={styles.titleTask}>{allTask.name}</Text>
-          <Text style={styles.checkStatusIcon}>{checkStatusPreviousDays(allTask)}</Text>
-        </View>
-      )
+  const displayAllTask = (allTask, dayName) => {
+    setThereIsTaskOpen(!thereIsTaskOpen)
+    setIsSameDay(dayName)
+    const displayAllPreviousTaskFromThisDay = allTask.map((allTask, i) => {
+      if (allTask.day === taskHistory.day) {
+        return (
+          <View key={i} style={styles.taskContainer}>
+            <Text style={styles.titleTask}>{allTask.name}</Text>
+            <Text style={styles.checkStatusIcon}>{checkStatusPreviousDays(allTask)}</Text>
+          </View>
+        )
+      }
     })
+    setDisplayTask(displayAllPreviousTaskFromThisDay)
   }
   return (
     <ScrollView>
       <View style={styles.wrapper}>
-        <Text style={styles.title}>Historial</Text>
+        <Text style={styles.title}>Historial Semanal</Text>
           <View style={styles.container}>
             {taskHistory.map((item, i) => {
               if (item.allTask !== null) {
                 const nameToDay = changeLetterFromDayToCompletName.find(day => day.day === item.day)
                 return(
                   <View key={i}>
-                    <TouchableOpacity onPress={() => setThereIsTaskOpen(!thereIsTaskOpen)}>
-                      <Text style={styles.weekDay}>{nameToDay.dayName}</Text>
+                    <TouchableOpacity onPress={() => displayAllTask(item.allTask, nameToDay.dayName)}>
+                      <Text style={{...styles.weekDay, ...item.status}}>{nameToDay.dayName}</Text>
                     </TouchableOpacity>
-                    {thereIsTaskOpen && displayAllTask(item.allTask)}
+                      {thereIsTaskOpen && isSameDay === nameToDay.dayName && displayTask}
                   </View>
                 )
               }

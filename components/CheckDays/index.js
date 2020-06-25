@@ -114,8 +114,8 @@ const CheckDays = ({dayComplete}) => {
     })
   }, [dayComplete])
 
-  // console.log('------------------------------')
-  // console.log('ARRAY', Days)
+  console.log('------------------------------')
+  console.log('ARRAY', Days)
   const renderChangeBackgroundDayColor = (day, status) => {
 
     if(currentDay.day === day && status !== false){
