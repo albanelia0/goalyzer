@@ -107,9 +107,12 @@ export default function MetaDiaria() {
                       <GoalDay
                         status={getStatus()}
                         goalDay={dailyGoal.name}
-                        onDelete={() => handleFromActionsToButtonTask(dailyGoal,i, 'delete', setDailyTaskItem,dailyTaskItem)}
-                        onSuccess={() => handleFromActionsToButtonTask(dailyGoal,i, 'success',setDailyTaskItem,dailyTaskItem)}
-                        onFailed={() => handleFromActionsToButtonTask(dailyGoal,i, 'failed',setDailyTaskItem,dailyTaskItem)}
+                        onDelete={() => handleFromActionsToButtonTask(
+                          item={dailyGoal},index={i}, action='delete', useToSet={setDailyTaskItem},dailyTaskItem)}
+                        onSuccess={() => handleFromActionsToButtonTask(
+                          item={dailyGoal},index={i}, action='success',useToSet={setDailyTaskItem},dailyTaskItem)}
+                        onFailed={() => handleFromActionsToButtonTask(
+                          item={dailyGoal},index={i}, action='failed',useToSet={setDailyTaskItem},dailyTaskItem)}
                       />
                     </ScrollView>
                   </View>

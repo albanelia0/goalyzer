@@ -1,6 +1,6 @@
 import {AsyncStorage} from 'react-native';
 
-export default function handleFromActionsToButtonTask (item, index, action,useToSet, dailyTaskItem){
+export default function handleFromActionsToButtonTask ({item, index, action,useToSet, dailyTaskItem}){
   if (action === 'delete') {
     const newArray = dailyTaskItem.filter((_, theIndex) => theIndex !== index)
     AsyncStorage.setItem('taskForDay', JSON.stringify(newArray))
