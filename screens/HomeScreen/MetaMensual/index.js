@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 
 import ListAllMonth from '../../../components/listAllMonth'
 import Input from '../../../components/Input'
@@ -9,6 +9,12 @@ export default function MetaMensual() {
   const [inputValue, setInputValue] = useState()
   const [allMonthGoal, setAllMonthGoal] = useState([])
 
+  useEffect(() => {
+    AsyncStorage.getItem('monthGoal').then(json => {
+      const parsedJson = JSON.parse(json)
+      setAllMonthGoal(parsedJson)
+    })
+  })
   const onPressInput = () => {
     if (inputValue !== '') {
       setAllMonthGoal(prev => {
@@ -31,7 +37,7 @@ export default function MetaMensual() {
             onPress={onPressInput}
             />
           <View>
-            {allMonthGoal && allMonthGoal.map(item => <Text>{item.name}</Text>)}
+            {allMonthGoal && allMonthGoal.map((item, i) => <Text key={i}>{item.name}</Text>)}
           </View>
           <View>
             <ListAllMonth/>
