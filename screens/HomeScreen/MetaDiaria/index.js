@@ -22,7 +22,7 @@ const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Vie
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
 
-export default function MetaDiaria({navigation}) {
+export default function MetaDiaria() {
 
   const [dailyTaskItem, setDailyTaskItem] = useState([])
   const [valueInput, setValueInput] = useState('')
@@ -53,17 +53,13 @@ export default function MetaDiaria({navigation}) {
     })
   },[])
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
 
-      if (currentDay !== isDayChanged) {
-        changeDay({previousDays,setDailyTaskItem})
-        changeWeek(currentDay)
-      }
-    })
-    return unsubscribe
+    if (currentDay !== isDayChanged) {
+      changeDay({previousDays,setDailyTaskItem})
+      changeWeek(currentDay)
+    }
 
-  },[isDayChanged,changeDay,changeWeek,navigation])
-
+  },[isDayChanged,changeDay,changeWeek])
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
       setDailyTaskItem(prev => {
