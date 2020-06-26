@@ -1,12 +1,21 @@
 import * as React from 'react';
 
+import ListAllMonth from '../../../components/listAllMonth'
+
 import {styles} from './styles'
-import { ScrollView, View, Text } from 'react-native';
+import { KeyboardAvoidingView,ScrollView, View, Text } from 'react-native';
 
 export default function MetaMensual() {
   return (
-    <View>
-      <Text>holis</Text>
-    </View>
+    <KeyboardAvoidingView>
+      <ScrollView style={styles.container}>
+        <View>
+          <Text style={styles.title}>Meta Mensual</Text>
+          <View>
+            <ListAllMonth/>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

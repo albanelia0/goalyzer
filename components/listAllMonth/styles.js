@@ -1,5 +1,6 @@
+
 import {StyleSheet} from 'react-native';
-import color from '../../../constants/Colors'
+import color from '../../constants/Colors'
 
 export const styles = StyleSheet.create({
   title: {
@@ -9,4 +10,9 @@ export const styles = StyleSheet.create({
   container: {
     margin: 35
   },
+  monthContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  }
 })
