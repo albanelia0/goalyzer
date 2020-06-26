@@ -21,7 +21,7 @@ const GoalDay = ({
         return {}
     }
   }
-  const isSmallScreen = () => mobileScreen.isSmallDevice && {minWidth: 282}
+  const isSmallScreen = () => mobileScreen.isSmallDevice && {minWidth: 270}
 
   return (
     <View style={{...styles.wrapper, ...getStatusStyle()}}>

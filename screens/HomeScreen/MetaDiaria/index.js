@@ -13,9 +13,7 @@ import {
 } from 'react-native';
 
 import Layout from '../../../constants/Layout'
-import GoalDay from '../../../components/GoalDay'
 import changeWeek from '../../../handlers/changeWeek'
-import handleFromActionsToButtonTask from '../../../handlers/ActionsTask'
 import changeDay from '../../../handlers/changeDay';
 
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
@@ -92,7 +90,7 @@ export default function MetaDiaria() {
             onChangeText={(text) => setValueInput(text)}
             taskToCreate="Task"
           />
-          <DisplayAllGoal dailyTaskItem={dailyTaskItem}/>
+          <DisplayAllGoal dailyTaskItem={dailyTaskItem} setDailyTaskItem={setDailyTaskItem} storage='taskForDay'/>
       </ScrollView>
     </KeyboardAvoidingView>
   )

@@ -9,4 +9,8 @@ export const styles = StyleSheet.create({
   container: {
     margin: 35
   },
+  goalContainer: {
+    marginBottom: 20,
+    marginTop: 20
+  }
 })

@@ -2,6 +2,8 @@ import React,{useState, useEffect} from 'react';
 
 import ListAllMonth from '../../../components/listAllMonth'
 import Input from '../../../components/Input'
+import DisplayAllGoal from '../../../components/displayAllGoal'
+
 import {styles} from './styles'
 import { KeyboardAvoidingView,ScrollView, View, Text, AsyncStorage } from 'react-native';
 
@@ -14,7 +16,9 @@ export default function MetaMensual() {
       const parsedJson = JSON.parse(json)
       setAllMonthGoal(parsedJson)
     })
-  })
+  }, [])
+
+  console.log('allMonthGoal',allMonthGoal)
   const onPressInput = () => {
     if (inputValue !== '') {
       setAllMonthGoal(prev => {
@@ -36,8 +40,8 @@ export default function MetaMensual() {
             taskToCreate="mensual"
             onPress={onPressInput}
             />
-          <View>
-            {allMonthGoal && allMonthGoal.map((item, i) => <Text key={i}>{item.name}</Text>)}
+          <View style={styles.goalContainer}>
+            <DisplayAllGoal dailyTaskItem={allMonthGoal} setDailyTaskItem={setAllMonthGoal} storage='monthGoal'/>
           </View>
           <View>
             <ListAllMonth/>

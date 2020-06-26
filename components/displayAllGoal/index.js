@@ -1,16 +1,18 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 import {
   ScrollView,
   SafeAreaView,
   View,
+  AsyncStorage
 } from 'react-native';
 
 import GoalDay from '../GoalDay'
-
+import handleFromActionsToButtonTask from '../../handlers/ActionsTask'
 import {styles} from './styles'
 
-const DisplayAllGoal = ({dailyTaskItem}) => {
+const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
+
   return (
     <View>
       {dailyTaskItem && dailyTaskItem.map((dailyGoal, i) => {
@@ -28,12 +30,38 @@ const DisplayAllGoal = ({dailyTaskItem}) => {
                     <GoalDay
                       status={getStatus()}
                       goalDay={dailyGoal.name}
-                      onDelete={() => handleFromActionsToButtonTask(
-                        item={dailyGoal},index={i}, action='delete', useToSet={setDailyTaskItem},dailyTaskItem)}
-                      onSuccess={() => handleFromActionsToButtonTask(
-                        item={dailyGoal},index={i}, action='success',useToSet={setDailyTaskItem},dailyTaskItem)}
-                      onFailed={() => handleFromActionsToButtonTask(
-                        item={dailyGoal},index={i}, action='failed',useToSet={setDailyTaskItem},dailyTaskItem)}
+                      onDelete={() => {
+                        handleFromActionsToButtonTask({
+                          item: dailyGoal,
+                          storage,
+                          index: i,
+                          action: 'delete',
+                          setDailyTaskItem,
+                          dailyTaskItem
+                        })
+                      }}
+                      onSuccess={() => {
+                        handleFromActionsToButtonTask({
+                          item: dailyGoal,
+                          storage,
+                          index: i,
+                          action: 'success',
+                          setDailyTaskItem,
+                          dailyTaskItem
+                        })
+                      }
+                    }
+                      onFailed={() => {
+                        handleFromActionsToButtonTask({
+                          item: dailyGoal,
+                          storage,
+                          index: i,
+                          action: 'failed',
+                          setDailyTaskItem,
+                          dailyTaskItem
+                        })
+                      }
+                    }
                     />
                   </ScrollView>
                 </View>
