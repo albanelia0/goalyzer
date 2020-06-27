@@ -12,24 +12,26 @@ export const styles = StyleSheet.create({
     fontSize: 18
   },
   monthContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  eachMonth: {
     backgroundColor: '#e8e4e1',
     borderStyle: 'solid',
     borderWidth: 1,
-    borderRadius: 20,
+    borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: color.goalColor,
-    minHeight: 50,
-    maxWidth: 100,
-    minWidth: 80,
     marginRight: 5,
     marginBottom: 5,
+
   },
   open: {
-    minHeight: 90,
-    minWidth: 100,
     padding: 10,
     fontSize: 19,
-    color: color.titleColor
-  }
+    color: color.titleColor,
+    textAlign: 'center',
+  },
 })

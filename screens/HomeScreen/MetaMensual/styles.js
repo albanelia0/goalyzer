@@ -12,5 +12,10 @@ export const styles = StyleSheet.create({
   goalContainer: {
     marginBottom: 20,
     marginTop: 20
+  },
+  titleMonth:{
+    color: color.titleColor,
+    fontSize: 25,
+    borderBottomWidth: 1
   }
 })

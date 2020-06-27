@@ -1,11 +1,18 @@
 import React,{useState, useEffect} from 'react';
 
-import ListAllMonth from '../../../components/listAllMonth'
 import Input from '../../../components/Input'
 import DisplayAllGoal from '../../../components/displayAllGoal'
 
 import {styles} from './styles'
 import { KeyboardAvoidingView,ScrollView, View, Text, AsyncStorage } from 'react-native';
+import Month from '../../../components/month';
+const month = new Date().getMonth()
+
+const allMonth = [
+  {month: 'Enero'}, {month: 'Febrero'},{month: 'Marzo'},{month: 'Abril'},{month: 'Mayo'},{month: 'Junio'},{month: 'Julio'},
+  {month: 'Agosto'},{month: 'Septiembre'},{month: 'Octubre'},{month: 'Noviembre'},{month: 'Diciembre'}
+]
+const currentMonth =allMonth[month]
 
 export default function MetaMensual() {
   const [inputValue, setInputValue] = useState()
@@ -17,12 +24,10 @@ export default function MetaMensual() {
       setAllMonthGoal(parsedJson)
     })
   }, [])
-
-  console.log('allMonthGoal',allMonthGoal)
   const onPressInput = () => {
     if (inputValue !== '') {
       setAllMonthGoal(prev => {
-        const arrayWithNewItem = [...prev, { name: inputValue, success: false, failed: false}]
+        const arrayWithNewItem = [...prev, { name: inputValue, success: false, failed: false, currentMonth}]
         AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithNewItem))
         return arrayWithNewItem
       })
@@ -34,6 +39,7 @@ export default function MetaMensual() {
       <ScrollView style={styles.container}>
         <View>
           <Text style={styles.title}>Meta Mensual</Text>
+          <Text style={styles.titleMonth}>{currentMonth.month}</Text>
           <Input
             value={inputValue}
             onChangeText={(text) => setInputValue(text)}
@@ -43,9 +49,9 @@ export default function MetaMensual() {
           <View style={styles.goalContainer}>
             <DisplayAllGoal dailyTaskItem={allMonthGoal} setDailyTaskItem={setAllMonthGoal} storage='monthGoal'/>
           </View>
-          <View>
-            <ListAllMonth/>
-          </View>
+          {/* <View>
+            <Month/>
+          </View> */}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

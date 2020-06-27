@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     borderStyle: 'dashed',
     borderColor: color.titleColor,
     color: color.goalColor,
-    backgroundColor: '#cfe5cf',
+    backgroundColor: '#e3d9ca',
     borderWidth: 0.5,
     borderRightWidth: 0,
     borderLeftWidth: 0,

@@ -63,7 +63,6 @@ export default function Historial() {
     })
   }
 
-  console.log(thereIsTaskOpen.allTask)
   return (
     <ScrollView>
       <View style={styles.wrapper}>
