@@ -8,11 +8,7 @@ export default function changeWeek(currentDay) {
 
         const newArray = parsedJson.map(day => {
           if (day.done === true && day.empty === false) {
-            return {...day, done: false, empty: true}
-          } else if(day.allTask !== null && day.empty === false) {
-            return {...day, allTask: null, empty: true}
-          } else if(day.status !== false && day.empty === false) {
-            return {...day, status: false, empty: true}
+            return {...day, done: false,allTask: null, status: false, empty: true }
           } else return day
         })
       AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))

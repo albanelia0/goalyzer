@@ -27,5 +27,7 @@ export default {
   deleteGoal: '#556e53',
   goalSuccessed: '#95a792',
   currentTitleDay: utilColor,
-  paragraphs: lilac
+  paragraphs: lilac,
+  iconMonthHistory: '#ed8d8d',
+  iconWeekHistory: '#8d6262',
 };

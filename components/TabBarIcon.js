@@ -28,7 +28,7 @@ export default function TabBarIcon(props) {
     )
   } else if(props.month) {
     return (
-      <FontAwesome5
+      <MaterialCommunityIcons
         name={props.month}
         size={25}
         style={{ marginBottom: -3 }}

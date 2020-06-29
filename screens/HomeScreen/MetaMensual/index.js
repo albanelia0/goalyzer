@@ -12,7 +12,7 @@ const allMonth = [
   {month: 'Enero'}, {month: 'Febrero'},{month: 'Marzo'},{month: 'Abril'},{month: 'Mayo'},{month: 'Junio'},{month: 'Julio'},
   {month: 'Agosto'},{month: 'Septiembre'},{month: 'Octubre'},{month: 'Noviembre'},{month: 'Diciembre'}
 ]
-const currentMonth =allMonth[month]
+const currentMonth =allMonth.find((_, i) => i === month)
 
 export default function MetaMensual() {
   const [inputValue, setInputValue] = useState()
