@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
+import useIsMountedRef from '../../../hooks/useMounted'
 import Input from '../../../components/Input'
 
 import {styles} from './styles'
@@ -12,18 +13,21 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import CheckDays from '../../../components/CheckDays'
+import DisplayWeekGoal from '../../../components/displayWeekGoal'
 
 export default function MetaSemanal({navigation}) {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
   const [arrayAllTask, setArrayAllTask] = useState([])
+  const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
       const parsedJson = JSON.parse(json) || []
-      setArrayAllGoal(parsedJson)
+      if (isMountedRef.current) {
+        setArrayAllGoal(parsedJson)
+      }
     })
-
   }, [])
 
   useEffect(() => {
@@ -46,13 +50,6 @@ export default function MetaSemanal({navigation}) {
       setValue('')
     } else return
   }
-
-  const deleteGoal = (index) => {
-    const newArray = arrayAllGoal.filter((_, theIndex) => theIndex !== index)
-    AsyncStorage.setItem('allGoalWeek', JSON.stringify(newArray))
-    setArrayAllGoal(newArray)
-  }
-
   const dayComplete = () => {
     const goalAlmostSuccess = arrayAllTask.some(dayStatus => dayStatus.success === true)
     const greenStatus = arrayAllTask.every(dayStatus => dayStatus.success === true)
@@ -87,16 +84,7 @@ export default function MetaSemanal({navigation}) {
           onPress={onInputSubmit}
           onChangeText={text => setValue(text)}
           taskToCreate="goal"/>
-          <View style={styles.goalContainer}>
-            {arrayAllGoal && arrayAllGoal.map((goal, i) => (
-              <View key={i} style={styles.goalItem}>
-                <Text style={styles.goalTitles}>☆ {goal}</Text>
-                <TouchableOpacity onPress={() => deleteGoal(i)}>
-                  <Text style={styles.deleteGoal}> 🗑</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
+          <DisplayWeekGoal storage='allGoalWeek' arrayAllGoal={arrayAllGoal} setArrayAllGoal={setArrayAllGoal}/>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

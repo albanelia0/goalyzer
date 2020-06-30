@@ -15,7 +15,7 @@ import {
 import Layout from '../../../constants/Layout'
 import changeWeek from '../../../handlers/changeWeek'
 import changeDay from '../../../handlers/changeDay';
-
+import useIsMountedRef from '../../../hooks/useMounted'
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
@@ -27,7 +27,7 @@ export default function MetaDiaria() {
   const [bellRemember, setBellRemember] = useState(false)
   const [previousDays, setPreviousDays] = useState()
   const [isDayChanged, setIsDayChanged] = useState(currentDay)
-
+  const isMountedRef = useIsMountedRef();
   const debugSetter = (setter, x, where) => {
     setter(prev => {
       console.log(`[MetaDiaria:] -> ${where}`)
@@ -36,28 +36,33 @@ export default function MetaDiaria() {
   }
 
   useEffect(() => {
-    if (Day === 0) {
+
+    if (isMountedRef.current && Day === 0) {
       setPreviousDays(weekDaysNames[6].toString())
     } else {
       setPreviousDays(weekDaysNames[Day - 1].toString())
     }
     AsyncStorage.getItem('taskForDay').then(json => {
       const parsedJson = JSON.parse(json) || []
-      debugSetter(setDailyTaskItem, parsedJson, 'L44')
+      if (isMountedRef.current) {
+        debugSetter(setDailyTaskItem, parsedJson, 'L44')
+      }
     })
     AsyncStorage.getItem('lastUsedDay').then(day => {
       AsyncStorage.setItem('lastUsedDay', currentDay)
-      day !== undefined && debugSetter(setIsDayChanged, day, 'L48')
+      if (isMountedRef.current) {
+        day !== undefined && debugSetter(setIsDayChanged, day, 'L48')
+      }
     })
-  },[])
+  },[isMountedRef])
   useEffect(() => {
-
-    if (currentDay !== isDayChanged) {
+    if (isMountedRef.current && currentDay !== isDayChanged) {
       changeDay({previousDays,setDailyTaskItem})
       changeWeek(currentDay)
     }
+    return () => ac.abort();
+  },[isDayChanged,changeDay,changeWeek, isMountedRef])
 
-  },[isDayChanged,changeDay,changeWeek])
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
       setDailyTaskItem(prev => {

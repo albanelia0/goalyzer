@@ -9,7 +9,8 @@ export default {
         Home: 'home',
         Links: 'Day',
         Week: 'week',
-        Month: 'month'
+        Month: 'month',
+        Anual: 'anual'
       },
     },
   },

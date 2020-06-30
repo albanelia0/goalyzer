@@ -35,6 +35,15 @@ export default function TabBarIcon(props) {
         color={props.focused ? Colors.containerDay : Colors.tabIconDefault}
       />
     )
+  } else if(props.any) {
+    return (
+      <MaterialCommunityIcons
+        name={props.any}
+        size={25}
+        style={{ marginBottom: -3 }}
+        color={props.focused ? Colors.containerDay : Colors.tabIconDefault}
+      />
+    )
   } else if (props.history) {
     return (
       <MaterialCommunityIcons

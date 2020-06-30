@@ -23,4 +23,6 @@ export default function handleFromActionsToButtonTask ({item,storage, index, act
       return newArray
     })
   }
+
+  return ''
 }

@@ -6,6 +6,7 @@ import LinksScreen from '../screens/LinksScreen';
 import MetaSemanal from '../screens/HomeScreen/MetaSemanal';
 import MetaDiaria from '../screens/HomeScreen/MetaDiaria';
 import MetaMensual from '../screens/HomeScreen/MetaMensual';
+import MetaAnual from '../screens/HomeScreen/MetaAnual';
 import Historial from '../screens/HomeScreen/Historial';
 
 const BottomTab = createBottomTabNavigator();
@@ -23,7 +24,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Day"
         component={MetaDiaria}
         options={{
-          title: 'Meta Diaria',
+          title: 'Diaria',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} today="md-today" />,
         }}
       />
@@ -31,7 +32,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Week"
         component={MetaSemanal}
         options={{
-          title: 'Meta Semanal',
+          title: 'Semanal',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} week="calendar-day" />,
         }}
       />
@@ -39,8 +40,16 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Month"
         component={MetaMensual}
         options={{
-          title: 'Meta Mensual',
+          title: 'Mensual',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} month="calendar-week" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Anual"
+        component={MetaAnual}
+        options={{
+          title: 'Anual',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} any="calendar" />,
         }}
       />
       <BottomTab.Screen

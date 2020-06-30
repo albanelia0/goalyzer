@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 
 import {
   ScrollView,
   SafeAreaView,
   View,
-  AsyncStorage
 } from 'react-native';
 
 import GoalDay from '../GoalDay'
@@ -12,7 +11,7 @@ import handleFromActionsToButtonTask from '../../handlers/ActionsTask'
 import {styles} from './styles'
 
 const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
-
+  console.log('dailyTaskItem',dailyTaskItem, 'setDailyTaskItem',setDailyTaskItem)
   return (
     <View>
       {dailyTaskItem && dailyTaskItem.map((dailyGoal, i) => {
@@ -31,7 +30,7 @@ const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
                       status={getStatus()}
                       goalDay={dailyGoal.name}
                       onDelete={() => {
-                        handleFromActionsToButtonTask({
+                        return handleFromActionsToButtonTask({
                           item: dailyGoal,
                           storage,
                           index: i,
@@ -41,7 +40,7 @@ const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
                         })
                       }}
                       onSuccess={() => {
-                        handleFromActionsToButtonTask({
+                        return handleFromActionsToButtonTask({
                           item: dailyGoal,
                           storage,
                           index: i,
@@ -52,7 +51,7 @@ const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
                       }
                     }
                       onFailed={() => {
-                        handleFromActionsToButtonTask({
+                        return handleFromActionsToButtonTask({
                           item: dailyGoal,
                           storage,
                           index: i,

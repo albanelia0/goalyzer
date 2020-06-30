@@ -19,7 +19,7 @@ export default function Historial() {
     <View>
       <Text style={styles.titleHistory}>Historial</Text>
       <View style={styles.wrapperHistory}>
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => setWeekIsOpen(!weekIsOpen)}>
           <FontAwesome5
             name="calendar-day"
             size={55}
@@ -28,15 +28,18 @@ export default function Historial() {
           />
           <Text style={styles.iconTitle}>Semanal</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.container}>
-          <MaterialCommunityIcons
-            name="calendar-week"
-            size={55}
-            style={{ marginBottom: -3 }}
-            color={colors.iconMonthHistory}
-          />
-          <Text style={styles.iconTitle}>Mensual</Text>
-        </TouchableOpacity>
+        {!weekIsOpen ?
+          <TouchableOpacity style={styles.container}>
+            <MaterialCommunityIcons
+              name="calendar-week"
+              size={55}
+              style={{ marginBottom: -3 }}
+              color={colors.iconMonthHistory}
+            />
+            <Text style={styles.iconTitle}>Mensual</Text>
+          </TouchableOpacity>
+          : <Week/>
+        }
       </View>
     </View>
   );

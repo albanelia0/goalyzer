@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
+import useIsMountedRef from '../../../../hooks/useMounted'
 import {
   ScrollView,
   View,
@@ -23,15 +23,17 @@ export default function Week() {
   const [thereIsTaskOpen,setThereIsTaskOpen] = useState([
     {key: undefined,
     allTask: []}
-
   ])
+  const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json) || []
-      setTaskHistory(parsedJson)
+      if (isMountedRef.current) {
+        setTaskHistory(parsedJson)
+      }
     })
-  },[])
+  },[isMountedRef])
 
   const checkStatusPreviousDays = (allTask) => {
 
@@ -66,7 +68,6 @@ export default function Week() {
   return (
     <ScrollView>
       <View style={styles.wrapper}>
-        {/* <Text style={styles.title}>Historial Semanal</Text> */}
           <View style={styles.container}>
             {taskHistory.map((item, i) => {
               if (item.allTask !== null) {

@@ -2,6 +2,7 @@ import React,{useState, useEffect} from 'react';
 
 import Input from '../../../components/Input'
 import DisplayAllGoal from '../../../components/displayAllGoal'
+import useIsMountedRef from '../../../hooks/useMounted'
 
 import {styles} from './styles'
 import { KeyboardAvoidingView,ScrollView, View, Text, AsyncStorage } from 'react-native';
@@ -17,13 +18,18 @@ const currentMonth =allMonth.find((_, i) => i === month)
 export default function MetaMensual() {
   const [inputValue, setInputValue] = useState()
   const [allMonthGoal, setAllMonthGoal] = useState([])
+  const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
+
     AsyncStorage.getItem('monthGoal').then(json => {
       const parsedJson = JSON.parse(json)
-      setAllMonthGoal(parsedJson)
+      if (isMountedRef.current) {
+        setAllMonthGoal(parsedJson)
+      }
     })
-  }, [])
+  }, [isMountedRef])
+
   const onPressInput = () => {
     if (inputValue !== '') {
       setAllMonthGoal(prev => {

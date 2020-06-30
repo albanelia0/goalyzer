@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {styles} from './styles'
 import isSmallDevice from '../../constants/Layout'
 import { Text, View, AsyncStorage } from 'react-native';
+import useIsMountedRef from '../../hooks/useMounted'
 
 const CheckDays = ({dayComplete}) => {
 /**
@@ -21,6 +22,7 @@ const CheckDays = ({dayComplete}) => {
     {day:"S", done: false, allTask: null, status: false, empty: false},
     {day:"D", done: false, allTask: null, status: false, empty: false}
   ])
+  const isMountedRef = useIsMountedRef();
 
   const setDaysDebug = (x, where) => {
     setDays(prev => {
@@ -37,44 +39,46 @@ const CheckDays = ({dayComplete}) => {
     AsyncStorage.getItem('allWeekDays')
       .then(json => {
         const parsedJson = JSON.parse(json)
-        let arrayFromWeekBegin = parsedJson[1] === null ? Days : parsedJson
-        arrayFromWeekBegin.map((item, i) => {
-          if (item.allTask !== undefined && item.allTask !== null) {
-            const newStatusfromPreviousDays = () => {
-              const greenStatus = item.allTask.every(item => item.success === true)
-              const goalAlmostSuccess = item.allTask.some(item => item.success === true)
-              const redStatus = item.allTask.every(item => item.failed === true)
-              const defaultStatus = item.allTask.every(dayStatus => !dayStatus.success && !dayStatus.failed)
-              const goalAlmostRed = item.allTask.some(item => item.failed && !item.success)
-              if (greenStatus) {
-                return styles.green
-              } else if(goalAlmostSuccess) {
-                return styles.goalAlmostSuccess
-              } else if(redStatus) {
-                return styles.red
-              } else if(goalAlmostRed){
-                return styles.orange
-              }else if(defaultStatus){
-                return styles.default
-              } else return {}
+        if (isMountedRef.current) {
+          let arrayFromWeekBegin = parsedJson[1] === null ? Days : parsedJson
+          arrayFromWeekBegin.map((item, i) => {
+            if (item.allTask !== undefined && item.allTask !== null) {
+              const newStatusfromPreviousDays = () => {
+                const greenStatus = item.allTask.every(item => item.success === true)
+                const goalAlmostSuccess = item.allTask.some(item => item.success === true)
+                const redStatus = item.allTask.every(item => item.failed === true)
+                const defaultStatus = item.allTask.every(dayStatus => !dayStatus.success && !dayStatus.failed)
+                const goalAlmostRed = item.allTask.some(item => item.failed && !item.success)
+                if (greenStatus) {
+                  return styles.green
+                } else if(goalAlmostSuccess) {
+                  return styles.goalAlmostSuccess
+                } else if(redStatus) {
+                  return styles.red
+                } else if(goalAlmostRed){
+                  return styles.orange
+                }else if(defaultStatus){
+                  return styles.default
+                } else return {}
+              }
+              const currentDayFromStateDays =
+                arrayFromWeekBegin.find(({day, done}) =>
+                  day === item.day && done === false)
+              if (currentDayFromStateDays !== undefined && currentDayFromStateDays.done === false) {
+                // const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: {...newStatusfromPreviousDays()}}
+                const newArray = arrayFromWeekBegin.map(item => {
+                  if (item.day === currentDayFromStateDays.day && item.done === false)
+                    return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
+                  return item
+                })
+                AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
+                setDaysDebug(newArray, 'L65')
+              } else return
             }
-            const currentDayFromStateDays =
-              arrayFromWeekBegin.find(({day, done}) =>
-                day === item.day && done === false)
-            if (currentDayFromStateDays !== undefined && currentDayFromStateDays.done === false) {
-              // const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: {...newStatusfromPreviousDays()}}
-              const newArray = arrayFromWeekBegin.map(item => {
-                if (item.day === currentDayFromStateDays.day && item.done === false)
-                  return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
-                return item
-              })
-              AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
-              setDaysDebug(newArray, 'L65')
-            } else return
-          }
-        })
+          })
+        }
       })
-  }, [])
+  }, [isMountedRef])
 
   useEffect(() => {
     const getStylesObjectFromStatusString = () => {
@@ -95,24 +99,25 @@ const CheckDays = ({dayComplete}) => {
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json) || []
       let arrayFromWeekBegin = parsedJson[1] === null ? Days : parsedJson
+      if (isMountedRef.current) {
 
-      const currentDayFromStateDays =
-        arrayFromWeekBegin.find(({day}) => day === currentDay.day)
-      const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
+        const currentDayFromStateDays =
+          arrayFromWeekBegin.find(({day}) => day === currentDay.day)
+        const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
 
-      const newArray = arrayFromWeekBegin.map(item => {
-        if (item.day === currentDayFromStateDays.day){
-          AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
-          return newObjectWithCurrentStatus
-        } else {
-          return item
-        }
-      })
-      setDaysDebug(newArray, 'L90')
-      return newArray
-
+        const newArray = arrayFromWeekBegin.map(item => {
+          if (item.day === currentDayFromStateDays.day){
+            AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
+            return newObjectWithCurrentStatus
+          } else {
+            return item
+          }
+        })
+        setDaysDebug(newArray, 'L90')
+        return newArray
+      }
     })
-  }, [dayComplete])
+  }, [dayComplete, isMountedRef])
 
   const renderChangeBackgroundDayColor = (day, status) => {
 
