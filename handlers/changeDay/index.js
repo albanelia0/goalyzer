@@ -12,8 +12,6 @@ const Days= [
   ]
 
 export default function changeDay({previousDays,setDailyTaskItem}) {
-  const ac = new AbortController()
-
   AsyncStorage.getItem('taskForDay').then(json => {
     const parsedAllPreviousTask = JSON.parse(json) || []
     AsyncStorage.getItem('allWeekDays').then(json => {
@@ -63,6 +61,5 @@ export default function changeDay({previousDays,setDailyTaskItem}) {
     })
     AsyncStorage.setItem('taskForDay', JSON.stringify(tasksWithStatusFalse))
     setDailyTaskItem(tasksWithStatusFalse)
-    return () => ac.abort();
   })
 }

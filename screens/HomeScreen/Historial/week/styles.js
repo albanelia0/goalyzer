@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     fontSize: 35,
     color: colors.titleColor,
     marginBottom: 20,
-    textAlign: 'center'
+    textAlign: 'left'
   },
   container: {
     margin: 5,
@@ -19,12 +19,12 @@ export const styles = StyleSheet.create({
     fontSize: 25,
     color: '#b1b493',
     borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: 20,
+    borderBottomWidth: 0.2,
+    borderTopWidth: 0.2,
     borderColor: '#b1b493',
-    textAlign: 'center',
     padding: 10,
     marginBottom: 15,
+    maxWidth: 100
   },
   titleTask: {
     fontSize: 23,
@@ -35,15 +35,15 @@ export const styles = StyleSheet.create({
   checkStatusIcon: {
     backgroundColor: '#b1b493',
     padding: 5,
-    maxHeight: 35
+    maxHeight: 35,
+    width: 30,
+    textAlign: 'center'
   },
   taskContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    marginLeft: 50,
     maxWidth: 300,
     padding: 10,
-    borderBottomColor: colors.titleColor,
-    borderBottomWidth: 1
   }
 })

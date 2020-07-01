@@ -34,6 +34,7 @@ export default function Week() {
       }
     })
   },[isMountedRef])
+  console.log('taskHistory',taskHistory)
 
   const checkStatusPreviousDays = (allTask) => {
 
@@ -64,18 +65,17 @@ export default function Week() {
       return { ...prev, key: dayName,allTask: displayAllPreviousTaskFromThisDay}
     })
   }
-
   return (
     <ScrollView>
       <View style={styles.wrapper}>
           <View style={styles.container}>
-            {taskHistory.map((item, i) => {
+            {taskHistory && taskHistory.map((item, i) => {
               if (item.allTask !== null) {
                 const nameToDay = changeLetterFromDayToCompletName.find(day => day.day === item.day)
                 return(
                   <View key={i}>
                     <TouchableOpacity onPress={() => displayAllTask(item.allTask, nameToDay.dayName)}>
-                      <Text style={{...styles.weekDay, ...item.status}}>{nameToDay.dayName}</Text>
+                      <Text style={{...styles.weekDay}}>{nameToDay.dayName}</Text>
                     </TouchableOpacity>
                     {thereIsTaskOpen.key !== undefined && thereIsTaskOpen.key === nameToDay.dayName && thereIsTaskOpen.allTask}
                   </View>

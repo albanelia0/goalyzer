@@ -51,6 +51,7 @@ export default function MetaDiaria() {
     AsyncStorage.getItem('lastUsedDay').then(day => {
       AsyncStorage.setItem('lastUsedDay', currentDay)
       if (isMountedRef.current) {
+        console.log('Veamos que es day:', day)
         day !== undefined && debugSetter(setIsDayChanged, day, 'L48')
       }
     })
@@ -60,7 +61,6 @@ export default function MetaDiaria() {
       changeDay({previousDays,setDailyTaskItem})
       changeWeek(currentDay)
     }
-    return () => ac.abort();
   },[isDayChanged,changeDay,changeWeek, isMountedRef])
 
   const onSaveTaskInput = () => {
