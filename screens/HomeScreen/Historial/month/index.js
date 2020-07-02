@@ -29,14 +29,26 @@ export default function Month() {
       if (isMountedRef.current) {
         setMonthHistory(parsedJson)
         parsedJson.map(item => {
-          setAllMonthName(() => {
+          setAllMonthName(prev => {
             const result = allMonth.find(value => value.month === item.currentMonth.month)
-            return [result]
+            if (prev[0] === undefined) {
+              return [result]
+            } else {
+              const isAlreadyOnArray = prev.some(item => item.month === result.month)
+              if (isAlreadyOnArray) {
+                return [...prev]
+              }else {
+                return [...prev,result]
+              }
+            }
           })
         })
       }
     })
   },[isMountedRef])
+
+            // console.log('cucis',allMonthName.map(item => item))
+
   const checkStatusPreviousDays = (allTask) => {
 
     if (allTask.failed === true && allTask.success === false) {
@@ -77,7 +89,7 @@ export default function Month() {
                   <TouchableOpacity onPress={() => displayAllTask(item.month)}>
                     <Text style={{...styles.weekDay}}>{item.month}</Text>
                   </TouchableOpacity>
-                  {thereIsTaskOpen.key !== undefined && thereIsTaskOpen.allTask.map(item => item)}
+                  {thereIsTaskOpen.key !== undefined && thereIsTaskOpen.key === item.month && thereIsTaskOpen.allTask.map(item => item)}
                 </View>
               )
             })}
