@@ -11,7 +11,6 @@ import handleFromActionsToButtonTask from '../../handlers/ActionsTask'
 import {styles} from './styles'
 
 const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
-  console.log('dailyTaskItem',dailyTaskItem, 'setDailyTaskItem',setDailyTaskItem)
   return (
     <View>
       {dailyTaskItem && dailyTaskItem.map((dailyGoal, i) => {

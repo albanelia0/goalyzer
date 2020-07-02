@@ -6,7 +6,6 @@ import useIsMountedRef from '../../../hooks/useMounted'
 
 import {styles} from './styles'
 import { KeyboardAvoidingView,ScrollView, View, Text, AsyncStorage } from 'react-native';
-import Month from '../../../components/month';
 const month = new Date().getMonth()
 
 const allMonth = [
@@ -18,6 +17,7 @@ const currentMonth =allMonth.find((_, i) => i === month)
 export default function MetaMensual() {
   const [inputValue, setInputValue] = useState()
   const [allMonthGoal, setAllMonthGoal] = useState([])
+  const [currentMonthGoal, setCurrentMonthGoal] = useState([])
   const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
@@ -25,6 +25,10 @@ export default function MetaMensual() {
     AsyncStorage.getItem('monthGoal').then(json => {
       const parsedJson = JSON.parse(json)
       if (isMountedRef.current) {
+        setCurrentMonthGoal(() => {
+          const allGoals = parsedJson.filter(value => value.currentMonth.month === currentMonth.month)
+          return allGoals
+        })
         setAllMonthGoal(parsedJson)
       }
     })
@@ -32,10 +36,13 @@ export default function MetaMensual() {
 
   const onPressInput = () => {
     if (inputValue !== '') {
-      setAllMonthGoal(prev => {
-        const arrayWithNewItem = [...prev, { name: inputValue, success: false, failed: false, currentMonth}]
-        AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithNewItem))
-        return arrayWithNewItem
+      AsyncStorage.getItem('monthGoal').then(json => {
+        const parsedJson = JSON.parse(json)
+        setCurrentMonthGoal(prev => {
+          const arrayWithNewItem = [...allMonthGoal, { name: inputValue, success: false, failed: false, currentMonth}]
+          AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithNewItem))
+          return [...prev, { name: inputValue, success: false, failed: false, currentMonth}]
+        })
       })
       setInputValue('')
     } else return
@@ -53,11 +60,8 @@ export default function MetaMensual() {
             onPress={onPressInput}
             />
           <View style={styles.goalContainer}>
-            <DisplayAllGoal dailyTaskItem={allMonthGoal} setDailyTaskItem={setAllMonthGoal} storage='monthGoal'/>
+            <DisplayAllGoal dailyTaskItem={currentMonthGoal} setDailyTaskItem={setCurrentMonthGoal} storage='monthGoal'/>
           </View>
-          {/* <View>
-            <Month/>
-          </View> */}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -34,7 +34,6 @@ export default function Week() {
       }
     })
   },[isMountedRef])
-  console.log('taskHistory',taskHistory)
 
   const checkStatusPreviousDays = (allTask) => {
 
