@@ -9,9 +9,13 @@ export const styles = StyleSheet.create({
     marginTop: 50,
     height: layaout.window.height / 2,
   },
+  titleFromEachHistoryItem: {
+    marginTop: 40,
+    textAlign: 'center',
+  },
   wrapper: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 40,
   },
   titleHistory: {
     fontSize: 35,
