@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     color: color.goalColor,
     flexShrink: 0,
     flexWrap: 'wrap',
-    maxWidth: 235
+    maxWidth: 200
   },
   goalItem: {
     flexShrink: 0,

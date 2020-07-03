@@ -26,9 +26,15 @@ export default function MetaAnual() {
   const onPressInputGoal = () => {
     if (value !== '') {
       setAllYearlyGoal(prev => {
-        const arrayWithNewItem = [...prev, value]
-        AsyncStorage.setItem('yearlyGoal', JSON.stringify(arrayWithNewItem))
-        return arrayWithNewItem
+        if (!prev) {
+          const arrayWithNewItem = [value]
+          AsyncStorage.setItem('yearlyGoal', JSON.stringify(arrayWithNewItem))
+          return arrayWithNewItem
+        } else {
+          const arrayWithNewItem = [...prev, value]
+          AsyncStorage.setItem('yearlyGoal', JSON.stringify(arrayWithNewItem))
+          return arrayWithNewItem
+        }
       })
       setValue('')
     } else return
