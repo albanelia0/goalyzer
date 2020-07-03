@@ -98,30 +98,44 @@ const CheckDays = ({dayComplete}) => {
     }
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json)
-
       if (isMountedRef.current) {
-        let arrayFromWeekBegin = !parsedJson ? Days : parsedJson
+        AsyncStorage.getItem('taskForDay').then(json => {
+          const allTask = JSON.parse(json)
+          let arrayFromWeekBegin = !parsedJson ? Days : parsedJson
 
-        const currentDayFromStateDays =
-          arrayFromWeekBegin.find(({day}) => day === currentDay.day)
-        const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
-
-        const newArray = arrayFromWeekBegin.map(item => {
-          if (item.day === currentDayFromStateDays.day){
-            AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
-            return newObjectWithCurrentStatus
-          } else {
-            return item
-          }
+          const currentDayFromStateDays =
+            arrayFromWeekBegin.find(({day}) => day === currentDay.day)
+            if (allTask.length !== 0) {
+              const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
+              const newArray = arrayFromWeekBegin.map(item => {
+                if (item.day === currentDayFromStateDays.day){
+                  AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
+                  return newObjectWithCurrentStatus
+                } else {
+                  return item
+                }
+              })
+              setDaysDebug(newArray, 'L90')
+              return newArray
+            } else {
+              const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: false}
+              const newArray = arrayFromWeekBegin.map(item => {
+                if (item.day === currentDayFromStateDays.day){
+                  AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
+                  return newObjectWithCurrentStatus
+                } else {
+                  return item
+                }
+              })
+              setDaysDebug(newArray, 'L90')
+              return newArray
+            }
         })
-        setDaysDebug(newArray, 'L90')
-        return newArray
       }
     })
   }, [dayComplete, isMountedRef])
 
-  const renderChangeBackgroundDayColor = (day, status) => {
-
+  const renderChangeBackgroundDayColor = (day, status, allTask) => {
     if(currentDay.day === day && status !== false){
       return (
         <View style={isSmallDevice ?
@@ -129,11 +143,17 @@ const CheckDays = ({dayComplete}) => {
           {...styles.squarecontent, ...status}
         }/>
       )
-    } else if(currentDay.day !== day && status !== false) {
+    } else if(currentDay.day !== day && status !== false && allTask !== null) {
       return (
         <View style={isSmallDevice ?
           {...styles.smallSquareContent, ...status}:
           {...styles.squarecontent, ...status}
+        }/>
+      )
+    } else if(currentDay.day === day && status === false) {
+      return (
+        <View style={isSmallDevice ?
+          styles.smallSquareContent: styles.squarecontent
         }/>
       )
     } else {
@@ -148,11 +168,11 @@ const CheckDays = ({dayComplete}) => {
   return (
     <View style={styles.container}>
       <View style={styles.days}>
-        {Days.map(({day, status}, i) => {
+        {Days.map((item, i) => {
           return (
             <View key={i} style={styles.squareContainer}>
-              <Text style={isSmallDevice ? styles.smallDaysList:styles.daysList }>{day}</Text>
-              {renderChangeBackgroundDayColor(day, status)}
+              <Text style={isSmallDevice ? styles.smallDaysList:styles.daysList }>{item.day}</Text>
+              {renderChangeBackgroundDayColor(item.day, item.status, item.allTask)}
             </View>
           )
         })}
