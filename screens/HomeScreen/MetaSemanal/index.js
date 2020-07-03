@@ -46,9 +46,15 @@ export default function MetaSemanal({navigation}) {
   const onInputSubmit = () => {
     if (value !== '') {
       setArrayAllGoal(prev => {
-        const arrayWithNewItem = [...prev, value]
-        AsyncStorage.setItem('allGoalWeek', JSON.stringify(arrayWithNewItem))
-        return arrayWithNewItem
+        if (!prev) {
+          const arrayWithNewItem = [value]
+          AsyncStorage.setItem('allGoalWeek', JSON.stringify(arrayWithNewItem))
+          return arrayWithNewItem
+        } else {
+          const arrayWithNewItem = [...prev, value]
+          AsyncStorage.setItem('allGoalWeek', JSON.stringify(arrayWithNewItem))
+          return arrayWithNewItem
+        }
       })
       setValue('')
     } else return
