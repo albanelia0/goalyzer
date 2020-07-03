@@ -14,14 +14,14 @@ const CheckDays = ({dayComplete}) => {
  * @param {boolean} empty - To check if allTask, status and done are false when the week begin.
  */
   const [Days, setDays]= useState([
-    {day:"L", done: false, allTask: null, status: false, empty: false},
-    {day:"M", done: false, allTask: null, status: false, empty: false},
-    {day:"X", done: false, allTask: null, status: false, empty: false},
-    {day:"J", done: false, allTask: null, status: false, empty: false},
-    {day:"V", done: false, allTask: null, status: false, empty: false},
-    {day:"S", done: false, allTask: null, status: false, empty: false},
-    {day:"D", done: false, allTask: null, status: false, empty: false}
-  ])
+  {day:"L", done: false, allTask: null, status: false, empty: false},
+  {day:"M", done: false, allTask: null, status: false, empty: false},
+  {day:"X", done: false, allTask: null, status: false, empty: false},
+  {day:"J", done: false, allTask: null, status: false, empty: false},
+  {day:"V", done: false, allTask: null, status: false, empty: false},
+  {day:"S", done: false, allTask: null, status: false, empty: false},
+  {day:"D", done: false, allTask: null, status: false, empty: false}
+])
   const isMountedRef = useIsMountedRef();
 
   const setDaysDebug = (x, where) => {
@@ -31,7 +31,6 @@ const CheckDays = ({dayComplete}) => {
     })
   }
 
-
   const Day = new Date().getDay()
   let currentDay = Days[(Day + 6) % 7]
 
@@ -40,7 +39,8 @@ const CheckDays = ({dayComplete}) => {
       .then(json => {
         const parsedJson = JSON.parse(json)
         if (isMountedRef.current) {
-          let arrayFromWeekBegin = !parsedJson? Days : parsedJson
+          let arrayFromWeekBegin = !parsedJson ? Days : parsedJson
+
           arrayFromWeekBegin.map((item, i) => {
             if (item.allTask !== undefined && item.allTask !== null) {
               const newStatusfromPreviousDays = () => {
@@ -97,10 +97,10 @@ const CheckDays = ({dayComplete}) => {
       }
     }
     AsyncStorage.getItem('allWeekDays').then(json => {
-      const parsedJson = JSON.parse(json) || []
+      const parsedJson = JSON.parse(json)
 
-      let arrayFromWeekBegin = !parsedJson? Days : parsedJson
       if (isMountedRef.current) {
+        let arrayFromWeekBegin = !parsedJson ? Days : parsedJson
 
         const currentDayFromStateDays =
           arrayFromWeekBegin.find(({day}) => day === currentDay.day)
@@ -149,7 +149,6 @@ const CheckDays = ({dayComplete}) => {
     <View style={styles.container}>
       <View style={styles.days}>
         {Days.map(({day, status}, i) => {
-
           return (
             <View key={i} style={styles.squareContainer}>
               <Text style={isSmallDevice ? styles.smallDaysList:styles.daysList }>{day}</Text>
