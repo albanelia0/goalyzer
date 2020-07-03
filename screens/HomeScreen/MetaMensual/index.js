@@ -41,9 +41,15 @@ export default function MetaMensual() {
       AsyncStorage.getItem('monthGoal').then(json => {
         const parsedJson = JSON.parse(json)
         setCurrentMonthGoal(prev => {
-          const arrayWithAllItem = [...parsedJson, { name: inputValue, success: false, failed: false, currentMonth}]
-          AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithAllItem))
-          return [...prev, { name: inputValue, success: false, failed: false, currentMonth}]
+          if (!parsedJson) {
+            const arrayWithAllItem = [{ name: inputValue, success: false, failed: false, currentMonth}]
+            AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithAllItem))
+            return [...prev, { name: inputValue, success: false, failed: false, currentMonth}]
+          } else {
+            const arrayWithAllItem = [...parsedJson, { name: inputValue, success: false, failed: false, currentMonth}]
+            AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithAllItem))
+            return [...prev, { name: inputValue, success: false, failed: false, currentMonth}]
+          }
         })
       })
       setInputValue('')
