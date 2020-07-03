@@ -40,7 +40,7 @@ const CheckDays = ({dayComplete}) => {
       .then(json => {
         const parsedJson = JSON.parse(json)
         if (isMountedRef.current) {
-          let arrayFromWeekBegin = parsedJson[1] === null ? Days : parsedJson
+          let arrayFromWeekBegin = !parsedJson? Days : parsedJson
           arrayFromWeekBegin.map((item, i) => {
             if (item.allTask !== undefined && item.allTask !== null) {
               const newStatusfromPreviousDays = () => {
@@ -98,7 +98,8 @@ const CheckDays = ({dayComplete}) => {
     }
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json) || []
-      let arrayFromWeekBegin = parsedJson[1] === null ? Days : parsedJson
+
+      let arrayFromWeekBegin = !parsedJson? Days : parsedJson
       if (isMountedRef.current) {
 
         const currentDayFromStateDays =

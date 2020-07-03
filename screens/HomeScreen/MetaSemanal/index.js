@@ -24,7 +24,8 @@ export default function MetaSemanal({navigation}) {
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
       const parsedJson = JSON.parse(json) || []
-      if (isMountedRef.current) {
+      if (isMountedRef.current && parsedJson) {
+        console.log(parsedJson)
         setArrayAllGoal(parsedJson)
       }
     })
@@ -34,7 +35,9 @@ export default function MetaSemanal({navigation}) {
     const unsubscribe = navigation.addListener('focus', () => {
       AsyncStorage.getItem('taskForDay').then(json => {
         const parsedJson = JSON.parse(json) || []
-        setArrayAllTask(parsedJson)
+        if (parsedJson) {
+          setArrayAllTask(parsedJson)
+        }
       })
     })
     return unsubscribe

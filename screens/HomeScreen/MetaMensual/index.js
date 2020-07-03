@@ -25,11 +25,13 @@ export default function MetaMensual() {
     AsyncStorage.getItem('monthGoal').then(json => {
       const parsedJson = JSON.parse(json)
       if (isMountedRef.current) {
-        setCurrentMonthGoal(() => {
-          const allGoals = parsedJson.filter(value => value.currentMonth.month === currentMonth.month)
-          return allGoals
-        })
-        setAllMonthGoal(parsedJson)
+        if (parsedJson) {
+          setCurrentMonthGoal(() => {
+            const allGoals = parsedJson.filter(value => value.currentMonth.month === currentMonth.month)
+            return allGoals
+          })
+          setAllMonthGoal(parsedJson)
+        }
       }
     })
   }, [isMountedRef])
