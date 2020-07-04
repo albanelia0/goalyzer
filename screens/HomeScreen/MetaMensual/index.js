@@ -68,7 +68,12 @@ export default function MetaMensual() {
             onPress={onPressInput}
             />
           <View style={styles.goalContainer}>
-            <DisplayAllGoal dailyTaskItem={currentMonthGoal} setDailyTaskItem={setCurrentMonthGoal} storage='monthGoal'/>
+            <DisplayAllGoal
+              allMonthGoal={allMonthGoal}
+              dailyTaskItem={currentMonthGoal}
+              setDailyTaskItem={setCurrentMonthGoal}
+              storage='monthGoal'
+              />
           </View>
         </View>
       </ScrollView>

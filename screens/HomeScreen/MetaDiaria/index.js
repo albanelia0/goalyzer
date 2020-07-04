@@ -66,9 +66,15 @@ export default function MetaDiaria() {
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
       setDailyTaskItem(prev => {
-        const arrayWithNewItem = [...prev, { name: valueInput, success: false, failed: false}]
-        AsyncStorage.setItem('taskForDay', JSON.stringify(arrayWithNewItem))
-        return arrayWithNewItem
+        if (prev.length !== 0) {
+          const arrayWithNewItem = [...prev, { name: valueInput, success: false, failed: false}]
+          AsyncStorage.setItem('taskForDay', JSON.stringify(arrayWithNewItem))
+          return arrayWithNewItem
+        } else {
+          const arrayWithNewItem = [{ name: valueInput, success: false, failed: false}]
+          AsyncStorage.setItem('taskForDay', JSON.stringify(arrayWithNewItem))
+          return arrayWithNewItem
+        }
       })
       setValueInput('')
     } else return

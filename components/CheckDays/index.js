@@ -67,7 +67,7 @@ const CheckDays = ({dayComplete}) => {
               if (currentDayFromStateDays !== undefined && currentDayFromStateDays.done === false) {
                 // const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: {...newStatusfromPreviousDays()}}
                 const newArray = arrayFromWeekBegin.map(item => {
-                  if (item.day === currentDayFromStateDays.day && item.done === false)
+                  if (item.day === currentDayFromStateDays.day && item.done === false && item.allTask !== null)
                     return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
                   return item
                 })
@@ -79,7 +79,7 @@ const CheckDays = ({dayComplete}) => {
         }
       })
   }, [isMountedRef])
-
+console.log(Days)
   useEffect(() => {
     const getStylesObjectFromStatusString = () => {
       switch (dayComplete) {

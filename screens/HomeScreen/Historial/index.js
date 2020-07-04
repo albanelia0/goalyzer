@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ScrollView,
   View,
@@ -10,7 +10,8 @@ import DisplayTitleOnHistory from './displayTitleOnHistory'
 
 import {styles} from './styles'
 
-export default function Historial() {
+export default function Historial({navigation}) {
+  const [rechargeScreen, setRechargeScreen] = useState(false)
 
   return (
     <View>

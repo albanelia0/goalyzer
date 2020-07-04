@@ -47,8 +47,6 @@ export default function Month() {
     })
   },[isMountedRef])
 
-            // console.log('cucis',allMonthName.map(item => item))
-
   const checkStatusPreviousDays = (allTask) => {
 
     if (allTask.failed === true && allTask.success === false) {

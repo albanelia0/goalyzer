@@ -25,7 +25,6 @@ export default function MetaSemanal({navigation}) {
     AsyncStorage.getItem('allGoalWeek').then(json => {
       const parsedJson = JSON.parse(json) || []
       if (isMountedRef.current && parsedJson) {
-        console.log(parsedJson)
         setArrayAllGoal(parsedJson)
       }
     })

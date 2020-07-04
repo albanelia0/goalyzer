@@ -10,7 +10,7 @@ import GoalDay from '../GoalDay'
 import handleFromActionsToButtonTask from '../../handlers/ActionsTask'
 import {styles} from './styles'
 
-const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
+const DisplayAllGoal = ({allMonthGoal, dailyTaskItem, setDailyTaskItem, storage}) => {
   return (
     <View>
       {dailyTaskItem && dailyTaskItem.map((dailyGoal, i) => {
@@ -35,7 +35,8 @@ const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
                           index: i,
                           action: 'delete',
                           setDailyTaskItem,
-                          dailyTaskItem
+                          dailyTaskItem,
+                          allMonthGoal
                         })
                       }}
                       onSuccess={() => {
@@ -45,7 +46,8 @@ const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
                           index: i,
                           action: 'success',
                           setDailyTaskItem,
-                          dailyTaskItem
+                          dailyTaskItem,
+                          allMonthGoal
                         })
                       }
                     }
@@ -56,7 +58,8 @@ const DisplayAllGoal = ({dailyTaskItem, setDailyTaskItem, storage}) => {
                           index: i,
                           action: 'failed',
                           setDailyTaskItem,
-                          dailyTaskItem
+                          dailyTaskItem,
+                          allMonthGoal
                         })
                       }
                     }
