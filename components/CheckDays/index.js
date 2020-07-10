@@ -37,10 +37,9 @@ const CheckDays = ({dayComplete}) => {
   useEffect(() => {
     AsyncStorage.getItem('allWeekDays')
       .then(json => {
-        const parsedJson = JSON.parse(json)
+        const parsedJson = JSON.parse(json) || []
         if (isMountedRef.current) {
-          let arrayFromWeekBegin = !parsedJson ? Days : parsedJson
-
+          let arrayFromWeekBegin = !parsedJson || parsedJson.length !== 7? Days : parsedJson
           arrayFromWeekBegin.map((item, i) => {
             if (item.allTask !== undefined && item.allTask !== null) {
               const newStatusfromPreviousDays = () => {
@@ -79,7 +78,6 @@ const CheckDays = ({dayComplete}) => {
         }
       })
   }, [isMountedRef])
-console.log(Days)
   useEffect(() => {
     const getStylesObjectFromStatusString = () => {
       switch (dayComplete) {
@@ -96,16 +94,17 @@ console.log(Days)
         default: {}
       }
     }
+
     AsyncStorage.getItem('allWeekDays').then(json => {
-      const parsedJson = JSON.parse(json)
-      if (isMountedRef.current) {
+      const parsedJson = JSON.parse(json) || []
+      if (isMountedRef.current && !parsedJson || parsedJson.length > 0) {
         AsyncStorage.getItem('taskForDay').then(json => {
-          const allTask = JSON.parse(json)
-          let arrayFromWeekBegin = !parsedJson ? Days : parsedJson
+          const allTask = JSON.parse(json) || []
+          let arrayFromWeekBegin = !parsedJson || parsedJson.length === 0? Days : parsedJson
 
           const currentDayFromStateDays =
             arrayFromWeekBegin.find(({day}) => day === currentDay.day)
-            if (allTask.length !== 0) {
+            if (allTask !== null || allTask.length !== 0) {
               const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
               const newArray = arrayFromWeekBegin.map(item => {
                 if (item.day === currentDayFromStateDays.day){

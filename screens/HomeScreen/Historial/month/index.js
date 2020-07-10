@@ -14,19 +14,38 @@ const allMonth = [
   {month: 'Agosto'},{month: 'Septiembre'},{month: 'Octubre'},{month: 'Noviembre'},{month: 'Diciembre'}
 ]
 
-export default function Month() {
+export default function Month({navigation}) {
   const [monthHistory,setMonthHistory] = useState([])
   const [thereIsTaskOpen,setThereIsTaskOpen] = useState([
     {key: undefined,
     allTask: []}
   ])
   const [allMonthName, setAllMonthName] = useState([])
+  const [isFocus, setIsFocus] = useState(false)
+
   const isMountedRef = useIsMountedRef();
+
+  // useEffect(() => {
+  //   // const unsubscribe = navigation.addListener('focus', () => {
+  //     if (isMountedRef.current ) {
+  //       AsyncStorage.getItem('monthGoal').then(json => {
+  //         const parsedJson = JSON.parse(json) || []
+  //         if (parsedJson || parsedJson.length > 0) {
+  //           setMonthHistory(parsedJson)
+  //         }
+  //       })
+  //     }
+  //   // });
+
+  //   // Return the function to unsubscribe from the event so it gets removed on unmount
+  //   // return unsubscribe;
+  // }, [isMountedRef])
 
   useEffect(() => {
     AsyncStorage.getItem('monthGoal').then(json => {
       const parsedJson = JSON.parse(json) || []
-      if (isMountedRef.current) {
+      console.log('QUE ES MONTHGOAL', parsedJson)
+      if (isMountedRef.current && parsedJson || parsedJson.length > 0) {
         setMonthHistory(parsedJson)
         parsedJson.map(item => {
           setAllMonthName(prev => {

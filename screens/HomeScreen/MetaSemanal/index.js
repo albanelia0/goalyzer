@@ -24,7 +24,7 @@ export default function MetaSemanal({navigation}) {
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
       const parsedJson = JSON.parse(json) || []
-      if (isMountedRef.current && parsedJson) {
+      if (isMountedRef.current && parsedJson || parsedJson.length > 0) {
         setArrayAllGoal(parsedJson)
       }
     })
@@ -34,7 +34,7 @@ export default function MetaSemanal({navigation}) {
     const unsubscribe = navigation.addListener('focus', () => {
       AsyncStorage.getItem('taskForDay').then(json => {
         const parsedJson = JSON.parse(json) || []
-        if (parsedJson) {
+        if (parsedJson || parsedJson.length > 0) {
           setArrayAllTask(parsedJson)
         }
       })
@@ -58,26 +58,29 @@ export default function MetaSemanal({navigation}) {
       setValue('')
     } else return
   }
+
   const dayComplete = () => {
-    const goalAlmostSuccess = arrayAllTask.some(dayStatus => dayStatus.success === true)
-    const greenStatus = arrayAllTask.every(dayStatus => dayStatus.success === true)
-    const redStatus = arrayAllTask.every(dayStatus => dayStatus.failed === true)
-    const goalAlmostRed = arrayAllTask.some(item => item.failed && !item.success)
-    const defaultStatus = arrayAllTask.every(dayStatus => !dayStatus.success && !dayStatus.failed)
+    if (arrayAllTask.length !== 0) {
+      const goalAlmostSuccess = arrayAllTask.some(dayStatus => dayStatus.success === true)
+      const greenStatus = arrayAllTask.every(dayStatus => dayStatus.success === true)
+      const redStatus = arrayAllTask.every(dayStatus => dayStatus.failed === true)
+      const goalAlmostRed = arrayAllTask.some(item => item.failed && !item.success)
+      const defaultStatus = arrayAllTask.every(dayStatus => !dayStatus.success && !dayStatus.failed)
 
-    if (greenStatus) {
-      return 'greenStatus'
-    } else if(goalAlmostSuccess) {
-      return 'goalAlmostSuccess'
-    } else if(redStatus) {
-      return 'redStatus'
-    }else if(goalAlmostRed){
-      return 'goalAlmostRed'
-    } else if(defaultStatus){
-      return 'default'
+       if (greenStatus) {
+        return 'greenStatus'
+      } else if(goalAlmostSuccess) {
+        return 'goalAlmostSuccess'
+      } else if(redStatus) {
+        return 'redStatus'
+      }else if(goalAlmostRed){
+        return 'goalAlmostRed'
+      } else if (defaultStatus) {
+        return 'default'
+      }
     }
-  }
 
+  }
   return (
     <KeyboardAvoidingView>
       <ScrollView style={styles.allWeekContainer} keyboardShouldPersistTaps='handled'>

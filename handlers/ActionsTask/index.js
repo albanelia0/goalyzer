@@ -1,49 +1,85 @@
 import {AsyncStorage} from 'react-native';
 
-export default function handleFromActionsToButtonTask ({item,storage, index, action, setDailyTaskItem, dailyTaskItem,allMonthGoal}){
-
+export default function handleFromActionsToButtonTask (
+  {
+    item,
+    storage,
+    index,
+    action,
+    setDailyTaskItem,
+    dailyTaskItem,
+    allMonthGoal,
+    setAllMonthGoal
+  }){
+  console.log('item',item)
   if (action === 'delete') {
-    const newArray = dailyTaskItem.filter((_, theIndex) => theIndex !== index)
+    const newArray = dailyTaskItem.filter(obj => obj.id !== index)
     if (allMonthGoal) {
-      const itemToDelete = dailyTaskItem.find((_, theIndex) => theIndex === index)
-      const newArrayFromStorage = allMonthGoal.filter(item => item !== itemToDelete)
-      AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
-      setDailyTaskItem(newArray)
+      const newArrayFromStorage = allMonthGoal.filter((obj, i) => obj.id !== index)
+        AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
+        setAllMonthGoal(newArrayFromStorage)
+        setDailyTaskItem(newArray)
     } else {
       AsyncStorage.setItem(storage, JSON.stringify(newArray))
       setDailyTaskItem(newArray)
     }
   } else if (action === 'success') {
-    const existingObject = dailyTaskItem.find((obj,i) => obj.name === item.name && i === index)
-    const newObject = { ...existingObject, success: !existingObject.success, failed: false }
+    const newObject = {
+      name: item.name,
+      success: !item.success,
+      failed: false,
+      currentMonth: item.currentMonth,
+      id: item.id
+    }
+
     setDailyTaskItem(prev => {
-      const newArray = prev.map((obj, i) => obj.name === item.name && i === index ? newObject : obj)
+      const newArray = prev.map((obj, i) => obj.id === index ? newObject : obj)
       if (allMonthGoal) {
-        const newArrayFromStorage = [...allMonthGoal, {...newObject}]
-        AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
-        return newArray
+        const findObjectClicked = allMonthGoal.find((obj, i) => obj.id === item.id)
+        const newArrayFromStorage = allMonthGoal.map((obj, i) => {
+          if (JSON.stringify(obj) === JSON.stringify(findObjectClicked)) {
+            return newObject
+          } else {
+            return obj
+          }
+        })
+        // console.log('newArrayFromStorage', newArrayFromStorage)
+        // console.log('ESTEEnewArrayFromStorage',newObject)
+          AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
+          setAllMonthGoal(newArrayFromStorage)
+          return newArray
       } else {
         AsyncStorage.setItem(storage, JSON.stringify(newArray))
         return newArray
       }
     })
-    return existingObject
   } else if (action === 'failed') {
-    const existingObject = dailyTaskItem.find((obj, i) => obj.name === item.name && i === index)
-    const newObject = { ...existingObject, failed: !existingObject.failed, success: false }
-    setDailyTaskItem(prev => {
-      const newArray = prev.map((obj, i) => obj.name === item.name && i === index ? newObject : obj)
-      if (allMonthGoal) {
+    const newObject = {
+      name: item.name,
+      success: false,
+      failed: !item.failed,
+      currentMonth: item.currentMonth,
+      id: item.id
+    }
 
-        const newArrayFromStorage = [...allMonthGoal, {...newObject}]
-        AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
-        return newArray
+    setDailyTaskItem(prev => {
+      const newArray = prev.map((obj, i) => obj.id === index? newObject : obj)
+      if (allMonthGoal) {
+          const findObjectClicked = allMonthGoal.find((obj, i) => obj.id === item.id)
+          const newArrayFromStorage = allMonthGoal.map((obj, i) => {
+          if (JSON.stringify(obj) === JSON.stringify(findObjectClicked)) {
+            return newObject
+          } else {
+            return obj
+          }
+        })
+          AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
+          setAllMonthGoal(newArrayFromStorage)
+          return newArray
       } else {
         AsyncStorage.setItem(storage, JSON.stringify(newArray))
         return newArray
       }
     })
   }
-
-  return ''
 }

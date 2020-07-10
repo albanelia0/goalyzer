@@ -29,7 +29,7 @@ export default function Week() {
   useEffect(() => {
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json) || []
-      if (isMountedRef.current) {
+      if (isMountedRef.current && parsedJson || parsedJson.length > 0) {
         setTaskHistory(parsedJson)
       }
     })

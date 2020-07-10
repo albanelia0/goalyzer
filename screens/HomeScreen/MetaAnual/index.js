@@ -16,8 +16,8 @@ export default function MetaAnual() {
 
   useEffect(() => {
     AsyncStorage.getItem('yearlyGoal').then(json => {
-      const parsedJson = JSON.parse(json)
-      if (isMountedRef.current) {
+      const parsedJson = JSON.parse(json) || []
+      if (isMountedRef.current && parsedJson.length > 0) {
         setAllYearlyGoal(parsedJson)
       }
     })

@@ -3,7 +3,7 @@ import React,{useState, useEffect} from 'react';
 import Input from '../../../components/Input'
 import DisplayAllGoal from '../../../components/displayAllGoal'
 import useIsMountedRef from '../../../hooks/useMounted'
-
+import ID from '../../../ID'
 import {styles} from './styles'
 import { KeyboardAvoidingView,ScrollView, View, Text, AsyncStorage } from 'react-native';
 const month = new Date().getMonth()
@@ -21,10 +21,10 @@ export default function MetaMensual() {
   const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
-
     AsyncStorage.getItem('monthGoal').then(json => {
-      const parsedJson = JSON.parse(json)
-      if (isMountedRef.current) {
+      const parsedJson = JSON.parse(json) || []
+      if (isMountedRef.current && parsedJson.length > 0) {
+        console.log('kk', parsedJson)
         if (parsedJson) {
           setCurrentMonthGoal(() => {
             const allGoals = parsedJson.filter(value => value.currentMonth.month === currentMonth.month)
@@ -39,16 +39,19 @@ export default function MetaMensual() {
   const onPressInput = () => {
     if (inputValue !== '') {
       AsyncStorage.getItem('monthGoal').then(json => {
-        const parsedJson = JSON.parse(json)
+        const parsedJson = JSON.parse(json) || []
         setCurrentMonthGoal(prev => {
-          if (!parsedJson) {
-            const arrayWithAllItem = [{ name: inputValue, success: false, failed: false, currentMonth}]
+          const idValue = ID()
+          if (parsedJson || parsedJson.length > 0) {
+            const arrayWithAllItem = [...parsedJson, { name: inputValue, success: false, failed: false, currentMonth,id: idValue}]
             AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithAllItem))
-            return [...prev, { name: inputValue, success: false, failed: false, currentMonth}]
+            setAllMonthGoal(arrayWithAllItem)
+            return [...prev, { name: inputValue, success: false, failed: false, currentMonth,id: idValue}]
           } else {
-            const arrayWithAllItem = [...parsedJson, { name: inputValue, success: false, failed: false, currentMonth}]
+            const arrayWithAllItem = [{ name: inputValue, success: false, failed: false, currentMonth, id: idValue}]
             AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithAllItem))
-            return [...prev, { name: inputValue, success: false, failed: false, currentMonth}]
+            setAllMonthGoal(arrayWithAllItem)
+            return [...prev, { name: inputValue, success: false, failed: false, currentMonth,id: idValue}]
           }
         })
       })
@@ -70,6 +73,7 @@ export default function MetaMensual() {
           <View style={styles.goalContainer}>
             <DisplayAllGoal
               allMonthGoal={allMonthGoal}
+              setAllMonthGoal={setAllMonthGoal}
               dailyTaskItem={currentMonthGoal}
               setDailyTaskItem={setCurrentMonthGoal}
               storage='monthGoal'

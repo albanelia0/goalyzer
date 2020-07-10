@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   AsyncStorage,
 } from 'react-native';
+import ID from '../../../ID'
 
 import Layout from '../../../constants/Layout'
 import changeWeek from '../../../handlers/changeWeek'
@@ -19,7 +20,6 @@ import useIsMountedRef from '../../../hooks/useMounted'
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
-
 export default function MetaDiaria() {
 
   const [dailyTaskItem, setDailyTaskItem] = useState([])
@@ -36,7 +36,6 @@ export default function MetaDiaria() {
   }
 
   useEffect(() => {
-
     if (isMountedRef.current && Day === 0) {
       setPreviousDays(weekDaysNames[6].toString())
     } else {
@@ -44,7 +43,8 @@ export default function MetaDiaria() {
     }
     AsyncStorage.getItem('taskForDay').then(json => {
       const parsedJson = JSON.parse(json) || []
-      if (isMountedRef.current) {
+
+      if (isMountedRef.current && parsedJson.length > 0) {
         debugSetter(setDailyTaskItem, parsedJson, 'L44')
       }
     })
@@ -66,12 +66,13 @@ export default function MetaDiaria() {
   const onSaveTaskInput = () => {
     if (valueInput !== '') {
       setDailyTaskItem(prev => {
+          const idValue = ID()
         if (prev.length !== 0) {
-          const arrayWithNewItem = [...prev, { name: valueInput, success: false, failed: false}]
+          const arrayWithNewItem = [...prev, { name: valueInput, success: false, failed: false, id: idValue}]
           AsyncStorage.setItem('taskForDay', JSON.stringify(arrayWithNewItem))
           return arrayWithNewItem
         } else {
-          const arrayWithNewItem = [{ name: valueInput, success: false, failed: false}]
+          const arrayWithNewItem = [{ name: valueInput, success: false, failed: false, id: idValue}]
           AsyncStorage.setItem('taskForDay', JSON.stringify(arrayWithNewItem))
           return arrayWithNewItem
         }

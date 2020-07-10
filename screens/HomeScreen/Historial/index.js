@@ -15,7 +15,7 @@ export default function Historial({navigation}) {
 
   return (
     <View>
-      <DisplayTitleOnHistory/>
+      <DisplayTitleOnHistory navigation={navigation}/>
     </View>
   );
 }

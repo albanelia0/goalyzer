@@ -13,7 +13,7 @@ import {styles} from './styles'
 import Week from '../week';
 import Month from '../month';
 
-const DisplayTitleOnHistory = () => {
+const DisplayTitleOnHistory = ({navigation}) => {
   const [isSomethingClicked, setIsSomethingClicked] = useState(null)
   const [goBack, setGoBack] = useState(false)
   const [displayWeek, setDisplayWeek] = useState('')
@@ -72,7 +72,7 @@ const DisplayTitleOnHistory = () => {
           : isSomethingClicked
         }
         {displayWeek === 'Diario' && goBack && <Week/>}
-        {displayWeek === 'mensual' && goBack && <Month/>}
+        {displayWeek === 'mensual' && goBack && <Month navigation={navigation}/>}
       </View>
     </ScrollView>
   );

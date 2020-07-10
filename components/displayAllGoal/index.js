@@ -10,7 +10,7 @@ import GoalDay from '../GoalDay'
 import handleFromActionsToButtonTask from '../../handlers/ActionsTask'
 import {styles} from './styles'
 
-const DisplayAllGoal = ({allMonthGoal, dailyTaskItem, setDailyTaskItem, storage}) => {
+const DisplayAllGoal = ({allMonthGoal,setAllMonthGoal, dailyTaskItem, setDailyTaskItem, storage}) => {
   return (
     <View>
       {dailyTaskItem && dailyTaskItem.map((dailyGoal, i) => {
@@ -32,22 +32,24 @@ const DisplayAllGoal = ({allMonthGoal, dailyTaskItem, setDailyTaskItem, storage}
                         return handleFromActionsToButtonTask({
                           item: dailyGoal,
                           storage,
-                          index: i,
+                          index: dailyGoal.id,
                           action: 'delete',
                           setDailyTaskItem,
                           dailyTaskItem,
-                          allMonthGoal
+                          allMonthGoal,
+                          setAllMonthGoal
                         })
                       }}
                       onSuccess={() => {
                         return handleFromActionsToButtonTask({
                           item: dailyGoal,
                           storage,
-                          index: i,
+                          index: dailyGoal.id,
                           action: 'success',
                           setDailyTaskItem,
                           dailyTaskItem,
-                          allMonthGoal
+                          allMonthGoal,
+                          setAllMonthGoal
                         })
                       }
                     }
@@ -55,11 +57,12 @@ const DisplayAllGoal = ({allMonthGoal, dailyTaskItem, setDailyTaskItem, storage}
                         return handleFromActionsToButtonTask({
                           item: dailyGoal,
                           storage,
-                          index: i,
+                          index: dailyGoal.id,
                           action: 'failed',
                           setDailyTaskItem,
                           dailyTaskItem,
-                          allMonthGoal
+                          allMonthGoal,
+                          setAllMonthGoal
                         })
                       }
                     }
