@@ -1,21 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
-  ScrollView,
   View,
-  Text,
-  AsyncStorage,
-  TouchableOpacity
 } from 'react-native';
 import DisplayTitleOnHistory from './displayTitleOnHistory'
 
 import {styles} from './styles'
 
-export default function Historial({navigation}) {
-  const [rechargeScreen, setRechargeScreen] = useState(false)
+export default function Historial() {
 
   return (
     <View>
-      <DisplayTitleOnHistory navigation={navigation}/>
+      <DisplayTitleOnHistory/>
     </View>
   );
 }

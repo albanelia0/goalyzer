@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
+import { useIsFocused } from '@react-navigation/native';
 
 const changeLetterFromDayToCompletName = [
   {day:'L',dayName: 'Lunes'},
@@ -25,6 +26,21 @@ export default function Week() {
     allTask: []}
   ])
   const isMountedRef = useIsMountedRef();
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if (isFocused) {
+      setThereIsTaskOpen(prev => {
+        AsyncStorage.getItem('allWeekDays').then(json => {
+          const parsedJson = JSON.parse(json) || []
+          if (JSON.stringify(parsedJson) !== JSON.stringify(taskHistory)) {
+            setTaskHistory(parsedJson)
+          }
+        })
+        return { ...prev, key: undefined,allTask: []}
+      })
+    }
+  }, [isFocused])
 
   useEffect(() => {
     AsyncStorage.getItem('allWeekDays').then(json => {
@@ -34,7 +50,7 @@ export default function Week() {
       }
     })
   },[isMountedRef])
-
+console.log('taskHistory',taskHistory)
   const checkStatusPreviousDays = (allTask) => {
 
     if (allTask.failed === true && allTask.success === false) {
@@ -64,6 +80,7 @@ export default function Week() {
       return { ...prev, key: dayName,allTask: displayAllPreviousTaskFromThisDay}
     })
   }
+  console.log('taskHistory',taskHistory)
   return (
     <ScrollView>
       <View style={styles.wrapper}>
