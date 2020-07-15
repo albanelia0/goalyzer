@@ -11,7 +11,10 @@ const weekDays = [
   {day:"D", done: false, allTask: null, status: false, empty: false}
 ]
 
+const Day = new Date().getDay()
+
 export default function changeWeek(currentDay) {
+
   if (currentDay === 'Lunes') {
     console.log('HA ENTRADO', currentDay)
     AsyncStorage.getItem('allWeekDays').then(json => {
@@ -26,14 +29,21 @@ export default function changeWeek(currentDay) {
       AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
     })
   } else if(currentDay !== 'Lunes'){
+      console.log('currentDay-ENTRÓ', currentDay)
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json) || []
       const array = parsedJson === null || parsedJson.length > 0? weekDays : parsedJson
-      const newArray = array.map(day => {
+      const newArray = array.map((day,i) => {
         if (day.empty === true) {
           console.log('ENTRA EN !== LUNES')
           return {...day, empty: false}
-        } else return day
+        }
+        if(Day+1 <= i){
+          console.log('Day+1', Day+1, 'i', i)
+          return day
+        } else {
+          return {...day, done: false,allTask: null, status: false, empty: false }
+        }
       })
       AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
     })
