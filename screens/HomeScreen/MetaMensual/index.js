@@ -15,15 +15,15 @@ const allMonth = [
   {month: 'Enero'}, {month: 'Febrero'},{month: 'Marzo'},{month: 'Abril'},{month: 'Mayo'},{month: 'Junio'},{month: 'Julio'},
   {month: 'Agosto'},{month: 'Septiembre'},{month: 'Octubre'},{month: 'Noviembre'},{month: 'Diciembre'}
 ]
-const currentM =allMonth.find((_, i) => i === month)
+const currentM = allMonth.find((_, i) => i === month)
 const currentMonth = currentM.month
-const isFocused = useIsFocused()
 
 export default function MetaMensual() {
   const [inputValue, setInputValue] = useState()
   const [allMonthGoal, setAllMonthGoal] = useState([])
   const [currentMonthGoal, setCurrentMonthGoal] = useState([])
   const isMountedRef = useIsMountedRef();
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     AsyncStorage.getItem('monthGoal').then(json => {
