@@ -19,7 +19,7 @@ const changeLetterFromDayToCompletName = [
   {day:'S',dayName: 'Sábado'},
   {day:'D',dayName: 'Domingo'}
 ]
-export default function Week() {
+ const Week = () => {
   const [taskHistory,setTaskHistory] = useState([])
   const [thereIsTaskOpen,setThereIsTaskOpen] = useState([
     {key: undefined,
@@ -103,3 +103,5 @@ console.log('taskHistory',taskHistory)
     </ScrollView>
   );
 }
+
+export default Week

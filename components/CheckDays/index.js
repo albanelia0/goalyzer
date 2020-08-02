@@ -3,76 +3,121 @@ import {styles} from './styles'
 import isSmallDevice from '../../constants/Layout'
 import { Text, View, AsyncStorage } from 'react-native';
 import useIsMountedRef from '../../hooks/useMounted'
+import { useIsFocused } from '@react-navigation/native';
 
-const CheckDays = ({dayComplete}) => {
-/**
- * What represents any keys?.
- *
- * @param {boolean} done - To check if the status is updated.
- * @param {object} allTask - to put all day Task.
- * @param {object} status - to put the current status from allTask.
- * @param {boolean} empty - To check if allTask, status and done are false when the week begin.
- */
-  const [Days, setDays]= useState([
-  {day:"L", done: false, allTask: null, status: false, empty: false},
-  {day:"M", done: false, allTask: null, status: false, empty: false},
-  {day:"X", done: false, allTask: null, status: false, empty: false},
-  {day:"J", done: false, allTask: null, status: false, empty: false},
-  {day:"V", done: false, allTask: null, status: false, empty: false},
-  {day:"S", done: false, allTask: null, status: false, empty: false},
-  {day:"D", done: false, allTask: null, status: false, empty: false}
-])
+
+const allMonth = [
+  {month: 'Enero'}, {month: 'Febrero'},{month: 'Marzo'},{month: 'Abril'},{month: 'Mayo'},{month: 'Junio'},{month: 'Julio'},
+  {month: 'Agosto'},{month: 'Septiembre'},{month: 'Octubre'},{month: 'Noviembre'},{month: 'Diciembre'}
+]
+
+const CheckDays = (
+  {
+    dayComplete,
+    listNameToDisplay,
+    setListNameToDisplay,
+    storageName,
+    thisIsYear,
+    currentMonth,
+  }) => {
+  const [currentStatusFromMonth,setCurrentStatusFromMonth] = useState(false)
+  const isFocused = useIsFocused()
+
+  const nameFromCurrentMonth =allMonth[currentMonth]
+console.log('nameFromCurrentMonth',nameFromCurrentMonth)
   const isMountedRef = useIsMountedRef();
 
   const setDaysDebug = (x, where) => {
-    setDays(prev => {
-      console.log(`[setDays-CheckDays] -> ${where}`)
+    setListNameToDisplay(prev => {
+      console.log(`[setListNameToDisplay-CheckDays] -> ${where}`)
       return typeof x === 'function' ? x(prev) : x
     })
   }
 
   const Day = new Date().getDay()
-  let currentDay = Days[(Day + 6) % 7]
+  let currentDay = listNameToDisplay[(Day + 6) % 7]
 
   useEffect(() => {
-    AsyncStorage.getItem('allWeekDays')
+
+    if (isFocused && thisIsYear ) {
+      console.log('isFocused', isFocused)
+
+        AsyncStorage.getItem('statusFromMonth').then(json => {
+          const parsedJson = JSON.parse(json) || []
+          if (isMountedRef.current && parsedJson) {
+            setCurrentStatusFromMonth(parsedJson)
+          }
+        })
+      }
+  }, [isFocused, isMountedRef])
+  useEffect(() => {
+    AsyncStorage.getItem('statusFromMonth').then(json => {
+      const parsedJson = JSON.parse(json)
+
+      console.log('parsedJsonSTA', parsedJson)
+      if (isMountedRef.current && parsedJson) {
+        setCurrentStatusFromMonth(parsedJson)
+      }
+    })
+    AsyncStorage.getItem(storageName)
       .then(json => {
         const parsedJson = JSON.parse(json) || []
         if (isMountedRef.current) {
-          let arrayFromWeekBegin = !parsedJson || parsedJson.length !== 7? Days : parsedJson
+          let arrayFromWeekBegin = !parsedJson || parsedJson.length !== 7 || parsedJson.length !== 12
+            ? listNameToDisplay : parsedJson
           arrayFromWeekBegin.map((item, i) => {
-            if (item.allTask !== undefined && item.allTask !== null) {
+
+            if (!thisIsYear && item.allTask !== undefined && item.allTask !== null) {
               const newStatusfromPreviousDays = () => {
-                const greenStatus = item.allTask.every(item => item.success === true)
-                const goalAlmostSuccess = item.allTask.some(item => item.success === true)
-                const redStatus = item.allTask.every(item => item.failed === true)
-                const defaultStatus = item.allTask.every(dayStatus => !dayStatus.success && !dayStatus.failed)
-                const goalAlmostRed = item.allTask.some(item => item.failed && !item.success)
-                if (greenStatus) {
-                  return styles.green
-                } else if(goalAlmostSuccess) {
-                  return styles.goalAlmostSuccess
-                } else if(redStatus) {
-                  return styles.red
-                } else if(goalAlmostRed){
-                  return styles.orange
-                }else if(defaultStatus){
-                  return styles.default
-                } else return {}
-              }
+              const greenStatus = item.allTask.every(item => item.success === true)
+              const goalAlmostSuccess = item.allTask.some(item => item.success === true)
+              const redStatus = item.allTask.every(item => item.failed === true)
+              const defaultStatus = item.allTask.every(dayStatus => !dayStatus.success && !dayStatus.failed)
+              const goalAlmostRed = item.allTask.some(item => item.failed && !item.success)
+              if (greenStatus) {
+                return styles.green
+              } else if(goalAlmostSuccess) {
+                return styles.goalAlmostSuccess
+              } else if(redStatus) {
+                return styles.red
+              } else if(goalAlmostRed){
+                return styles.orange
+              }else if(defaultStatus){
+                return styles.default
+              } else return {}
+            }
               const currentDayFromStateDays =
-                arrayFromWeekBegin.find(({day, done}) =>
-                  day === item.day && done === false)
+              arrayFromWeekBegin.find(({day, done}) =>
+                day === item.day && done === false)
               if (currentDayFromStateDays !== undefined && currentDayFromStateDays.done === false) {
-                // const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: {...newStatusfromPreviousDays()}}
-                const newArray = arrayFromWeekBegin.map(item => {
-                  if (item.day === currentDayFromStateDays.day && item.done === false && item.allTask !== null)
-                    return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
-                  return item
-                })
-                AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
-                setDaysDebug(newArray, 'L65')
+              // const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: {...newStatusfromPreviousDays()}}
+              const newArray = arrayFromWeekBegin.map(item => {
+                if (item.day === currentDayFromStateDays.day && item.done === false && item.allTask !== null)
+                  return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
+                return item
+              })
+              AsyncStorage.setItem(storageName, JSON.stringify(newArray))
+              setDaysDebug(newArray, 'L65')
               } else return
+            // } else if(thisIsYear) {
+
+            //   // const currentDayFromStateDays =
+            //   // arrayFromWeekBegin.filter((value) => value.currentMonth.month === nameFromCurrentMonth.month)
+            //   // console.log('currentDayFromStateDays',currentDayFromStateDays)
+              
+            //   if (currentDayFromStateDays !== undefined) {
+            //     const newArray = arrayFromWeekBegin.map(value => {
+            //       currentDayFromStateDays.map(val => console.log('val',val))
+            //       // if (value.month === currentDayFromStateDays.month && value.done === false) {
+            //       //   return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
+            //       // } else {
+            //       //   return value
+            //       // }
+            //     })
+            //     console.log('newArray',newArray)
+            //     AsyncStorage.setItem(storageName, JSON.stringify(newArray))
+            //     setDaysDebug(newArray, 'L65')
+            //   } else return
             }
           })
         }
@@ -94,87 +139,169 @@ const CheckDays = ({dayComplete}) => {
         default: {}
       }
     }
-
-    AsyncStorage.getItem('allWeekDays').then(json => {
+    AsyncStorage.getItem(storageName).then(json => {
       const parsedJson = JSON.parse(json) || []
       if (isMountedRef.current && !parsedJson || parsedJson.length > 0) {
-        AsyncStorage.getItem('taskForDay').then(json => {
-          const allTask = JSON.parse(json) || []
-          let arrayFromWeekBegin = !parsedJson || parsedJson.length === 0? Days : parsedJson
+        if (!thisIsYear) {
+          AsyncStorage.getItem('taskForDay').then(json => {
+            const allTask = JSON.parse(json) || []
+            let arrayFromWeekBegin = !parsedJson || parsedJson.length === 0? listNameToDisplay : parsedJson
 
-          const currentDayFromStateDays =
-            arrayFromWeekBegin.find(({day}) => day === currentDay.day)
-            if (allTask !== null || allTask.length !== 0) {
-              const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
-              const newArray = arrayFromWeekBegin.map(item => {
-                if (item.day === currentDayFromStateDays.day){
-                  AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
-                  return newObjectWithCurrentStatus
-                } else {
-                  return item
-                }
-              })
-              setDaysDebug(newArray, 'L90')
-              return newArray
-            } else {
-              const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: false}
-              const newArray = arrayFromWeekBegin.map(item => {
-                if (item.day === currentDayFromStateDays.day){
-                  AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
-                  return newObjectWithCurrentStatus
-                } else {
-                  return item
-                }
-              })
-              setDaysDebug(newArray, 'L90')
-              return newArray
-            }
-        })
+            const currentDayFromStateDays =
+              arrayFromWeekBegin.find(({day}) => day === currentDay.day)
+              if (allTask !== null || allTask.length !== 0) {
+                const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: getStylesObjectFromStatusString()}
+                const newArray = arrayFromWeekBegin.map(item => {
+                  if (item.day === currentDayFromStateDays.day){
+                    AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
+                    return newObjectWithCurrentStatus
+                  } else {
+                    return item
+                  }
+                })
+                setDaysDebug(newArray, 'L90')
+                return newArray
+              } else {
+                const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: false}
+                const newArray = arrayFromWeekBegin.map(item => {
+                  if (item.day === currentDayFromStateDays.day){
+                    AsyncStorage.setItem('currentStatus', JSON.stringify(getStylesObjectFromStatusString()))
+                    return newObjectWithCurrentStatus
+                  } else {
+                    return item
+                  }
+                })
+                setDaysDebug(newArray, 'L90')
+                return newArray
+              }
+          })
+        } else {
+          // AsyncStorage.getItem('statusFromMonth').then(json => {
+          //   const parsedJson = JSON.parse(json)
+          //   if (isMountedRef.current && parsedJson) {
+          //     console.log('parsedJson', parsedJson)
+          //     setCurrentStatusFromMonth(parsedJson)
+          //   }
+          // })
+            // let arrayFromMonth = !parsedJson || parsedJson.length === 0? listNameToDisplay : parsedJson
+            // const currentMonthFromState =
+            //   arrayFromMonth.find(({currentMonth}) => currentMonth.month === nameFromCurrentMonth.month)
+            //   console.log('getStylesObjectFromStatusString()',getStylesObjectFromStatusString())
+            // if () {
+            //     const newObjectWithCurrentStatus = {...currentMonthFromState, status: getStylesObjectFromStatusString()}
+            //     const newArray = arrayFromWeekBegin.map(item => {
+            //       if (item.day === currentMonthFromState.day){
+            //         AsyncStorage.setItem('currentMonthStatus', JSON.stringify(getStylesObjectFromStatusString()))
+            //         return newObjectWithCurrentStatus
+            //       } else {
+            //         return item
+            //       }
+            //     })
+            //     setDaysDebug(newArray, 'L90')
+            //     return newArray
+            //   } else {
+            //     const newObjectWithCurrentStatus = {...currentMonthFromState, status: false}
+            //     const newArray = arrayFromWeekBegin.map(item => {
+            //       if (item.day === currentMonthFromState.day){
+            //         AsyncStorage.setItem('currentMonthStatus', JSON.stringify(getStylesObjectFromStatusString()))
+            //         return newObjectWithCurrentStatus
+            //       } else {
+            //         return item
+            //       }
+            //     })
+            //     setDaysDebug(newArray, 'L90')
+            //     return newArray
+            //   }
+        }
       }
     })
   }, [dayComplete, isMountedRef])
 
   const renderChangeBackgroundDayColor = (day, status, allTask) => {
-    if(currentDay.day === day && status !== false){
-      return (
-        <View style={isSmallDevice ?
-          {...styles.smallSquareContent, ...status}:
-          {...styles.squarecontent, ...status}
-        }/>
-      )
-    } else if(currentDay.day !== day && status !== false && allTask !== null) {
-      return (
-        <View style={isSmallDevice ?
-          {...styles.smallSquareContent, ...status}:
-          {...styles.squarecontent, ...status}
-        }/>
-      )
-    } else if(currentDay.day === day && status === false) {
-      return (
-        <View style={isSmallDevice ?
-          styles.smallSquareContent: styles.squarecontent
-        }/>
-      )
+    if (!thisIsYear) {
+      if(currentDay.day === day && status !== false){
+        return (
+          <View style={isSmallDevice ?
+            {...styles.smallSquareContent, ...status}:
+            {...styles.squarecontent, ...status}
+          }/>
+        )
+      } else if(currentDay.day !== day && status !== false && allTask !== null) {
+        return (
+          <View style={isSmallDevice ?
+            {...styles.smallSquareContent, ...status}:
+            {...styles.squarecontent, ...status}
+          }/>
+        )
+      } else if(currentDay.day === day && status === false) {
+        return (
+          <View style={isSmallDevice ?
+            styles.smallSquareContent: styles.squarecontent
+          }/>
+        )
+      } else {
+        return (
+          <View style={isSmallDevice ?
+            styles.smallSquareContent: styles.squarecontent
+          }/>
+        )
+      }
     } else {
-      return (
-        <View style={isSmallDevice ?
-          styles.smallSquareContent: styles.squarecontent
-        }/>
-      )
+      if (currentStatusFromMonth) {
+
+        const currentStatus = currentStatusFromMonth.find(item => item.status !== false)
+        if(currentStatus.month === day){
+          return (
+            <View style={isSmallDevice ?
+              {...styles.smallSquareContent, ...currentStatus.status}:
+              {...styles.squarecontent, ...currentStatus.status}
+            }/>
+          )
+        } else if(currentDay.day !== day && status !== false && allTask !== null) {
+          return (
+            <View style={isSmallDevice ?
+              {...styles.smallSquareContent, ...status}:
+              {...styles.squarecontent, ...status}
+            }/>
+          )
+        } else if(currentDay.day === day && status === false) {
+          return (
+            <View style={isSmallDevice ?
+              styles.smallSquareContent: styles.squarecontent
+            }/>
+          )
+        } else {
+          return (
+            <View style={isSmallDevice ?
+              styles.smallSquareContent: styles.squarecontent
+            }/>
+          )
+        }
+      }
     }
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.days}>
-        {Days.map((item, i) => {
+        {!thisIsYear ? listNameToDisplay.map((item, i) => {
           return (
             <View key={i} style={styles.squareContainer}>
               <Text style={isSmallDevice ? styles.smallDaysList:styles.daysList }>{item.day}</Text>
               {renderChangeBackgroundDayColor(item.day, item.status, item.allTask)}
             </View>
           )
-        })}
+        })
+        :
+        listNameToDisplay.map((item, i) => {
+          return (
+            <View key={i} style={styles.squareContainer}>
+              <Text style={isSmallDevice ? styles.smallDaysList:styles.daysList }>{item.month}</Text>
+              {renderChangeBackgroundDayColor(item.month, item.status, item)}
+            </View>
+          )
+        })
+      }
       </View>
     </View>
   )

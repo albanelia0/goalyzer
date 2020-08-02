@@ -4,7 +4,6 @@ import color from '../../constants/Colors'
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20
   },
   green: {
     backgroundColor: color.green,
@@ -29,6 +28,7 @@ export const styles = StyleSheet.create({
   days: {
     flex: 1,
     flexDirection: 'row',
+    marginBottom: 10
   },
   daysList: {
     padding: 10,
@@ -38,8 +38,8 @@ export const styles = StyleSheet.create({
   },
   squareContainer: {
     flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   squarecontent: {
     width: 40,
@@ -48,17 +48,15 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 5,
     borderColor: color.containerDay,
-    margin: 5
   },
   // when the screen is small
   smallSquareContent: {
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
     borderStyle: "solid",
     borderWidth: 2,
     borderRadius: 5,
     borderColor: color.containerDay,
-    marginTop: 5
   },
   smallDaysList: {
     fontSize: 20,

@@ -10,7 +10,17 @@ import GoalDay from '../GoalDay'
 import handleFromActionsToButtonTask from '../../handlers/ActionsTask'
 import {styles} from './styles'
 
+const month = new Date().getMonth()
+const allMonth = [
+  {month: 'Enero'}, {month: 'Febrero'},{month: 'Marzo'},{month: 'Abril'},{month: 'Mayo'},{month: 'Junio'},{month: 'Julio'},
+  {month: 'Agosto'},{month: 'Septiembre'},{month: 'Octubre'},{month: 'Noviembre'},{month: 'Diciembre'}
+]
+const currentM =allMonth.find((_, i) => i === month)
+const currentMonth = currentM.month
+
 const DisplayAllGoal = ({allMonthGoal,setAllMonthGoal, dailyTaskItem, setDailyTaskItem, storage}) => {
+        console.log('allMonthGoal',allMonthGoal)
+
   return (
     <View>
       {dailyTaskItem && dailyTaskItem.map((dailyGoal, i) => {

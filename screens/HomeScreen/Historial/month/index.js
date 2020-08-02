@@ -28,7 +28,7 @@ export default function Month() {
     AsyncStorage.getItem('monthGoal').then(json => {
       const parsedJson = JSON.parse(json) || []
       if (isMountedRef.current && parsedJson || parsedJson.length > 0) {
-        const previousGoalHistory = parsedJson.filter(value => value.currentMonth.month !== allMonth[currentMonth].month)
+        const previousGoalHistory = parsedJson.filter(value => value !== allMonth[currentMonth].month)
         setMonthHistory(previousGoalHistory)
         previousGoalHistory.map(item => {
           setAllMonthName(prev => {

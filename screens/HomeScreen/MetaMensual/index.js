@@ -6,13 +6,18 @@ import useIsMountedRef from '../../../hooks/useMounted'
 import ID from '../../../ID'
 import {styles} from './styles'
 import { KeyboardAvoidingView,ScrollView, View, Text, AsyncStorage } from 'react-native';
+import changeStatusFromEachMonth from '../../../handlers/changeStatusFromEachMonth';
+import { useIsFocused } from '@react-navigation/native';
+
 const month = new Date().getMonth()
 
 const allMonth = [
   {month: 'Enero'}, {month: 'Febrero'},{month: 'Marzo'},{month: 'Abril'},{month: 'Mayo'},{month: 'Junio'},{month: 'Julio'},
   {month: 'Agosto'},{month: 'Septiembre'},{month: 'Octubre'},{month: 'Noviembre'},{month: 'Diciembre'}
 ]
-const currentMonth =allMonth.find((_, i) => i === month)
+const currentM =allMonth.find((_, i) => i === month)
+const currentMonth = currentM.month
+const isFocused = useIsFocused()
 
 export default function MetaMensual() {
   const [inputValue, setInputValue] = useState()
@@ -24,7 +29,6 @@ export default function MetaMensual() {
     AsyncStorage.getItem('monthGoal').then(json => {
       const parsedJson = JSON.parse(json) || []
       if (isMountedRef.current && parsedJson.length > 0) {
-        console.log('kk', parsedJson)
         if (parsedJson) {
           setCurrentMonthGoal(() => {
             const allGoals = parsedJson.filter(value => value.currentMonth.month === currentMonth.month)
@@ -35,6 +39,14 @@ export default function MetaMensual() {
       }
     })
   }, [isMountedRef])
+  useEffect(() => {
+    if (isFocused && isMountedRef.current) {
+      AsyncStorage.getItem('monthGoal').then(json => {
+      const parsedJson = JSON.parse(json) || []
+        changeStatusFromEachMonth(parsedJson)
+      })
+    }
+  },[isFocused,isMountedRef])
 
   const onPressInput = () => {
     if (inputValue !== '') {
@@ -43,15 +55,15 @@ export default function MetaMensual() {
         setCurrentMonthGoal(prev => {
           const idValue = ID()
           if (parsedJson || parsedJson.length > 0) {
-            const arrayWithAllItem = [...parsedJson, { name: inputValue, success: false, failed: false, currentMonth,id: idValue}]
+            const arrayWithAllItem = [...parsedJson, { name: inputValue, success: false, failed: false, currentMonth,id: idValue, status: false,allTask: null}]
             AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithAllItem))
             setAllMonthGoal(arrayWithAllItem)
-            return [...prev, { name: inputValue, success: false, failed: false, currentMonth,id: idValue}]
+            return [...prev, { name: inputValue, success: false, failed: false, currentMonth,id: idValue, status: false,allTask: null}]
           } else {
-            const arrayWithAllItem = [{ name: inputValue, success: false, failed: false, currentMonth, id: idValue}]
+            const arrayWithAllItem = [{ name: inputValue, success: false, failed: false, currentMonth, id: idValue, status: false,allTask: null}]
             AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithAllItem))
             setAllMonthGoal(arrayWithAllItem)
-            return [...prev, { name: inputValue, success: false, failed: false, currentMonth,id: idValue}]
+            return [...prev, { name: inputValue, success: false, failed: false, currentMonth,id: idValue, status: false,allTask: null}]
           }
         })
       })

@@ -20,7 +20,7 @@ import useIsMountedRef from '../../../hooks/useMounted'
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
-export default function MetaDiaria() {
+const MetaDiaria = () => {
 
   const [dailyTaskItem, setDailyTaskItem] = useState([])
   const [valueInput, setValueInput] = useState('')
@@ -107,3 +107,5 @@ export default function MetaDiaria() {
     </KeyboardAvoidingView>
   )
 }
+
+export default MetaDiaria

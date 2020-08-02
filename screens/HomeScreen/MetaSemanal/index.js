@@ -14,12 +14,23 @@ import {
 } from 'react-native';
 import CheckDays from '../../../components/CheckDays'
 import DisplayWeekGoal from '../../../components/displayWeekGoal'
+import giveStatusFromSquare from '../../../handlers/giveStatusFromSquare';
 
-export default function MetaSemanal({navigation}) {
+const MetaSemanal = ({navigation})=> {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
   const [arrayAllTask, setArrayAllTask] = useState([])
   const isMountedRef = useIsMountedRef();
+
+  const [Days, setDays]= useState([
+  {day:"L", done: false, allTask: null, status: false, empty: false},
+  {day:"M", done: false, allTask: null, status: false, empty: false},
+  {day:"X", done: false, allTask: null, status: false, empty: false},
+  {day:"J", done: false, allTask: null, status: false, empty: false},
+  {day:"V", done: false, allTask: null, status: false, empty: false},
+  {day:"S", done: false, allTask: null, status: false, empty: false},
+  {day:"D", done: false, allTask: null, status: false, empty: false}
+])
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
@@ -41,7 +52,6 @@ export default function MetaSemanal({navigation}) {
     })
     return unsubscribe
   }, [navigation])
-
   const onInputSubmit = () => {
     if (value !== '') {
       setArrayAllGoal(prev => {
@@ -59,28 +69,6 @@ export default function MetaSemanal({navigation}) {
     } else return
   }
 
-  const dayComplete = () => {
-    if (arrayAllTask.length !== 0) {
-      const goalAlmostSuccess = arrayAllTask.some(dayStatus => dayStatus.success === true)
-      const greenStatus = arrayAllTask.every(dayStatus => dayStatus.success === true)
-      const redStatus = arrayAllTask.every(dayStatus => dayStatus.failed === true)
-      const goalAlmostRed = arrayAllTask.some(item => item.failed && !item.success)
-      const defaultStatus = arrayAllTask.every(dayStatus => !dayStatus.success && !dayStatus.failed)
-
-       if (greenStatus) {
-        return 'greenStatus'
-      } else if(goalAlmostSuccess) {
-        return 'goalAlmostSuccess'
-      } else if(redStatus) {
-        return 'redStatus'
-      }else if(goalAlmostRed){
-        return 'goalAlmostRed'
-      } else if (defaultStatus) {
-        return 'default'
-      }
-    }
-
-  }
   return (
     <KeyboardAvoidingView>
       <ScrollView style={styles.allWeekContainer} keyboardShouldPersistTaps='handled'>
@@ -89,7 +77,12 @@ export default function MetaSemanal({navigation}) {
             <Text style={styles.title}>Meta Semanal</Text>
             <Text>🔔</Text>
           </View>
-         <CheckDays dayComplete={dayComplete()} />
+         <CheckDays
+            dayComplete={giveStatusFromSquare(arrayAllTask)}
+            listNameToDisplay={Days}
+            setListNameToDisplay={setDays}
+            storageName='allWeekDays'
+         />
          <Input
           value={value}
           onPress={onInputSubmit}
@@ -101,3 +94,4 @@ export default function MetaSemanal({navigation}) {
     </KeyboardAvoidingView>
   );
 }
+export default MetaSemanal

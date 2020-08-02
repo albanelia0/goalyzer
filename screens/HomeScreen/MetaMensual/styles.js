@@ -17,5 +17,25 @@ export const styles = StyleSheet.create({
     color: color.titleColor,
     fontSize: 25,
     borderBottomWidth: 1
-  }
+  },
+  green: {
+    backgroundColor: color.green,
+    borderColor: 'transparent'
+  },
+  goalAlmostSuccess: {
+    backgroundColor: color.goalAlmostSuccess,
+    borderColor: 'transparent'
+  },
+  red: {
+    backgroundColor: color.goalFailed,
+    borderColor: 'transparent'
+  },
+  orange: {
+    backgroundColor: color.orange,
+    borderColor: 'transparent'
+  },
+  default: {
+    backgroundColor: color.goalNotDone,
+    borderColor: 'transparent'
+  },
 })

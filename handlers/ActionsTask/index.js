@@ -1,4 +1,6 @@
 import {AsyncStorage} from 'react-native';
+import currentMonth from '../../components/currentMonth'
+import changeStatusFromEachMonth from '../changeStatusFromEachMonth';
 
 export default function handleFromActionsToButtonTask (
   {
@@ -31,7 +33,6 @@ export default function handleFromActionsToButtonTask (
       currentMonth: item.currentMonth,
       id: item.id
     }
-
     setDailyTaskItem(prev => {
       const newArray = prev.map((obj, i) => obj.id === index ? newObject : obj)
       if (allMonthGoal) {
@@ -43,11 +44,12 @@ export default function handleFromActionsToButtonTask (
             return obj
           }
         })
-        // console.log('newArrayFromStorage', newArrayFromStorage)
+        console.log('newArrayFromStorage', newArrayFromStorage)
         // console.log('ESTEEnewArrayFromStorage',newObject)
-          AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
-          setAllMonthGoal(newArrayFromStorage)
-          return newArray
+        changeStatusFromEachMonth(allMonthGoal)
+        AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
+        setAllMonthGoal(newArrayFromStorage)
+        return newArray
       } else {
         AsyncStorage.setItem(storage, JSON.stringify(newArray))
         return newArray

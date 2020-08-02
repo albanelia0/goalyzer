@@ -1,4 +1,5 @@
 export default function giveStatusFromSquare(arrayAllTask) {
+  console.log('arrayAllTask',arrayAllTask)
   if (arrayAllTask.length !== 0) {
       const goalAlmostSuccess = arrayAllTask.some(dayStatus => dayStatus.success === true)
       const greenStatus = arrayAllTask.every(dayStatus => dayStatus.success === true)
