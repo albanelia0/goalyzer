@@ -8,6 +8,7 @@ import {
 import {styles} from './styles'
 
 const DisplayWeekGoal = ({arrayAllGoal, setArrayAllGoal, storage}) => {
+
   const deleteGoal = (index) => {
     const newArray = arrayAllGoal.filter((_, theIndex) => theIndex !== index)
     AsyncStorage.setItem(storage, JSON.stringify(newArray))

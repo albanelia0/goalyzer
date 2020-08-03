@@ -24,7 +24,7 @@ const CheckDays = (
   const isFocused = useIsFocused()
 
   const nameFromCurrentMonth =allMonth[currentMonth]
-console.log('nameFromCurrentMonth',nameFromCurrentMonth)
+// console.log('nameFromCurrentMonth',nameFromCurrentMonth)
   const isMountedRef = useIsMountedRef();
 
   const setDaysDebug = (x, where) => {
@@ -40,25 +40,17 @@ console.log('nameFromCurrentMonth',nameFromCurrentMonth)
   useEffect(() => {
 
     if (isFocused && thisIsYear ) {
-      console.log('isFocused', isFocused)
 
-        AsyncStorage.getItem('statusFromMonth').then(json => {
-          const parsedJson = JSON.parse(json) || []
+      AsyncStorage.getItem('statusFromMonth').then(json => {
+        const parsedJson = JSON.parse(json) || []
           if (isMountedRef.current && parsedJson) {
             setCurrentStatusFromMonth(parsedJson)
           }
         })
       }
-  }, [isFocused, isMountedRef])
+  }, [isFocused,isMountedRef])
   useEffect(() => {
-    AsyncStorage.getItem('statusFromMonth').then(json => {
-      const parsedJson = JSON.parse(json)
 
-      console.log('parsedJsonSTA', parsedJson)
-      if (isMountedRef.current && parsedJson) {
-        setCurrentStatusFromMonth(parsedJson)
-      }
-    })
     AsyncStorage.getItem(storageName)
       .then(json => {
         const parsedJson = JSON.parse(json) || []
@@ -99,25 +91,6 @@ console.log('nameFromCurrentMonth',nameFromCurrentMonth)
               AsyncStorage.setItem(storageName, JSON.stringify(newArray))
               setDaysDebug(newArray, 'L65')
               } else return
-            // } else if(thisIsYear) {
-
-            //   // const currentDayFromStateDays =
-            //   // arrayFromWeekBegin.filter((value) => value.currentMonth.month === nameFromCurrentMonth.month)
-            //   // console.log('currentDayFromStateDays',currentDayFromStateDays)
-              
-            //   if (currentDayFromStateDays !== undefined) {
-            //     const newArray = arrayFromWeekBegin.map(value => {
-            //       currentDayFromStateDays.map(val => console.log('val',val))
-            //       // if (value.month === currentDayFromStateDays.month && value.done === false) {
-            //       //   return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
-            //       // } else {
-            //       //   return value
-            //       // }
-            //     })
-            //     console.log('newArray',newArray)
-            //     AsyncStorage.setItem(storageName, JSON.stringify(newArray))
-            //     setDaysDebug(newArray, 'L65')
-            //   } else return
             }
           })
         }
@@ -175,43 +148,6 @@ console.log('nameFromCurrentMonth',nameFromCurrentMonth)
                 return newArray
               }
           })
-        } else {
-          // AsyncStorage.getItem('statusFromMonth').then(json => {
-          //   const parsedJson = JSON.parse(json)
-          //   if (isMountedRef.current && parsedJson) {
-          //     console.log('parsedJson', parsedJson)
-          //     setCurrentStatusFromMonth(parsedJson)
-          //   }
-          // })
-            // let arrayFromMonth = !parsedJson || parsedJson.length === 0? listNameToDisplay : parsedJson
-            // const currentMonthFromState =
-            //   arrayFromMonth.find(({currentMonth}) => currentMonth.month === nameFromCurrentMonth.month)
-            //   console.log('getStylesObjectFromStatusString()',getStylesObjectFromStatusString())
-            // if () {
-            //     const newObjectWithCurrentStatus = {...currentMonthFromState, status: getStylesObjectFromStatusString()}
-            //     const newArray = arrayFromWeekBegin.map(item => {
-            //       if (item.day === currentMonthFromState.day){
-            //         AsyncStorage.setItem('currentMonthStatus', JSON.stringify(getStylesObjectFromStatusString()))
-            //         return newObjectWithCurrentStatus
-            //       } else {
-            //         return item
-            //       }
-            //     })
-            //     setDaysDebug(newArray, 'L90')
-            //     return newArray
-            //   } else {
-            //     const newObjectWithCurrentStatus = {...currentMonthFromState, status: false}
-            //     const newArray = arrayFromWeekBegin.map(item => {
-            //       if (item.day === currentMonthFromState.day){
-            //         AsyncStorage.setItem('currentMonthStatus', JSON.stringify(getStylesObjectFromStatusString()))
-            //         return newObjectWithCurrentStatus
-            //       } else {
-            //         return item
-            //       }
-            //     })
-            //     setDaysDebug(newArray, 'L90')
-            //     return newArray
-            //   }
         }
       }
     })
@@ -250,6 +186,7 @@ console.log('nameFromCurrentMonth',nameFromCurrentMonth)
       if (currentStatusFromMonth) {
 
         const currentStatus = currentStatusFromMonth.find(item => item.status !== false)
+        // console.log('ESSSSSO', currentStatus)
         if(currentStatus.month === day){
           return (
             <View style={isSmallDevice ?

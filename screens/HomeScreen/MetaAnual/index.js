@@ -1,4 +1,5 @@
 import React,{useState, useEffect} from 'react';
+import { useIsFocused } from '@react-navigation/native';
 
 import Input from '../../../components/Input'
 import DisplayWeekGoal from '../../../components/displayWeekGoal'
@@ -9,11 +10,12 @@ import currentM from '../../../components/currentMonth'
 
 import {styles} from './styles'
 import { KeyboardAvoidingView,ScrollView, View, Text, AsyncStorage } from 'react-native';
+import changeStatusFromEachMonth from '../../../handlers/changeStatusFromEachMonth';
 
 const currentyearly = new Date().getFullYear()
 const currentMonth = new Date().getMonth()
 
-export default function MetaAnual({navigation}) {
+export default function MetaAnual() {
   const [value, setValue] = useState()
   const [allYearlyGoal, setAllYearlyGoal] = useState([])
   const isMountedRef = useIsMountedRef()
@@ -24,7 +26,7 @@ export default function MetaAnual({navigation}) {
   {month:"E", done: false, status: false, empty: false},
   {month:"F", done: false, status: false, empty: false},
   {month:"M", done: false, status: false, empty: false},
-  {month:"A", done: false, status: false, empty: false},
+  {month:"Ab", done: false, status: false, empty: false},
   {month:"M", done: false, status: false, empty: false},
   {month:"J", done: false, status: false, empty: false},
 ])
@@ -36,24 +38,30 @@ export default function MetaAnual({navigation}) {
     {month:"N", done: false, status: false, empty: false},
     {month:"D", done: false, status: false, empty: false}
   ])
-
+  const isFocused = useIsFocused()
+  console.log('isFocused',isFocused)
   useEffect(() => {
+    if (isFocused) {
+      AsyncStorage.getItem('monthGoal').then(json => {
+        const parsedJson = JSON.parse(json) || []
+        if (isMountedRef.current && parsedJson.length > 0) {
+          giveTheStatus = parsedJson.filter(item => item.currentMonth === currentM())
+          setAllMontGoal(parsedJson)
+          setCurrentStatus(() => {
+            console.log('parsedJson',parsedJson)
+            changeStatusFromEachMonth(parsedJson)
+            return giveStatusFromSquare(giveTheStatus)
+          })
+        }
+      })
+    }
     AsyncStorage.getItem('yearlyGoal').then(json => {
-      const parsedJson = JSON.parse(json) || []
-      if (isMountedRef.current && parsedJson.length > 0) {
-        setCurrentStatus(parsedJson)
+      const parsed = JSON.parse(json)
+      if (parsed) {
+        setAllYearlyGoal(parsed)
       }
     })
-    AsyncStorage.getItem('monthGoal').then(json => {
-      const parsedJson = JSON.parse(json) || []
-      if (isMountedRef.current && parsedJson.length > 0) {
-        giveTheStatus = parsedJson.filter(item => item.currentMonth === currentM())
-        setAllMontGoal(parsedJson)
-        console.log('giveTheStatus', giveTheStatus)
-        setCurrentStatus(() => giveStatusFromSquare(giveTheStatus))
-      }
-    })
-  }, [isMountedRef])
+  }, [isFocused, isMountedRef])
 
   const onPressInputGoal = () => {
     if (value !== '') {
@@ -71,7 +79,7 @@ export default function MetaAnual({navigation}) {
       setValue('')
     } else return
   }
-  console.log('allMontGoal',allMontGoal,currentStatus)
+
   return (
     <KeyboardAvoidingView>
       <ScrollView style={styles.container}>
@@ -84,7 +92,6 @@ export default function MetaAnual({navigation}) {
             storageName='monthGoal'
             thisIsYear
             currentMonth = {currentMonth}
-            navigation={navigation}
          />
           <CheckDays
             dayComplete={currentStatus}
@@ -93,7 +100,6 @@ export default function MetaAnual({navigation}) {
             storageName='monthGoal'
             thisIsYear
             currentMonth = {currentMonth}
-            navigation={navigation}
          />
           <Input
             value={value}

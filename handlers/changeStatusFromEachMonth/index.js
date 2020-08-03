@@ -3,24 +3,26 @@ import {AsyncStorage} from 'react-native'
 import currentMonth from '../../components/currentMonth'
 
 const statusListFromAllMonth = [
-    {month:"E",status: false},
-    {month:"F",status: false},
-    {month:"M",status: false},
-    {month:"A",status: false},
-    {month:"M",status: false},
-    {month:"J",status: false},
-    {month:"X",status: false},
-    {month:"A",status: false},
-    {month:"S",status: false},
-    {month:"O",status: false},
-    {month:"N",status: false},
-    {month:"D",status: false},
+    {month:"E",status: false, fullMonthName:"Enero"},
+    {month:"F",status: false, fullMonthName:"Febrero"},
+    {month:"M",status: false, fullMonthName:"Marzo"},
+    {month:"Ab",status: false, fullMonthName:"Abril"},
+    {month:"M",status: false, fullMonthName:"Mayo"},
+    {month:"J",status: false, fullMonthName:"Junio"},
+    {month:"X",status: false, fullMonthName:"Julio"},
+    {month:"A",status: false, fullMonthName:"Agosto"},
+    {month:"S",status: false, fullMonthName:"Septiembre"},
+    {month:"O",status: false, fullMonthName:"Octubre"},
+    {month:"N",status: false, fullMonthName:"Noviembre"},
+    {month:"D",status: false, fullMonthName:"Diciembre"},
   ]
 
+import {styles} from './styles'
 export default function changeStatusFromEachMonth(parsedJson) {
-  giveTheStatus = parsedJson.filter(item => item.currentMonth === currentMonth)
-  const status = giveStatusFromSquare(giveTheStatus)
-  console.log('statuuus',status)
+  current = parsedJson.filter(item => item.currentMonth === currentMonth())
+
+  const status = giveStatusFromSquare(current)
+
   if (status) {
     const displayStatus = (status) => {
       switch (status) {
@@ -37,12 +39,13 @@ export default function changeStatusFromEachMonth(parsedJson) {
         default: return {}
       }
     }
-    const currentStatus =statusListFromAllMonth.find((_, i) => i === month)
-    const newStatusFromMonth = statusListFromAllMonth.map(item => {
-      const newValue = {month: item.month, status: displayStatus(status)}
-      return JSON.stringify(item) === JSON.stringify(currentStatus) ? newValue: item
+    parsedJson.map(value => {
+      const currentStatus =statusListFromAllMonth.find((el) => el.fullMonthName === value.currentMonth)
+      const newStatusFromMonth = statusListFromAllMonth.map(item => {
+        const newValue = {month: item.month, status: displayStatus(status)}
+        return JSON.stringify(item) === JSON.stringify(currentStatus) ? newValue: item
+      })
+      AsyncStorage.setItem('statusFromMonth', JSON.stringify(newStatusFromMonth))
     })
-    console.log('newStatusFromMonth',displayStatus(status))
-    AsyncStorage.setItem('statusFromMonth', JSON.stringify(newStatusFromMonth))
   }
 }

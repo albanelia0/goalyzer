@@ -16,7 +16,6 @@ const Day = new Date().getDay()
 export default function changeWeek(currentDay) {
 
   if (currentDay === 'Lunes') {
-    console.log('HA ENTRADO', currentDay)
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json) || []
       const array = parsedJson === null || parsedJson.length === 0? weekDays : parsedJson

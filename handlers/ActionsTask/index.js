@@ -44,8 +44,6 @@ export default function handleFromActionsToButtonTask (
             return obj
           }
         })
-        // console.log('newArrayFromStorage', newArrayFromStorage)
-        // console.log('ESTEEnewArrayFromStorage',newObject)
         changeStatusFromEachMonth(allMonthGoal)
         AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
         setAllMonthGoal(newArrayFromStorage)
