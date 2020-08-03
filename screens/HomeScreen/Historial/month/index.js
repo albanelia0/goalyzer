@@ -8,12 +8,13 @@ import {
   TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
+import CMonth from '../../../../components/currentMonth'
 
 const allMonth = [
   {month: 'Enero'}, {month: 'Febrero'},{month: 'Marzo'},{month: 'Abril'},{month: 'Mayo'},{month: 'Junio'},{month: 'Julio'},
   {month: 'Agosto'},{month: 'Septiembre'},{month: 'Octubre'},{month: 'Noviembre'},{month: 'Diciembre'}
 ]
-const currentMonth = new Date().getMonth()
+const currentM = new Date().getMonth()
 export default function Month() {
   const [monthHistory,setMonthHistory] = useState([])
   const [thereIsTaskOpen,setThereIsTaskOpen] = useState([
@@ -28,20 +29,19 @@ export default function Month() {
     AsyncStorage.getItem('monthGoal').then(json => {
       const parsedJson = JSON.parse(json) || []
       if (isMountedRef.current && parsedJson || parsedJson.length > 0) {
-        const previousGoalHistory = parsedJson.filter(value => value !== allMonth[currentMonth].month)
+        const previousGoalHistory = parsedJson.filter(value => value.currentMonth !== allMonth[currentM].month)
         setMonthHistory(previousGoalHistory)
         previousGoalHistory.map(item => {
-          console.log('item',item)
-          if (item === undefined) {
+          if (item.length <= 0) {
             return <View key={i+2}><Text>No hay registro</Text></View>
           } else {
-
             setAllMonthName(prev => {
-              const result = allMonth.find(value => value.month === item.currentMonth.month)
+              const result = allMonth.find(value => value.month === item.currentMonth)
               if (prev[0] === undefined) {
                 return [result]
               } else {
                 const isAlreadyOnArray = prev.some(item => item.month === result.month)
+                console.log('previousGoalHistory',[...prev])
                 if (isAlreadyOnArray) {
                   return [...prev]
                 }else {
@@ -65,12 +65,11 @@ export default function Month() {
         return '💭'
     }
   }
-console.log('monthHistory',monthHistory)
   const displayAllTask = (monthName) => {
 
     setThereIsTaskOpen(prev => {
       const displayAllPreviousMonth = monthHistory.map((item, i) => {
-          if (item.currentMonth.month === monthName) {
+          if (item.currentMonth === monthName) {
             return (
               <View key={i} style={styles.taskContainer}>
                 <Text style={styles.titleTask}>{item.name}</Text>
