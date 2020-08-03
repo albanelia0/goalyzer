@@ -3,7 +3,9 @@ import React,{useState, useEffect} from 'react';
 import Input from '../../../components/Input'
 import DisplayAllGoal from '../../../components/displayAllGoal'
 import useIsMountedRef from '../../../hooks/useMounted'
+import Month from '../../../components/currentMonth'
 import ID from '../../../ID'
+
 import {styles} from './styles'
 import { KeyboardAvoidingView,ScrollView, View, Text, AsyncStorage } from 'react-native';
 import changeStatusFromEachMonth from '../../../handlers/changeStatusFromEachMonth';
@@ -31,7 +33,7 @@ export default function MetaMensual() {
       if (isMountedRef.current && parsedJson.length > 0) {
         if (parsedJson) {
           setCurrentMonthGoal(() => {
-            const allGoals = parsedJson.filter(value => value.currentMonth.month === currentMonth.month)
+            const allGoals = parsedJson.filter(value => value.currentMonth === Month())
             return allGoals
           })
           setAllMonthGoal(parsedJson)
@@ -70,12 +72,13 @@ export default function MetaMensual() {
       setInputValue('')
     } else return
   }
+
   return (
     <KeyboardAvoidingView>
       <ScrollView style={styles.container}>
         <View>
           <Text style={styles.title}>Meta Mensual</Text>
-          <Text style={styles.titleMonth}>{currentMonth.month}</Text>
+          <Text style={styles.titleMonth}>{Month()}</Text>
           <Input
             value={inputValue}
             onChangeText={(text) => setInputValue(text)}

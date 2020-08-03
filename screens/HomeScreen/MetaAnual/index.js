@@ -47,9 +47,9 @@ export default function MetaAnual({navigation}) {
     AsyncStorage.getItem('monthGoal').then(json => {
       const parsedJson = JSON.parse(json) || []
       if (isMountedRef.current && parsedJson.length > 0) {
-        console.log('ENTROOOOOOO')
         giveTheStatus = parsedJson.filter(item => item.currentMonth === currentM())
         setAllMontGoal(parsedJson)
+        console.log('giveTheStatus', giveTheStatus)
         setCurrentStatus(() => giveStatusFromSquare(giveTheStatus))
       }
     })
@@ -71,7 +71,7 @@ export default function MetaAnual({navigation}) {
       setValue('')
     } else return
   }
-  console.log('allMontGoal',allMontGoal)
+  console.log('allMontGoal',allMontGoal,currentStatus)
   return (
     <KeyboardAvoidingView>
       <ScrollView style={styles.container}>
