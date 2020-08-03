@@ -31,19 +31,25 @@ export default function Month() {
         const previousGoalHistory = parsedJson.filter(value => value !== allMonth[currentMonth].month)
         setMonthHistory(previousGoalHistory)
         previousGoalHistory.map(item => {
-          setAllMonthName(prev => {
-            const result = allMonth.find(value => value.month === item.currentMonth.month)
-            if (prev[0] === undefined) {
-              return [result]
-            } else {
-              const isAlreadyOnArray = prev.some(item => item.month === result.month)
-              if (isAlreadyOnArray) {
-                return [...prev]
-              }else {
-                return [...prev,result]
+          console.log('item',item)
+          if (item === undefined) {
+            return <View key={i+2}><Text>No hay registro</Text></View>
+          } else {
+
+            setAllMonthName(prev => {
+              const result = allMonth.find(value => value.month === item.currentMonth.month)
+              if (prev[0] === undefined) {
+                return [result]
+              } else {
+                const isAlreadyOnArray = prev.some(item => item.month === result.month)
+                if (isAlreadyOnArray) {
+                  return [...prev]
+                }else {
+                  return [...prev,result]
+                }
               }
-            }
-          })
+            })
+          }
         })
       }
     })
@@ -86,14 +92,19 @@ console.log('monthHistory',monthHistory)
           <View style={styles.container}>
             {allMonthName.map((item,i) => {
               console.log('ITEMMM', item)
-              return (
-                <View key={i}>
-                  <TouchableOpacity onPress={() => displayAllTask(item.month)}>
-                    <Text style={{...styles.weekDay}}>{item.month}</Text>
-                  </TouchableOpacity>
-                  { thereIsTaskOpen.key !== undefined && thereIsTaskOpen.key === item.month && thereIsTaskOpen.allTask.map(item => item)}
-                </View>
-              )
+              if (item === undefined) {
+                return <View key={i+2}><Text>No hay registro</Text></View>
+              } else {
+
+                return (
+                  <View key={i}>
+                    <TouchableOpacity onPress={() => displayAllTask(item.month)}>
+                      <Text style={{...styles.weekDay}}>{item.month}</Text>
+                    </TouchableOpacity>
+                    { thereIsTaskOpen.key !== undefined && thereIsTaskOpen.key === item.month && thereIsTaskOpen.allTask.map(item => item)}
+                  </View>
+                )
+              }
             })}
         </View>
       </View>

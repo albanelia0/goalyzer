@@ -19,7 +19,7 @@ const currentM =allMonth.find((_, i) => i === month)
 const currentMonth = currentM.month
 
 const DisplayAllGoal = ({allMonthGoal,setAllMonthGoal, dailyTaskItem, setDailyTaskItem, storage}) => {
-        console.log('allMonthGoal',allMonthGoal)
+  console.log('allMonthGoal',allMonthGoal)
 
   return (
     <View>

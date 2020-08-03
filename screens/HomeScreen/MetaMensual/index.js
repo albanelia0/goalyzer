@@ -49,7 +49,7 @@ export default function MetaMensual() {
   },[isFocused,isMountedRef])
 
   const onPressInput = () => {
-    if (inputValue !== '') {
+    if (inputValue !== '' && inputValue.length > 0) {
       AsyncStorage.getItem('monthGoal').then(json => {
         const parsedJson = JSON.parse(json) || []
         setCurrentMonthGoal(prev => {

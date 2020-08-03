@@ -13,7 +13,7 @@ export default function handleFromActionsToButtonTask (
     allMonthGoal,
     setAllMonthGoal
   }){
-  console.log('item',item)
+  console.log('currentItem',item)
   if (action === 'delete') {
     const newArray = dailyTaskItem.filter(obj => obj.id !== index)
     if (allMonthGoal) {
