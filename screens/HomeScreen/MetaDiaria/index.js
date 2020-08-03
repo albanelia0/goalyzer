@@ -25,7 +25,7 @@ const MetaDiaria = () => {
   const [dailyTaskItem, setDailyTaskItem] = useState([])
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
-  const [previousDays, setPreviousDays] = useState()
+  const [previousDays, setPreviousDays] = useState(weekDaysNames[Day - 1].toString())
   const [isDayChanged, setIsDayChanged] = useState(currentDay)
   const isMountedRef = useIsMountedRef();
   const debugSetter = (setter, x, where) => {
@@ -57,7 +57,7 @@ const MetaDiaria = () => {
     })
   },[isMountedRef])
   useEffect(() => {
-    if (isMountedRef.current && currentDay !== isDayChanged) {
+    if (isMountedRef.current && currentDay !== 'isDayChanged') {
       changeDay({previousDays,setDailyTaskItem})
       changeWeek(currentDay)
     }
