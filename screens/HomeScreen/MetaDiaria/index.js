@@ -57,7 +57,7 @@ const MetaDiaria = () => {
     })
   },[isMountedRef])
   useEffect(() => {
-    if (isMountedRef.current && currentDay !== 'isDayChanged') {
+    if (isMountedRef.current && currentDay !== isDayChanged) {
       changeDay({previousDays,setDailyTaskItem})
       changeWeek(currentDay)
     }

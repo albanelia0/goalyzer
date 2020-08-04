@@ -43,6 +43,7 @@ const CheckDays = (
 
       AsyncStorage.getItem('statusFromMonth').then(json => {
         const parsedJson = JSON.parse(json) || []
+        console.log('statusFromMonth',parsedJson)
           if (isMountedRef.current && parsedJson) {
             setCurrentStatusFromMonth(parsedJson)
           }
@@ -55,8 +56,9 @@ const CheckDays = (
       .then(json => {
         const parsedJson = JSON.parse(json) || []
         if (isMountedRef.current) {
-          let arrayFromWeekBegin = !parsedJson || parsedJson.length !== 7 || parsedJson.length !== 12
-            ? listNameToDisplay : parsedJson
+          let arrayFromWeekBegin = !parsedJson || parsedJson.length !== 7
+          ? listNameToDisplay : parsedJson
+          console.log('storageName',parsedJson)
           arrayFromWeekBegin.map((item, i) => {
 
             if (!thisIsYear && item.allTask !== undefined && item.allTask !== null) {

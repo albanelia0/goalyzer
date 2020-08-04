@@ -80,7 +80,7 @@ console.log('taskHistory',taskHistory)
       return { ...prev, key: dayName,allTask: displayAllPreviousTaskFromThisDay}
     })
   }
-  console.log('taskHistory',taskHistory)
+  // console.log('taskHistory',taskHistory)
   return (
     <ScrollView>
       <View style={styles.wrapper}>
