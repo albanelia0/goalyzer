@@ -41,14 +41,16 @@ export default function MetaMensual() {
       }
     })
   }, [isMountedRef])
-  useEffect(() => {
-    if (isFocused && isMountedRef.current) {
-      AsyncStorage.getItem('monthGoal').then(json => {
-      const parsedJson = JSON.parse(json) || []
-        changeStatusFromEachMonth(parsedJson)
-      })
-    }
-  },[isFocused,isMountedRef])
+  // useEffect(() => {
+  //   if (isFocused && isMountedRef.current) {
+  //     AsyncStorage.getItem('monthGoal').then(json => {
+  //     const parsedJson = JSON.parse(json)
+  //     if (parsedJson) {
+  //       changeStatusFromEachMonth(parsedJson)
+  //     }
+  //     })
+  //   }
+  // },[isFocused,isMountedRef])
 
   const onPressInput = () => {
     if (inputValue !== '' && inputValue.length > 0) {

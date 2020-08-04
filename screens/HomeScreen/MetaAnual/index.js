@@ -48,9 +48,9 @@ export default function MetaAnual() {
           giveTheStatus = parsedJson.filter(item => item.currentMonth === currentM())
           setAllMontGoal(parsedJson)
           setCurrentStatus(() => {
-            console.log('parsedJson',parsedJson)
+            const current = parsedJson.filter(month => month.currentMonth === currentM())
             changeStatusFromEachMonth(parsedJson)
-            return giveStatusFromSquare(giveTheStatus)
+            return giveStatusFromSquare(current)
           })
         }
       })

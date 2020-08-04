@@ -58,7 +58,6 @@ const CheckDays = (
         if (isMountedRef.current) {
           let arrayFromWeekBegin = !parsedJson || parsedJson.length !== 7
           ? listNameToDisplay : parsedJson
-          console.log('storageName',parsedJson)
           arrayFromWeekBegin.map((item, i) => {
 
             if (!thisIsYear && item.allTask !== undefined && item.allTask !== null) {
@@ -81,11 +80,9 @@ const CheckDays = (
               } else return {}
             }
               const currentDayFromStateDays =
-              arrayFromWeekBegin.find(({day, done}) =>
-                day === item.day && done === false)
+                arrayFromWeekBegin.find(({day, done}) => day === item.day && done === false)
               if (currentDayFromStateDays !== undefined && currentDayFromStateDays.done === false) {
-              // const newObjectWithCurrentStatus = {...currentDayFromStateDays, status: {...newStatusfromPreviousDays()}}
-              const newArray = arrayFromWeekBegin.map(item => {
+                const newArray = arrayFromWeekBegin.map(item => {
                 if (item.day === currentDayFromStateDays.day && item.done === false && item.allTask !== null)
                   return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
                 return item
@@ -184,39 +181,21 @@ const CheckDays = (
           }/>
         )
       }
-    } else {
-      if (currentStatusFromMonth) {
-
-        const currentStatus = currentStatusFromMonth.find(item => item.status !== false)
-        // console.log('ESSSSSO', currentStatus)
-        if(currentStatus.month === day){
-          return (
-            <View style={isSmallDevice ?
-              {...styles.smallSquareContent, ...currentStatus.status}:
-              {...styles.squarecontent, ...currentStatus.status}
-            }/>
-          )
-        } else if(currentDay.day !== day && status !== false && allTask !== null) {
-          return (
-            <View style={isSmallDevice ?
-              {...styles.smallSquareContent, ...status}:
-              {...styles.squarecontent, ...status}
-            }/>
-          )
-        } else if(currentDay.day === day && status === false) {
-          return (
-            <View style={isSmallDevice ?
-              styles.smallSquareContent: styles.squarecontent
-            }/>
-          )
-        } else {
-          return (
-            <View style={isSmallDevice ?
-              styles.smallSquareContent: styles.squarecontent
-            }/>
-          )
-        }
+    } else if (currentStatusFromMonth && currentStatusFromMonth.length) {
+      const el = currentStatusFromMonth.find(val => val.month === day)
+      if (el) {
+        return (
+          <View style={isSmallDevice
+            ? {...styles.smallSquareContent, ...el.status}
+            : {...styles.squarecontent, ...el.status}
+          }/>
+        )
       }
+      return (
+        <View
+          style={isSmallDevice ? styles.smallSquareContent: styles.squarecontent}
+        />
+      )
     }
   }
 

@@ -44,7 +44,6 @@ export default function handleFromActionsToButtonTask (
             return obj
           }
         })
-        changeStatusFromEachMonth(allMonthGoal)
         AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
         setAllMonthGoal(newArrayFromStorage)
         return newArray
