@@ -26,27 +26,28 @@ export default function changeDay({previousDays,setDailyTaskItem}) {
           const newArrayFromTuesday = parsedJson.find(item =>
             item.day === 'M' && item.day === `${previousDays.charAt(0)}` && item.day !== 'X')
 
-          const theOthers =
+            const theOthers =
             parsedJson.find(item => item.day === `${previousDays.charAt(0)}` && item.day !== 'X' && item.day !== 'M')
 
           if (newArray && parsedAllPreviousTask.length > 0) {
             const arrayFromPreviousDay = {...newArray, allTask: parsedAllPreviousTask, status: currentStatus}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
-                if (JSON.stringify(item) === JSON.stringify(newArray) && item.allTask !== null) return arrayFromPreviousDay
+                if (JSON.stringify(item) === JSON.stringify(newArray) && item.allTask === null) return arrayFromPreviousDay
                 return item
             })
             AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
           } else if(newArrayFromTuesday && parsedAllPreviousTask.length > 0) {
             const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask, status: currentStatus}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
-                if (JSON.stringify(item) === JSON.stringify(newArrayFromTuesday) && item.allTask !== null) return arrayFromPreviousDay
+                if (JSON.stringify(item) === JSON.stringify(newArrayFromTuesday) && item.allTask === null) return arrayFromPreviousDay
                 return item
             })
+
             AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
           } else if(theOthers && parsedAllPreviousTask.length > 0) {
             const arrayFromPreviousDay = {...theOthers, allTask: parsedAllPreviousTask, status: currentStatus}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
-                if (JSON.stringify(item) === JSON.stringify(theOthers) && item.allTask !== null) return arrayFromPreviousDay
+                if (JSON.stringify(item) === JSON.stringify(theOthers) && item.allTask === null) return arrayFromPreviousDay
                 return item
             })
             AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
