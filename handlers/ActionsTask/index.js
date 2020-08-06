@@ -19,6 +19,7 @@ export default function handleFromActionsToButtonTask (
     if (allMonthGoal) {
       const newArrayFromStorage = allMonthGoal.filter((obj, i) => obj.id !== index)
         AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
+        changeStatusFromEachMonth(newArrayFromStorage)
         setAllMonthGoal(newArrayFromStorage)
         setDailyTaskItem(newArray)
     } else {
@@ -44,6 +45,7 @@ export default function handleFromActionsToButtonTask (
             return obj
           }
         })
+        changeStatusFromEachMonth(newArrayFromStorage)
         AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
         setAllMonthGoal(newArrayFromStorage)
         return newArray
@@ -72,6 +74,7 @@ export default function handleFromActionsToButtonTask (
             return obj
           }
         })
+          changeStatusFromEachMonth(newArrayFromStorage)
           AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
           setAllMonthGoal(newArrayFromStorage)
           return newArray

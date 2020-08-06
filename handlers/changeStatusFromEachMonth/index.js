@@ -36,19 +36,17 @@ export default function changeStatusFromEachMonth(parsedJson) {
       default: return false
     }
   }
-  console.log('parsedJson', parsedJson)
 
   const newStatusFromMonth = ALL_MONTH_TEMPLATE.map(templateItem => {
     const parsedJsonGroupedByMonth =
       parsedJson.filter(obj => obj.currentMonth === templateItem.fullMonthName)
-
+    console.log('parsedJsonGroupedByMonth-CHANGE',parsedJsonGroupedByMonth)
     // if parsedJson has nothing under the month, templateItem remains the same
     if (!parsedJsonGroupedByMonth.length) return templateItem
 
     const newStatus = giveStatusFromSquare(parsedJsonGroupedByMonth)
     return {...templateItem, status: displayStatus(newStatus)}
   })
-
 
   AsyncStorage.setItem('statusFromMonth', JSON.stringify(newStatusFromMonth))
 }

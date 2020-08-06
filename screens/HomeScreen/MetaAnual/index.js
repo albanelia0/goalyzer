@@ -19,7 +19,6 @@ export default function MetaAnual() {
   const [value, setValue] = useState()
   const [allYearlyGoal, setAllYearlyGoal] = useState([])
   const isMountedRef = useIsMountedRef()
-  const [allMontGoal,setAllMontGoal] = useState([])
   const [currentStatus,setCurrentStatus] = useState('')
 
   const [Month, setMonth]= useState([
@@ -39,17 +38,15 @@ export default function MetaAnual() {
     {month:"D", done: false, status: false, empty: false}
   ])
   const isFocused = useIsFocused()
-  console.log('isFocused',isFocused)
   useEffect(() => {
     if (isFocused) {
       AsyncStorage.getItem('monthGoal').then(json => {
         const parsedJson = JSON.parse(json) || []
+        console.log('parsedJson',parsedJson)
         if (isMountedRef.current && parsedJson.length > 0) {
-          giveTheStatus = parsedJson.filter(item => item.currentMonth === currentM())
-          setAllMontGoal(parsedJson)
+          changeStatusFromEachMonth(parsedJson)
           setCurrentStatus(() => {
             const current = parsedJson.filter(month => month.currentMonth === currentM())
-            changeStatusFromEachMonth(parsedJson)
             return giveStatusFromSquare(current)
           })
         }

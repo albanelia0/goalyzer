@@ -181,7 +181,8 @@ const CheckDays = (
           }/>
         )
       }
-    } else if (currentStatusFromMonth && currentStatusFromMonth.length) {
+    }
+    if (currentStatusFromMonth && currentStatusFromMonth.length) {
       const el = currentStatusFromMonth.find(val => val.month === day)
       if (el) {
         return (
@@ -202,7 +203,8 @@ const CheckDays = (
   return (
     <View style={styles.container}>
       <View style={styles.days}>
-        {!thisIsYear ? listNameToDisplay.map((item, i) => {
+        {!thisIsYear
+        ? listNameToDisplay.map((item, i) => {
           return (
             <View key={i} style={styles.squareContainer}>
               <Text style={isSmallDevice ? styles.smallDaysList:styles.daysList }>{item.day}</Text>
@@ -210,8 +212,7 @@ const CheckDays = (
             </View>
           )
         })
-        :
-        listNameToDisplay.map((item, i) => {
+        : listNameToDisplay.map((item, i) => {
           return (
             <View key={i} style={styles.squareContainer}>
               <Text style={isSmallDevice ? styles.smallDaysList:styles.daysList }>{item.month}</Text>
