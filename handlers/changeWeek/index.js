@@ -28,13 +28,11 @@ export default function changeWeek(currentDay) {
       AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
     })
   } else if(currentDay !== 'Lunes'){
-      console.log('currentDay-ENTRÓ', currentDay)
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json) || []
       const array = parsedJson === null || parsedJson.length > 0? weekDays : parsedJson
       const newArray = array.map((day,i) => {
         if (day.empty === true) {
-          console.log('ENTRA EN !== LUNES')
           return {...day, empty: false}
         }
         if(Day+1 <= i){

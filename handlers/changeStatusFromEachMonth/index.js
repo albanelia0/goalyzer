@@ -1,7 +1,6 @@
 import {AsyncStorage} from 'react-native'
 
-import currentMonth from '../../components/currentMonth'
-import giveStatusFromSquare from '../giveStatusFromSquare'
+import giveStatusFromSquare from '../../utils/giveStatusFromSquare'
 import {styles} from './styles'
 
 const ALL_MONTH_TEMPLATE = [
@@ -40,7 +39,6 @@ export default function changeStatusFromEachMonth(parsedJson) {
   const newStatusFromMonth = ALL_MONTH_TEMPLATE.map(templateItem => {
     const parsedJsonGroupedByMonth =
       parsedJson.filter(obj => obj.currentMonth === templateItem.fullMonthName)
-    console.log('parsedJsonGroupedByMonth-CHANGE',parsedJsonGroupedByMonth)
     // if parsedJson has nothing under the month, templateItem remains the same
     if (!parsedJsonGroupedByMonth.length) return templateItem
 

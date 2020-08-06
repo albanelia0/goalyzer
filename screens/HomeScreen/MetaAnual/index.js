@@ -5,8 +5,8 @@ import Input from '../../../components/Input'
 import DisplayWeekGoal from '../../../components/displayWeekGoal'
 import useIsMountedRef from '../../../hooks/useMounted'
 import CheckDays from '../../../components/CheckDays'
-import giveStatusFromSquare from '../../../handlers/giveStatusFromSquare';
-import currentM from '../../../components/currentMonth'
+import giveStatusFromSquare from '../../../utils/giveStatusFromSquare';
+import currentM from '../../../utils/currentMonth'
 
 import {styles} from './styles'
 import { KeyboardAvoidingView,ScrollView, View, Text, AsyncStorage } from 'react-native';
@@ -42,7 +42,6 @@ export default function MetaAnual() {
     if (isFocused) {
       AsyncStorage.getItem('monthGoal').then(json => {
         const parsedJson = JSON.parse(json) || []
-        console.log('parsedJson',parsedJson)
         if (isMountedRef.current && parsedJson.length > 0) {
           changeStatusFromEachMonth(parsedJson)
           setCurrentStatus(() => {

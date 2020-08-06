@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import CheckDays from '../../../components/CheckDays'
 import DisplayWeekGoal from '../../../components/displayWeekGoal'
-import giveStatusFromSquare from '../../../handlers/giveStatusFromSquare';
+import giveStatusFromSquare from '../../../utils/giveStatusFromSquare';
 
 const MetaSemanal = ({navigation})=> {
   const [value, setValue]= useState('')

@@ -50,7 +50,6 @@ const changeLetterFromDayToCompletName = [
       }
     })
   },[isMountedRef])
-console.log('taskHistory',taskHistory)
   const checkStatusPreviousDays = (allTask) => {
 
     if (allTask.failed === true && allTask.success === false) {
@@ -80,7 +79,6 @@ console.log('taskHistory',taskHistory)
       return { ...prev, key: dayName,allTask: displayAllPreviousTaskFromThisDay}
     })
   }
-  // console.log('taskHistory',taskHistory)
   return (
     <ScrollView>
       <View style={styles.wrapper}>

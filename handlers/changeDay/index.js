@@ -12,10 +12,8 @@ const Days= [
   ]
 
 export default function changeDay({previousDays,setDailyTaskItem}) {
-  console.log('previousDays',previousDays)
   AsyncStorage.getItem('taskForDay').then(json => {
     const parsedAllPreviousTask = JSON.parse(json) || []
-    console.log('parsedAllPreviousTask',parsedAllPreviousTask)
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsed = JSON.parse(json)
       const parsedJson = parsed === null || parsed === undefined || parsed.length !== 7 ? Days : parsed

@@ -8,7 +8,6 @@ import {
   TouchableOpacity
 } from 'react-native';
 import {styles} from './styles'
-import CMonth from '../../../../components/currentMonth'
 
 const allMonth = [
   {month: 'Enero'}, {month: 'Febrero'},{month: 'Marzo'},{month: 'Abril'},{month: 'Mayo'},{month: 'Junio'},{month: 'Julio'},
@@ -41,7 +40,6 @@ export default function Month() {
                 return [result]
               } else {
                 const isAlreadyOnArray = prev.some(item => item.month === result.month)
-                console.log('previousGoalHistory',[...prev])
                 if (isAlreadyOnArray) {
                   return [...prev]
                 }else {
@@ -90,7 +88,6 @@ export default function Month() {
       <View style={styles.wrapper}>
           <View style={styles.container}>
             {allMonthName.map((item,i) => {
-              console.log('ITEMMM', item)
               if (item === undefined) {
                 return <View key={i+2}><Text>No hay registro</Text></View>
               } else {

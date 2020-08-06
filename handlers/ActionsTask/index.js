@@ -1,5 +1,4 @@
 import {AsyncStorage} from 'react-native';
-import currentMonth from '../../components/currentMonth'
 import changeStatusFromEachMonth from '../changeStatusFromEachMonth';
 
 export default function handleFromActionsToButtonTask (
@@ -13,7 +12,6 @@ export default function handleFromActionsToButtonTask (
     allMonthGoal,
     setAllMonthGoal
   }){
-  console.log('currentItem',dailyTaskItem)
   if (action === 'delete') {
     const newArray = dailyTaskItem.filter(obj => obj.id !== index)
     if (allMonthGoal) {

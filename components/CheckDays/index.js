@@ -24,7 +24,6 @@ const CheckDays = (
   const isFocused = useIsFocused()
 
   const nameFromCurrentMonth =allMonth[currentMonth]
-// console.log('nameFromCurrentMonth',nameFromCurrentMonth)
   const isMountedRef = useIsMountedRef();
 
   const setDaysDebug = (x, where) => {
@@ -43,7 +42,6 @@ const CheckDays = (
 
       AsyncStorage.getItem('statusFromMonth').then(json => {
         const parsedJson = JSON.parse(json) || []
-        console.log('statusFromMonth',parsedJson)
           if (isMountedRef.current && parsedJson) {
             setCurrentStatusFromMonth(parsedJson)
           }
