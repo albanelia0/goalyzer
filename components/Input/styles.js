@@ -22,5 +22,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexWrap: 'wrap',
     marginTop: 20
+  },
+  button: {
+    padding: 6,
+    borderStyle: 'dashed',
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: 'pink',
+  },
+  textButton: {
+    fontSize: 15,
+    color: colors.titleColor
   }
 })
