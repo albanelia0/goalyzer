@@ -32,7 +32,7 @@ export default function MetaMensual() {
   }, [isMountedRef])
 
   const onPressInput = () => {
-    if (inputValue !== '' && inputValue.length > 0) {
+    if (!!inputValue ) {
       AsyncStorage.getItem('monthGoal').then(json => {
         const parsedJson = JSON.parse(json) || []
         setCurrentMonthGoal(prev => {

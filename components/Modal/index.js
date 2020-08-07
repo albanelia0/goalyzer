@@ -1,51 +1,88 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, TouchableHighlight, AsyncStorage } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { View, Text, TouchableHighlight, AsyncStorage,} from 'react-native';
 
 import {styles} from './styles'
+import { TextInput } from 'react-native-gesture-handler';
 
-const disPlayModal = () => {
-  const [texInput, setTextInput] = useState('')
-  const [texValue, setTextValue] = useState()
-
+const disPlayModal = ({isWeek}) => {
+  const [inputText, setTextInput] = useState()
+  const [textValue, setTextValue] = useState()
+  console.log('textValue', textValue === inputText)
   useEffect(() => {
-    AsyncStorage.getItem('textFromDay').then(json => {
-      const parsed = JSON.parse(json)
-      setTextValue(parsed)
-    }, [])
-  })
+    if (isWeek) {
+      AsyncStorage.getItem('textFromWeek').then(json => {
+        const parsed = JSON.parse(json)
+        if (parsed) {
+          setTextInput(parsed)
+          setTextValue(parsed)
+        }
+    })
+    } else {
+      AsyncStorage.getItem('textFromDay').then(json => {
+        const parsed = JSON.parse(json)
+        if (parsed) {
+          setTextInput(parsed)
+          setTextValue(parsed)
+        }
+      })
+    }
+  },[isWeek])
   const onPressOnSaveButton = () => {
-    if (texInput.length > 0) {
-      AsyncStorage.setItem('textFromDay', JSON.stringify(texInput))
-      setTextValue(texInput)
+    if (inputText && isWeek) {
+      AsyncStorage.setItem('textFromWeek', JSON.stringify(inputText))
+      setTextValue(inputText)
+    } else {
+      if (inputText) {
+        AsyncStorage.setItem('textFromDay', JSON.stringify(inputText))
+        setTextValue(inputText)
+      }
     }
   }
 
   const onPressOnDeleteButton = () => {
-    AsyncStorage.removeItem('textFromDay')
-    setTextValue('')
+    if (isWeek) {
+      if (inputText) {
+        AsyncStorage.removeItem('textFromWeek')
+        setTextValue('')
+        setTextInput()
+      }
+
+    } else {
+      if (inputText) {
+        AsyncStorage.removeItem('textFromDay')
+        setTextValue('')
+        setTextInput()
+      }
+
+    }
   }
+
   return (
     <View style={styles.modalContainer}>
-      <Text style={styles.idea}>Idea importante de hoy</Text>
-      <TextInput
-        value={texValue}
-        onChangeText= {text => setTextInput(text)}
-        style={styles.textarea}
-        multiline={true}
-        textStyle={{ minHeight: 128 }}
-        placeholder="Escribe aquí"
-      />
-      <View style={styles.buttonContainer}>
-        <TouchableHighlight onPress={onPressOnDeleteButton}>
-          <Text style={styles.deleteButton}>X</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={onPressOnSaveButton}>
-          {texValue
-            ? <Text style={ styles.buttonSavePressed}>Guardado</Text>
-            : <Text style={ styles.saveButton}>Guardar</Text>
+      <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          {isWeek
+            ? <Text style={styles.idea}>Texto de la semana</Text>
+            : <Text style={styles.idea}>Aplicación diária del texto semanal</Text>
           }
-        </TouchableHighlight>
+        <TextInput
+          value={inputText}
+          onChangeText= {text => setTextInput(text)}
+          style={styles.textarea}
+          multiline={true}
+          textStyle={{ minHeight: 128 }}
+          placeholder="Escribe aquí"
+        />
+        <View style={styles.buttonContainer}>
+          <TouchableHighlight onPress={onPressOnDeleteButton}>
+            <Text style={styles.deleteButton}>X</Text>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={onPressOnSaveButton}>
+            {textValue && textValue === inputText
+              ? <Text style={ styles.buttonSavePressed}>Guardado</Text>
+              : <Text style={ styles.saveButton}>Guardar</Text>
+            }
+          </TouchableHighlight>
+        </View>
       </View>
     </View>
   )

@@ -25,10 +25,10 @@ export const styles = StyleSheet.create({
   },
   button: {
     padding: 6,
-    borderStyle: 'dashed',
+    borderStyle: 'solid',
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: 'pink',
+    borderColor: colors.titleColor,
   },
   textButton: {
     fontSize: 15,

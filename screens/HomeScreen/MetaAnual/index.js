@@ -60,7 +60,7 @@ export default function MetaAnual() {
   }, [isFocused, isMountedRef])
 
   const onPressInputGoal = () => {
-    if (value !== '') {
+    if (!!value) {
       setAllYearlyGoal(prev => {
         if (!prev) {
           const arrayWithNewItem = [value]

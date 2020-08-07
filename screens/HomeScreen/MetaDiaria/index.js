@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 
 import Input from '../../../components/Input'
 import DisplayAllGoal from '../../../components/displayAllGoal'
+import { useIsFocused } from '@react-navigation/native';
+
 import {styles} from './styles'
 import {
   ScrollView,
@@ -35,6 +37,7 @@ const MetaDiaria = () => {
       return typeof x === 'function' ? x(prev) : x
     })
   }
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     if (isMountedRef.current && Day === 0) {
@@ -57,6 +60,7 @@ const MetaDiaria = () => {
       }
     })
   },[isMountedRef])
+
   useEffect(() => {
     if (isMountedRef.current && currentDay !== isDayChanged) {
       changeDay({previousDays,setDailyTaskItem})
@@ -86,7 +90,7 @@ const MetaDiaria = () => {
     <KeyboardAvoidingView>
       <ScrollView style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Meta Diaria</Text>
+          <Text style={styles.title}>Meta para Hoy</Text>
           <Text style={styles.bell} onPress={() => setBellRemember(!bellRemember)}>🔔</Text>
         </View>
         <View style={styles.containerCurrentDay}>
@@ -106,7 +110,7 @@ const MetaDiaria = () => {
           />
           <DisplayAllGoal dailyTaskItem={dailyTaskItem} setDailyTaskItem={setDailyTaskItem} storage='taskForDay'/>
       </ScrollView>
-          {bellRemember && <Modal/>}
+      {bellRemember && isFocused && <Modal/>}
     </KeyboardAvoidingView>
   )
 }

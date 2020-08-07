@@ -3,13 +3,9 @@ import Color from '../../constants/Colors'
 
 export const styles = StyleSheet.create({
   modalContainer:{
-    alignItems: 'center',
     backgroundColor: '#b5a8b7',
-    display: 'flex',
-    flexDirection: 'column',
-    height: 400,
-    justifyContent: 'center',
     marginTop: 100,
+    height: 400,
     margin: 40,
     position: 'absolute',
     width: 300,
@@ -27,9 +23,15 @@ export const styles = StyleSheet.create({
     width: 250,
   },
   idea: {
-    fontSize: 20,
+    borderBottomColor: '#ececec',
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
     color: '#ececec',
-    marginBottom: 40
+    fontSize: 23,
+    padding: 15,
+    margin: 25,
+    textAlign: 'center',
+    marginBottom: 40,
   },
   buttonContainer: {
     alignItems: 'center',
@@ -37,6 +39,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
+    marginBottom: 60
   },
   deleteButton: {
     backgroundColor: '#ececec',
@@ -44,7 +47,7 @@ export const styles = StyleSheet.create({
     color: 'gray',
     fontSize: 25,
     height: 40,
-    marginRight: 20,
+    margin: 20,
     padding: 7,
     textAlign: 'center',
     width: 40,
@@ -58,7 +61,8 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     textAlign: 'center',
     paddingTop: 5,
-    color: 'gray'
+    color: Color.deleteGoal,
+    margin: 10,
   },
   buttonSavePressed: {
     backgroundColor: 'gray',

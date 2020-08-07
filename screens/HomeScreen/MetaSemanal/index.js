@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import useIsMountedRef from '../../../hooks/useMounted'
 import Input from '../../../components/Input'
+import { useIsFocused } from '@react-navigation/native';
 
 import {styles} from './styles'
 import {
@@ -10,16 +11,17 @@ import {
   View,
   TouchableOpacity,
   AsyncStorage,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
 import CheckDays from '../../../components/CheckDays'
 import DisplayWeekGoal from '../../../components/displayWeekGoal'
 import giveStatusFromSquare from '../../../utils/giveStatusFromSquare';
-
+import Modal from '../../../components/Modal'
 const MetaSemanal = ({navigation})=> {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
   const [arrayAllTask, setArrayAllTask] = useState([])
+  const [bellRemember, setBellRemember] = useState([])
   const isMountedRef = useIsMountedRef();
 
   const [Days, setDays]= useState([
@@ -31,6 +33,7 @@ const MetaSemanal = ({navigation})=> {
   {day:"S", done: false, allTask: null, status: false, empty: false},
   {day:"D", done: false, allTask: null, status: false, empty: false}
 ])
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
@@ -47,6 +50,8 @@ const MetaSemanal = ({navigation})=> {
         const parsedJson = JSON.parse(json) || []
         if (parsedJson || parsedJson.length > 0) {
           setArrayAllTask(parsedJson)
+        } else {
+          setBellRemember(false)
         }
       })
     })
@@ -70,28 +75,31 @@ const MetaSemanal = ({navigation})=> {
   }
 
   return (
-    <KeyboardAvoidingView>
-      <ScrollView style={styles.allWeekContainer} keyboardShouldPersistTaps='handled'>
-        <View>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Meta Semanal</Text>
-            <Text>🔔</Text>
+    <View>
+      <KeyboardAvoidingView>
+        <ScrollView style={styles.allWeekContainer} keyboardShouldPersistTaps='handled'>
+          <View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>Meta Semanal</Text>
+              <Text style={styles.bell} onPress={() => setBellRemember(!bellRemember)}>🔔</Text>
+            </View>
+           <CheckDays
+              dayComplete={giveStatusFromSquare(arrayAllTask)}
+              listNameToDisplay={Days}
+              setListNameToDisplay={setDays}
+              storageName='allWeekDays'
+           />
+           <Input
+            value={value}
+            onPress={onInputSubmit}
+            onChangeText={text => setValue(text)}
+            taskToCreate="goal"/>
+            <DisplayWeekGoal storage='allGoalWeek' arrayAllGoal={arrayAllGoal} setArrayAllGoal={setArrayAllGoal}/>
           </View>
-         <CheckDays
-            dayComplete={giveStatusFromSquare(arrayAllTask)}
-            listNameToDisplay={Days}
-            setListNameToDisplay={setDays}
-            storageName='allWeekDays'
-         />
-         <Input
-          value={value}
-          onPress={onInputSubmit}
-          onChangeText={text => setValue(text)}
-          taskToCreate="goal"/>
-          <DisplayWeekGoal storage='allGoalWeek' arrayAllGoal={arrayAllGoal} setArrayAllGoal={setArrayAllGoal}/>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+        {bellRemember && <Modal isWeek/>}
+    </View>
   );
 }
 export default MetaSemanal

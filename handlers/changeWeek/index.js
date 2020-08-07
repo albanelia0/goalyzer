@@ -26,6 +26,7 @@ export default function changeWeek(currentDay) {
         } else return day
       })
       AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
+      AsyncStorage.removeItem('textFromWeek')
     })
   } else if(currentDay !== 'Lunes'){
     AsyncStorage.getItem('allWeekDays').then(json => {
