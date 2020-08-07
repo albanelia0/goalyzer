@@ -98,7 +98,7 @@ const MetaSemanal = ({navigation})=> {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-        {bellRemember && <Modal isWeek/>}
+        {bellRemember && <Modal isWeek onClose={() => { console.log('heee'); setBellRemember(false)}}/>}
     </View>
   );
 }

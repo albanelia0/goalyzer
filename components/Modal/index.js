@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, TouchableHighlight, AsyncStorage,} from 'react-native';
+import { View, Text, TouchableHighlight, TouchableOpacity, AsyncStorage,} from 'react-native';
 
 import {styles} from './styles'
 import { TextInput } from 'react-native-gesture-handler';
 
-const disPlayModal = ({isWeek}) => {
+const Modal = ({isWeek, onClose}) => {
   const [inputText, setTextInput] = useState()
   const [textValue, setTextValue] = useState()
-  console.log('textValue', textValue === inputText)
   useEffect(() => {
     if (isWeek) {
       AsyncStorage.getItem('textFromWeek').then(json => {
@@ -58,34 +57,37 @@ const disPlayModal = ({isWeek}) => {
   }
 
   return (
-    <View style={styles.modalContainer}>
-      <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          {isWeek
-            ? <Text style={styles.idea}>Texto de la semana</Text>
-            : <Text style={styles.idea}>Aplicación diária del texto semanal</Text>
-          }
-        <TextInput
-          value={inputText}
-          onChangeText= {text => setTextInput(text)}
-          style={styles.textarea}
-          multiline={true}
-          textStyle={{ minHeight: 128 }}
-          placeholder="Escribe aquí"
-        />
-        <View style={styles.buttonContainer}>
-          <TouchableHighlight onPress={onPressOnDeleteButton}>
-            <Text style={styles.deleteButton}>X</Text>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={onPressOnSaveButton}>
-            {textValue && textValue === inputText
-              ? <Text style={ styles.buttonSavePressed}>Guardado</Text>
-              : <Text style={ styles.saveButton}>Guardar</Text>
+    <>
+      <TouchableOpacity style={styles.overlay} onPress={onClose} />
+      <View style={styles.modalContainer}>
+        <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            {isWeek
+              ? <Text style={styles.idea}>Texto de la semana</Text>
+              : <Text style={styles.idea}>Aplicación diária del texto semanal</Text>
             }
-          </TouchableHighlight>
+          <TextInput
+            value={inputText}
+            onChangeText= {text => setTextInput(text)}
+            style={styles.textarea}
+            multiline={true}
+            textStyle={{ minHeight: 128 }}
+            placeholder="Escribe aquí"
+          />
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={onPressOnDeleteButton}>
+              <Text style={styles.deleteButton}>X</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onPressOnSaveButton}>
+              {textValue && textValue === inputText
+                ? <Text style={ styles.buttonSavePressed}>Guardado</Text>
+                : <Text style={ styles.saveButton}>Guardar</Text>
+              }
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </>
   )
 }
 
-export default disPlayModal
+export default Modal

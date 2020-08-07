@@ -1,7 +1,18 @@
 import {StyleSheet} from 'react-native';
 import Color from '../../constants/Colors'
+import layout from '../../constants/Layout'
 
 export const styles = StyleSheet.create({
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: layout.window.height,
+    right: 0,
+    backgroundColor: '#000',
+    opacity: 0.5,
+    zIndex: 99,
+  },
   modalContainer:{
     backgroundColor: '#b5a8b7',
     marginTop: 100,

@@ -37,7 +37,6 @@ const MetaDiaria = () => {
       return typeof x === 'function' ? x(prev) : x
     })
   }
-  const isFocused = useIsFocused()
 
   useEffect(() => {
     if (isMountedRef.current && Day === 0) {
@@ -110,7 +109,7 @@ const MetaDiaria = () => {
           />
           <DisplayAllGoal dailyTaskItem={dailyTaskItem} setDailyTaskItem={setDailyTaskItem} storage='taskForDay'/>
       </ScrollView>
-      {bellRemember && isFocused && <Modal/>}
+      {bellRemember && <Modal onClose={() => { console.log('heee'); setBellRemember(false)}} />}
     </KeyboardAvoidingView>
   )
 }
