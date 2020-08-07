@@ -34,14 +34,17 @@ export default function changeDay({previousDays,setDailyTaskItem}) {
                 return item
             })
             AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+            AsyncStorage.removeItem('textFromDay')
+
           } else if(newArrayFromTuesday && parsedAllPreviousTask.length > 0) {
             const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask, status: currentStatus}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
                 if (JSON.stringify(item) === JSON.stringify(newArrayFromTuesday) && item.allTask === null) return arrayFromPreviousDay
                 return item
             })
-
             AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+            AsyncStorage.removeItem('textFromDay')
+
           } else if(theOthers && parsedAllPreviousTask.length > 0) {
             const arrayFromPreviousDay = {...theOthers, allTask: parsedAllPreviousTask, status: currentStatus}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
@@ -49,6 +52,8 @@ export default function changeDay({previousDays,setDailyTaskItem}) {
                 return item
             })
             AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
+            AsyncStorage.removeItem('textFromDay')
+
           } else {
             if (newArray) {
               const arrayFromPreviousDay = {...newArray, allTask: null, status: false}

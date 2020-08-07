@@ -59,5 +59,15 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     paddingTop: 5,
     color: 'gray'
+  },
+  buttonSavePressed: {
+    backgroundColor: 'gray',
+    height: 40,
+    width: 150,
+    fontSize: 20,
+    borderRadius: 10,
+    textAlign: 'center',
+    paddingTop: 5,
+    color: '#efccec'
   }
 })
