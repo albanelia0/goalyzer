@@ -45,8 +45,8 @@ export const styles = StyleSheet.create({
     letterSpacing: 20,
     minWidth: Layout.window.width
   },
-  remenberOfDay: {
-
+  bell: {
+    padding: 20
   },
   textForDay: {
     paddingTop: 20,

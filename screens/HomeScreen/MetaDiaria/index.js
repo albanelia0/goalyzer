@@ -17,6 +17,7 @@ import Layout from '../../../constants/Layout'
 import changeWeek from '../../../handlers/changeWeek'
 import changeDay from '../../../handlers/changeDay';
 import useIsMountedRef from '../../../hooks/useMounted'
+import Modal from '../../../components/Modal';
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
@@ -80,12 +81,13 @@ const MetaDiaria = () => {
       setValueInput('')
     } else return
   }
+
   return (
-    <KeyboardAvoidingView >
+    <KeyboardAvoidingView>
       <ScrollView style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Meta Diaria</Text>
-          <Text onPress={() => setBellRemember(!bellRemember)}>🔔</Text>
+          <Text style={styles.bell} onPress={() => setBellRemember(!bellRemember)}>🔔</Text>
         </View>
         <View style={styles.containerCurrentDay}>
           <Text style={
@@ -104,6 +106,7 @@ const MetaDiaria = () => {
           />
           <DisplayAllGoal dailyTaskItem={dailyTaskItem} setDailyTaskItem={setDailyTaskItem} storage='taskForDay'/>
       </ScrollView>
+          {bellRemember && <Modal/>}
     </KeyboardAvoidingView>
   )
 }
