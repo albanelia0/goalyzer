@@ -27,6 +27,10 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "android": {
+      "package": "com.albanelia0.goalyzer",
+      "versionCode": 1
     }
   }
 }
