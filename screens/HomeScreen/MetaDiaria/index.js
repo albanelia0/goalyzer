@@ -39,6 +39,7 @@ const MetaDiaria = () => {
   }
 
   useEffect(() => {
+
     if (isMountedRef.current && Day === 0) {
       setPreviousDays(weekDaysNames[6].toString())
     } else {

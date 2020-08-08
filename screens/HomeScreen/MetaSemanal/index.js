@@ -21,7 +21,7 @@ const MetaSemanal = ({navigation})=> {
   const [value, setValue]= useState('')
   const [arrayAllGoal, setArrayAllGoal] = useState([])
   const [arrayAllTask, setArrayAllTask] = useState([])
-  const [bellRemember, setBellRemember] = useState([])
+  const [bellRemember, setBellRemember] = useState(false)
   const isMountedRef = useIsMountedRef();
 
   const [Days, setDays]= useState([
@@ -33,7 +33,6 @@ const MetaSemanal = ({navigation})=> {
   {day:"S", done: false, allTask: null, status: false, empty: false},
   {day:"D", done: false, allTask: null, status: false, empty: false}
 ])
-  const isFocused = useIsFocused()
 
   useEffect(() => {
     AsyncStorage.getItem('allGoalWeek').then(json => {
@@ -73,7 +72,6 @@ const MetaSemanal = ({navigation})=> {
       setValue('')
     } else return
   }
-
   return (
     <View>
       <KeyboardAvoidingView>

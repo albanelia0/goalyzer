@@ -49,7 +49,6 @@ const CheckDays = (
       }
   }, [isFocused,isMountedRef])
   useEffect(() => {
-
     AsyncStorage.getItem(storageName)
       .then(json => {
         const parsedJson = JSON.parse(json) || []
@@ -58,7 +57,7 @@ const CheckDays = (
           ? listNameToDisplay : parsedJson
           arrayFromWeekBegin.map((item, i) => {
 
-            if (!thisIsYear && item.allTask !== undefined && item.allTask !== null) {
+            if (!thisIsYear && item.allTask !== undefined ) {
               const newStatusfromPreviousDays = () => {
               const greenStatus = item.allTask.every(item => item.success === true)
               const goalAlmostSuccess = item.allTask.some(item => item.success === true)
@@ -79,15 +78,27 @@ const CheckDays = (
             }
               const currentDayFromStateDays =
                 arrayFromWeekBegin.find(({day, done}) => day === item.day && done === false)
+              const currentDayFromPreviousDays =
+                arrayFromWeekBegin.find(({day, done}) => day === item.day && done === true)
               if (currentDayFromStateDays !== undefined && currentDayFromStateDays.done === false) {
                 const newArray = arrayFromWeekBegin.map(item => {
                 if (item.day === currentDayFromStateDays.day && item.done === false && item.allTask !== null)
                   return {...currentDayFromStateDays,done: true, status: {...newStatusfromPreviousDays()}}
                 return item
-              })
-              AsyncStorage.setItem(storageName, JSON.stringify(newArray))
-              setDaysDebug(newArray, 'L65')
-              } else return
+                })
+                AsyncStorage.setItem(storageName, JSON.stringify(newArray))
+                setDaysDebug(newArray, 'L65')
+              } else if(currentDayFromPreviousDays) {
+                const newStatusValue = {...currentDayFromPreviousDays,done: true, status: {...newStatusfromPreviousDays()}}
+
+                const newArray = arrayFromWeekBegin.map(item => {
+                 if (item.day === currentDayFromPreviousDays.day && item.done === false && item.allTask !== null) newStatusValue
+                  return item
+                })
+                console.log('newArray',newArray)
+                AsyncStorage.setItem(storageName, JSON.stringify(newArray))
+                setDaysDebug(newArray, 'L65')
+              }
             }
           })
         }
@@ -190,6 +201,12 @@ const CheckDays = (
           }/>
         )
       }
+      return (
+        <View
+          style={isSmallDevice ? styles.smallSquareContent: styles.squarecontent}
+        />
+      )
+    }else {
       return (
         <View
           style={isSmallDevice ? styles.smallSquareContent: styles.squarecontent}
