@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 
 import Input from '../../../components/Input'
 import DisplayAllGoal from '../../../components/displayAllGoal'
-import { useIsFocused } from '@react-navigation/native';
 
 import {styles} from './styles'
 import {
@@ -23,12 +22,11 @@ import Modal from '../../../components/Modal';
 const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
+let previousDays = Day !== 0? weekDaysNames[Day - 1].toString():weekDaysNames[6].toString()
 const MetaDiaria = () => {
-
   const [dailyTaskItem, setDailyTaskItem] = useState([])
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
-  const [previousDays, setPreviousDays] = useState(weekDaysNames[Day - 1].toString())
   const [isDayChanged, setIsDayChanged] = useState(currentDay)
   const isMountedRef = useIsMountedRef();
   const debugSetter = (setter, x, where) => {
@@ -39,12 +37,6 @@ const MetaDiaria = () => {
   }
 
   useEffect(() => {
-
-    if (isMountedRef.current && Day === 0) {
-      setPreviousDays(weekDaysNames[6].toString())
-    } else {
-      setPreviousDays(weekDaysNames[Day - 1].toString())
-    }
     AsyncStorage.getItem('taskForDay').then(json => {
       const parsedJson = JSON.parse(json) || []
 
@@ -60,7 +52,6 @@ const MetaDiaria = () => {
       }
     })
   },[isMountedRef])
-
   useEffect(() => {
     if (isMountedRef.current && currentDay !== isDayChanged) {
       changeDay({previousDays,setDailyTaskItem})
@@ -110,7 +101,7 @@ const MetaDiaria = () => {
           />
           <DisplayAllGoal dailyTaskItem={dailyTaskItem} setDailyTaskItem={setDailyTaskItem} storage='taskForDay'/>
       </ScrollView>
-      {bellRemember && <Modal onClose={() => { console.log('heee'); setBellRemember(false)}} />}
+      {bellRemember && <Modal onClose={() => {  setBellRemember(false)}} />}
     </KeyboardAvoidingView>
   )
 }

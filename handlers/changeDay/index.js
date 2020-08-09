@@ -12,11 +12,13 @@ const Days= [
   ]
 
 export default function changeDay({previousDays,setDailyTaskItem}) {
+
   AsyncStorage.getItem('taskForDay').then(json => {
     const parsedAllPreviousTask = JSON.parse(json) || []
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsed = JSON.parse(json)
       const parsedJson = parsed === null || parsed === undefined || parsed.length !== 7 ? Days : parsed
+
       AsyncStorage.getItem('currentStatus').then(json => {
         const currentStatus = JSON.parse(json)
 
@@ -27,7 +29,7 @@ export default function changeDay({previousDays,setDailyTaskItem}) {
             const theOthers =
             parsedJson.find(item => item.day === `${previousDays.charAt(0)}` && item.day !== 'X' && item.day !== 'M')
 
-          if (newArray && parsedAllPreviousTask.length > 0) {
+          if (newArray && parsedAllPreviousTask.length > 0 && !!currentStatus) {
             const arrayFromPreviousDay = {...newArray, allTask: parsedAllPreviousTask, status: currentStatus}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
                 if (JSON.stringify(item) === JSON.stringify(newArray) && item.allTask === null) return arrayFromPreviousDay
@@ -36,7 +38,7 @@ export default function changeDay({previousDays,setDailyTaskItem}) {
             AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
             AsyncStorage.removeItem('textFromDay')
 
-          } else if(newArrayFromTuesday && parsedAllPreviousTask.length > 0) {
+          } else if(newArrayFromTuesday && parsedAllPreviousTask.length > 0 && !!currentStatus) {
             const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask, status: currentStatus}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
                 if (JSON.stringify(item) === JSON.stringify(newArrayFromTuesday) && item.allTask === null) return arrayFromPreviousDay
@@ -45,7 +47,7 @@ export default function changeDay({previousDays,setDailyTaskItem}) {
             AsyncStorage.setItem('allWeekDays', JSON.stringify(newArrayWithAllTaskUpdatedFromPreviousDay))
             AsyncStorage.removeItem('textFromDay')
 
-          } else if(theOthers && parsedAllPreviousTask.length > 0) {
+          } else if(theOthers && parsedAllPreviousTask.length > 0 && !!currentStatus) {
             const arrayFromPreviousDay = {...theOthers, allTask: parsedAllPreviousTask, status: currentStatus}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
                 if (JSON.stringify(item) === JSON.stringify(theOthers) && item.allTask === null) return arrayFromPreviousDay

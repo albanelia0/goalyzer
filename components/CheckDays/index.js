@@ -23,7 +23,6 @@ const CheckDays = (
   const [currentStatusFromMonth,setCurrentStatusFromMonth] = useState(false)
   const isFocused = useIsFocused()
 
-  const nameFromCurrentMonth =allMonth[currentMonth]
   const isMountedRef = useIsMountedRef();
 
   const setDaysDebug = (x, where) => {
@@ -42,11 +41,11 @@ const CheckDays = (
 
       AsyncStorage.getItem('statusFromMonth').then(json => {
         const parsedJson = JSON.parse(json) || []
-          if (isMountedRef.current && parsedJson) {
-            setCurrentStatusFromMonth(parsedJson)
-          }
-        })
-      }
+        if (isMountedRef.current && parsedJson) {
+          setCurrentStatusFromMonth(parsedJson)
+        }
+      })
+    }
   }, [isFocused,isMountedRef])
   useEffect(() => {
     AsyncStorage.getItem(storageName)

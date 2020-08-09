@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 
 import useIsMountedRef from '../../../hooks/useMounted'
 import Input from '../../../components/Input'
-import { useIsFocused } from '@react-navigation/native';
 
 import {styles} from './styles'
 import {
@@ -96,7 +95,7 @@ const MetaSemanal = ({navigation})=> {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-        {bellRemember && <Modal isWeek onClose={() => { console.log('heee'); setBellRemember(false)}}/>}
+        {bellRemember && <Modal isWeek onClose={() => {setBellRemember(false)}}/>}
     </View>
   );
 }

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "NativeApp",
-    "slug": "NativeApp",
+    "name": "Goalyzer",
+    "slug": "Goalyzer",
     "platforms": [
       "ios",
       "android",

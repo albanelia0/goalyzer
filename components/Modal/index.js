@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, TouchableHighlight, TouchableOpacity, AsyncStorage,} from 'react-native';
+import { View, Text, TouchableOpacity, AsyncStorage,} from 'react-native';
 
 import {styles} from './styles'
 import { TextInput } from 'react-native-gesture-handler';

@@ -33,23 +33,25 @@ export default function handleFromActionsToButtonTask (
       id: item.id
     }
     setDailyTaskItem(prev => {
-      const newArray = prev.map((obj, i) => obj.id === index ? newObject : obj)
-      if (allMonthGoal) {
-        const findObjectClicked = allMonthGoal.find((obj, i) => obj.id === item.id)
-        const newArrayFromStorage = allMonthGoal.map((obj, i) => {
-          if (JSON.stringify(obj) === JSON.stringify(findObjectClicked)) {
-            return newObject
-          } else {
-            return obj
-          }
-        })
-        changeStatusFromEachMonth(newArrayFromStorage)
-        AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
-        setAllMonthGoal(newArrayFromStorage)
-        return newArray
-      } else {
-        AsyncStorage.setItem(storage, JSON.stringify(newArray))
-        return newArray
+      if (!!prev) {
+        const newArray = prev.map((obj, i) => obj.id === index ? newObject : obj)
+        if (allMonthGoal) {
+          const findObjectClicked = allMonthGoal.find((obj, i) => obj.id === item.id)
+          const newArrayFromStorage = allMonthGoal.map((obj, i) => {
+            if (JSON.stringify(obj) === JSON.stringify(findObjectClicked)) {
+              return newObject
+            } else {
+              return obj
+            }
+          })
+          changeStatusFromEachMonth(newArrayFromStorage)
+          AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
+          setAllMonthGoal(newArrayFromStorage)
+          return newArray
+        } else {
+          AsyncStorage.setItem(storage, JSON.stringify(newArray))
+          return newArray
+        }
       }
     })
   } else if (action === 'failed') {
@@ -62,23 +64,27 @@ export default function handleFromActionsToButtonTask (
     }
 
     setDailyTaskItem(prev => {
-      const newArray = prev.map((obj, i) => obj.id === index? newObject : obj)
-      if (allMonthGoal) {
-          const findObjectClicked = allMonthGoal.find((obj, i) => obj.id === item.id)
-          const newArrayFromStorage = allMonthGoal.map((obj, i) => {
-          if (JSON.stringify(obj) === JSON.stringify(findObjectClicked)) {
-            return newObject
-          } else {
-            return obj
-          }
-        })
-          changeStatusFromEachMonth(newArrayFromStorage)
-          AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
-          setAllMonthGoal(newArrayFromStorage)
+      console.log('prev',prev)
+      if (!!prev) {
+        const newArray = prev.map((obj, i) => obj.id === index? newObject : obj)
+
+        if (allMonthGoal) {
+            const findObjectClicked = allMonthGoal.find((obj, i) => obj.id === item.id)
+            const newArrayFromStorage = allMonthGoal.map((obj, i) => {
+            if (JSON.stringify(obj) === JSON.stringify(findObjectClicked)) {
+              return newObject
+            } else {
+              return obj
+            }
+          })
+            changeStatusFromEachMonth(newArrayFromStorage)
+            AsyncStorage.setItem(storage, JSON.stringify(newArrayFromStorage))
+            setAllMonthGoal(newArrayFromStorage)
+            return newArray
+        } else {
+          AsyncStorage.setItem(storage, JSON.stringify(newArray))
           return newArray
-      } else {
-        AsyncStorage.setItem(storage, JSON.stringify(newArray))
-        return newArray
+        }
       }
     })
   }
