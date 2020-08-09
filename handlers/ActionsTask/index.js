@@ -30,7 +30,8 @@ export default function handleFromActionsToButtonTask (
       success: !item.success,
       failed: false,
       currentMonth: item.currentMonth,
-      id: item.id
+      id: item.id,
+      year: new Date().getFullYear()
     }
     setDailyTaskItem(prev => {
       if (!!prev) {
@@ -60,7 +61,8 @@ export default function handleFromActionsToButtonTask (
       success: false,
       failed: !item.failed,
       currentMonth: item.currentMonth,
-      id: item.id
+      id: item.id,
+      year: new Date().getFullYear()
     }
 
     setDailyTaskItem(prev => {

@@ -38,17 +38,38 @@ export default function MetaMensual() {
         setCurrentMonthGoal(prev => {
           const idValue = ID()
           if (parsedJson || parsedJson.length > 0) {
-            const arrayWithAllItem = [...parsedJson, { name: inputValue, success: false, failed: false, currentMonth:Month(),id: idValue, status: false,allTask: null}]
+            const arrayWithAllItem =
+              [...parsedJson,
+              { name: inputValue,
+              success: false,
+              failed: false,
+              currentMonth:Month(),
+              id: idValue,
+              status: false,
+              allTask: null,
+              year: new Date().getFullYear()
+            }]
             changeStatusFromEachMonth(arrayWithAllItem)
             AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithAllItem))
             setAllMonthGoal(arrayWithAllItem)
-            return [...prev, { name: inputValue, success: false, failed: false, currentMonth:Month(),id: idValue, status: false,allTask: null}]
+            return [...prev, { name: inputValue, success: false, failed: false, currentMonth:Month(),id: idValue, status: false,allTask: null, year: new Date().getFullYear()}]
           } else {
-            const arrayWithAllItem = [{ name: inputValue, success: false, failed: false, currentMonth:Month(), id: idValue, status: false,allTask: null}]
+            const arrayWithAllItem =
+              [
+                { name: inputValue,
+                success: false,
+                failed: false,
+                currentMonth:Month(),
+                id: idValue,
+                status: false,
+                allTask: null,
+                year: new Date().getFullYear()
+                }
+              ]
             AsyncStorage.setItem('monthGoal', JSON.stringify(arrayWithAllItem))
             changeStatusFromEachMonth(arrayWithAllItem)
             setAllMonthGoal(parsedJson)
-            return [...prev, { name: inputValue, success: false, failed: false, currentMonth:Month(),id: idValue, status: false,allTask: null}]
+            return [...prev, { name: inputValue, success: false, failed: false, currentMonth:Month(),id: idValue, status: false,allTask: null,year: new Date().getFullYear()}]
           }
         })
       })
