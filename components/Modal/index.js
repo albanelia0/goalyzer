@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View, Text, TouchableOpacity, AsyncStorage,} from 'react-native';
+import { View, Text, TouchableOpacity, AsyncStorage, KeyboardAvoidingView,} from 'react-native';
 
 import {styles} from './styles'
 import { TextInput } from 'react-native-gesture-handler';
@@ -60,7 +60,9 @@ const Modal = ({isWeek, onClose}) => {
     <>
       <TouchableOpacity style={styles.overlay} onPress={onClose} />
       <View style={styles.modalContainer}>
-        <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <KeyboardAvoidingView
+          behavior="padding"
+          style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             {isWeek
               ? <Text style={styles.idea}>Texto de la semana</Text>
               : <Text style={styles.idea}>Aplicación diária del texto semanal</Text>
@@ -84,7 +86,7 @@ const Modal = ({isWeek, onClose}) => {
               }
             </TouchableOpacity>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </View>
     </>
   )

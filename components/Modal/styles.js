@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     height:150,
     padding: 10,
+    paddingBottom: 30,
     textAlign: 'center',
     width: 250,
   },
