@@ -43,7 +43,6 @@ export default function changeWeek(currentDay) {
             console.log('Day+1', Day+1, 'i', i)
             return day
           } else {
-            AsyncStorage.removeItem('textFromWeek')
             return {...day, done: false,allTask: null, status: false, empty: false }
           }
         })
