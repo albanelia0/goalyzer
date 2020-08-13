@@ -53,6 +53,7 @@ export default function MetaAnual() {
     }
     AsyncStorage.getItem('yearlyGoal').then(json => {
       const parsed = JSON.parse(json)
+      console.log('parsed',parsed)
       if (parsed) {
         setAllYearlyGoal(parsed)
       }
@@ -67,7 +68,7 @@ export default function MetaAnual() {
           AsyncStorage.setItem('yearlyGoal', JSON.stringify(arrayWithNewItem))
           return arrayWithNewItem
         } else {
-          const arrayWithNewItem = [...prev, value, new Date().getFullYear()]
+          const arrayWithNewItem = [...prev, value]
           AsyncStorage.setItem('yearlyGoal', JSON.stringify(arrayWithNewItem))
           return arrayWithNewItem
         }

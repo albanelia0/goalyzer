@@ -5,12 +5,6 @@ import { Text, View, AsyncStorage } from 'react-native';
 import useIsMountedRef from '../../hooks/useMounted'
 import { useIsFocused } from '@react-navigation/native';
 
-
-const allMonth = [
-  {month: 'Enero'}, {month: 'Febrero'},{month: 'Marzo'},{month: 'Abril'},{month: 'Mayo'},{month: 'Junio'},{month: 'Julio'},
-  {month: 'Agosto'},{month: 'Septiembre'},{month: 'Octubre'},{month: 'Noviembre'},{month: 'Diciembre'}
-]
-
 const CheckDays = (
   {
     dayComplete,
