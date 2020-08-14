@@ -29,19 +29,19 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Week"
+        name="Month"
         component={MetaSemanal}
         options={{
           title: 'Semanal',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} week="calendar-day" />,
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} month="calendar-week" />,
         }}
       />
       <BottomTab.Screen
-        name="Month"
+        name="Week"
         component={MetaMensual}
         options={{
           title: 'Mensual',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} month="calendar-week" />,
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} week="calendar-day" />,
         }}
       />
       <BottomTab.Screen
