@@ -88,6 +88,7 @@ export default function MetaMensual() {
             onChangeText={(text) => setInputValue(text)}
             taskToCreate="mensual"
             onPress={onPressInput}
+            taskToCreate='goal'
             />
           <View style={styles.goalContainer}>
             <DisplayAllGoal

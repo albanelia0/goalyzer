@@ -78,7 +78,9 @@ const MetaSemanal = ({navigation})=> {
           <View>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>Meta Semanal</Text>
-              <Text style={styles.bell} onPress={() => setBellRemember(!bellRemember)}>🔔</Text>
+              <TouchableOpacity style={styles.bell} onPress={() => setBellRemember(!bellRemember)}>
+                <Text>🔔</Text>
+              </TouchableOpacity>
             </View>
            <CheckDays
               dayComplete={giveStatusFromSquare(arrayAllTask)}

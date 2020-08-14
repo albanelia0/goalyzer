@@ -22,7 +22,11 @@ export default function changeWeek(currentDay) {
       const newArray = array.map(day => {
 
         const newValue = {day: day.day, done: false,allTask: null, status: false, empty: true }
-        if (day.empty === false) return newValue
+        if (day.empty === false) {
+          return newValue
+        } else if(day.day === 'D') {
+          return newValue
+        }
         return day
       })
 

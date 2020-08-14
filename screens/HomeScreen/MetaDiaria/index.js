@@ -11,6 +11,7 @@ import {
   View,
   KeyboardAvoidingView,
   AsyncStorage,
+  TouchableOpacity,
 } from 'react-native';
 import ID from '../../../ID'
 
@@ -23,6 +24,7 @@ const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Vie
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
 let previousDays = Day !== 0? weekDaysNames[Day - 1].toString():weekDaysNames[6].toString()
+
 const MetaDiaria = () => {
   const [dailyTaskItem, setDailyTaskItem] = useState([])
   const [valueInput, setValueInput] = useState('')
@@ -82,7 +84,9 @@ const MetaDiaria = () => {
       <ScrollView style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Meta para Hoy</Text>
-          <Text style={styles.bell} onPress={() => setBellRemember(!bellRemember)}>🔔</Text>
+          <TouchableOpacity style={styles.bell} onPress={() => setBellRemember(!bellRemember)}>
+            <Text>🔔</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.containerCurrentDay}>
           <Text style={
