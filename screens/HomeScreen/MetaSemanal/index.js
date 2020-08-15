@@ -40,7 +40,7 @@ const MetaSemanal = ({navigation})=> {
         setArrayAllGoal(parsedJson)
       }
     })
-  }, [])
+  }, [isMountedRef])
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
