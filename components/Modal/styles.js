@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     height: 350,
     margin: 40,
     position: 'absolute',
-    width: 300,
+    width: layout.window.width/1.2,
     zIndex: 100,
     borderRadius: 30
   },
