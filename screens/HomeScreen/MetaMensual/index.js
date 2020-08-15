@@ -91,6 +91,8 @@ export default function MetaMensual() {
             taskToCreate='goal'
             />
           <View style={styles.goalContainer}>
+            { allMonthGoal.length
+              ?
             <DisplayAllGoal
               allMonthGoal={allMonthGoal}
               setAllMonthGoal={setAllMonthGoal}
@@ -98,6 +100,10 @@ export default function MetaMensual() {
               setDailyTaskItem={setCurrentMonthGoal}
               storage='monthGoal'
               />
+              :
+            <Text style={{fontSize: 20, padding: 10, color:'#c99b9b'}}>
+              No hay metas para mostrar 🥺... este mes va chungo...🤐
+            </Text>}
           </View>
         </View>
       </ScrollView>

@@ -53,7 +53,6 @@ export default function MetaAnual() {
     }
     AsyncStorage.getItem('yearlyGoal').then(json => {
       const parsed = JSON.parse(json)
-      console.log('parsed',parsed)
       if (parsed) {
         setAllYearlyGoal(parsed)
       }

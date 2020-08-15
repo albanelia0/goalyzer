@@ -64,7 +64,7 @@ const Modal = ({isWeek, onClose}) => {
           behavior="padding"
           style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             {isWeek
-              ? <Text style={styles.idea}>Texto de la semana</Text>
+              ? <Text style={styles.ideaSemanal}>Texto de la semana</Text>
               : <Text style={styles.idea}>Aplicación diária del texto semanal</Text>
             }
           <TextInput

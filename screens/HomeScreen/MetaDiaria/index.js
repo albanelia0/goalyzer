@@ -78,14 +78,13 @@ const MetaDiaria = () => {
       setValueInput('')
     } else return
   }
-
   return (
     <KeyboardAvoidingView>
       <ScrollView style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Meta para Hoy</Text>
           <TouchableOpacity style={styles.bell} onPress={() => setBellRemember(!bellRemember)}>
-            <Text>🔔</Text>
+            <Text style={{fontSize: 20}}>🔔</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.containerCurrentDay}>
@@ -103,7 +102,13 @@ const MetaDiaria = () => {
             onChangeText={(text) => setValueInput(text)}
             taskToCreate="Task"
           />
+          {dailyTaskItem.length
+          ?
           <DisplayAllGoal dailyTaskItem={dailyTaskItem} setDailyTaskItem={setDailyTaskItem} storage='taskForDay'/>
+          :
+          <Text style={{fontSize: 20, padding: 10, color:'#c99b9b'}}>
+            No hay metas para mostrar 🥺...
+          </Text>}
       </ScrollView>
       {bellRemember && <Modal onClose={() => {  setBellRemember(false)}} />}
     </KeyboardAvoidingView>

@@ -78,8 +78,8 @@ const MetaSemanal = ({navigation})=> {
           <View>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>Meta Semanal</Text>
-              <TouchableOpacity style={styles.bell} onPress={() => setBellRemember(!bellRemember)}>
-                <Text>🔔</Text>
+              <TouchableOpacity onPress={() => setBellRemember(!bellRemember)}>
+                <Text style={{padding: 20, lineHeight: 1, fontSize: 20}}>🔔</Text>
               </TouchableOpacity>
             </View>
            <CheckDays
