@@ -57,7 +57,10 @@ const MetaDiaria = () => {
 
   useEffect(() => {
     if (isMountedRef.current && currentDay !== isDayChanged) {
-      changeDay({previousDays,setDailyTaskItem})
+      if (currentDay !== 'Lunes') {
+        console.log('aqui')
+        changeDay({previousDays,setDailyTaskItem})
+      }
       changeWeek(currentDay)
     }
   },[isDayChanged,changeDay,changeWeek, isMountedRef])

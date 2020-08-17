@@ -27,6 +27,7 @@ const CheckDays = (
 
   const Day = new Date().getDay()
   let currentDay = listNameToDisplay[(Day + 6) % 7]
+
   useEffect(() => {
 
     if (isFocused && thisIsYear ) {

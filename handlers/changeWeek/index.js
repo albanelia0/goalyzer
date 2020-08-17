@@ -36,7 +36,6 @@ export default function changeWeek(currentDay) {
           return day
         }
       })
-
       AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
     })
   } else {
