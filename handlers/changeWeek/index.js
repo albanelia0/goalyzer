@@ -26,10 +26,8 @@ export default function changeWeek(currentDay) {
 
       const newArray = array.map(day => {
         const newValue = {day: day.day, done: false,allTask: null, status: false, empty: false }
-        if (day.empty === true) {
-          console.log('entra...', day.empty)
+        if (day.empty === true || !!day.allTask) {
           if(day.day === 'D') {
-            console.log('DOMINGO...',newValue)
 
             return newValue
           }
