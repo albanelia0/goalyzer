@@ -12,7 +12,6 @@ const CheckDays = (
     setListNameToDisplay,
     storageName,
     thisIsYear,
-    currentMonth,
   }) => {
   const [currentStatusFromMonth,setCurrentStatusFromMonth] = useState(false)
   const isFocused = useIsFocused()
@@ -28,7 +27,6 @@ const CheckDays = (
 
   const Day = new Date().getDay()
   let currentDay = listNameToDisplay[(Day + 6) % 7]
-
   useEffect(() => {
 
     if (isFocused && thisIsYear ) {
@@ -88,7 +86,6 @@ const CheckDays = (
                  if (item.day === currentDayFromPreviousDays.day && item.done === false && item.allTask !== null) newStatusValue
                   return item
                 })
-                console.log('newArray',newArray)
                 AsyncStorage.setItem(storageName, JSON.stringify(newArray))
                 setDaysDebug(newArray, 'L65')
               }

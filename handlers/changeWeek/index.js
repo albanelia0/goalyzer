@@ -19,19 +19,27 @@ export default function changeWeek(currentDay) {
     AsyncStorage.getItem('allWeekDays').then(json => {
       const parsedJson = JSON.parse(json) || []
       const array = parsedJson === null || parsedJson.length === 0? weekDays : parsedJson
-      const newArray = array.map(day => {
 
-        const newValue = {day: day.day, done: false,allTask: null, status: false, empty: true }
-        if (day.empty === false) {
+      if (array.some((day) => day.empty)) {
+        AsyncStorage.removeItem('textFromWeek')
+      }
+
+      const newArray = array.map(day => {
+        const newValue = {day: day.day, done: false,allTask: null, status: false, empty: false }
+        if (day.empty === true) {
+          console.log('entra...', day.empty)
+          if(day.day === 'D') {
+            console.log('DOMINGO...',newValue)
+
+            return newValue
+          }
           return newValue
-        } else if(day.day === 'D') {
-          return newValue
+        }else {
+          return day
         }
-        return day
       })
 
       AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
-      AsyncStorage.removeItem('textFromWeek')
     })
   } else {
     AsyncStorage.getItem('allWeekDays').then(json => {
@@ -40,16 +48,17 @@ export default function changeWeek(currentDay) {
       if (!!array) {
         const newArray = array.map((day,i) => {
 
-          if (day.empty === true) {
-            return {...day, empty: false}
+          if (day.empty === false) {
+            return {...day, empty: true}
           }
           if(Day+1 <= i){
             console.log('Day+1', Day+1, 'i', i)
             return day
           } else {
-            return {...day, done: false,allTask: null, status: false, empty: false }
+            return {...day, done: false,allTask: null, status: false, empty: true }
           }
         })
+
         AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
       }
     })
