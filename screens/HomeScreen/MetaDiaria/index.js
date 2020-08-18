@@ -25,6 +25,7 @@ const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Vie
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
 let previousDays = Day !== 0? weekDaysNames[Day - 1].toString():weekDaysNames[6].toString()
+
 const numberWeek = DateTime.local().weekNumber
 
 const MetaDiaria = () => {
@@ -32,7 +33,7 @@ const MetaDiaria = () => {
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
   const [isDayChanged, setIsDayChanged] = useState(currentDay)
-  const [isWeekChanged, setIsWeekChanged] = useState(numberWeek)
+  const [isWeekChanged, setIsWeekChanged] = useState('')
   const isMountedRef = useIsMountedRef();
   const debugSetter = (setter, x, where) => {
     setter(prev => {
@@ -63,7 +64,7 @@ const MetaDiaria = () => {
       }
     })
   },[isMountedRef])
-
+console.log('week', isWeekChanged === numberWeek)
   useEffect(() => {
     if (isMountedRef.current && currentDay !== isDayChanged) {
       if (currentDay !== 'Lunes' && isWeekChanged === numberWeek) {
