@@ -33,7 +33,7 @@ const MetaDiaria = () => {
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
   const [isDayChanged, setIsDayChanged] = useState(currentDay)
-  const [isWeekChanged, setIsWeekChanged] = useState('')
+  const [isWeekChanged, setIsWeekChanged] = useState(numberWeek)
   const isMountedRef = useIsMountedRef();
   const debugSetter = (setter, x, where) => {
     setter(prev => {
@@ -68,7 +68,6 @@ console.log('week', isWeekChanged === numberWeek)
   useEffect(() => {
     if (isMountedRef.current && currentDay !== isDayChanged) {
       if (currentDay !== 'Lunes' && isWeekChanged === numberWeek) {
-        console.log('aqui')
         changeDay({previousDays,setDailyTaskItem})
       }
       changeWeek(currentDay)
