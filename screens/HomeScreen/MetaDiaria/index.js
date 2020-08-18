@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
+import { DateTime } from "luxon"
 import Input from '../../../components/Input'
 import DisplayAllGoal from '../../../components/displayAllGoal'
 
@@ -24,12 +25,14 @@ const weekDaysNames = ['Domingo','Lunes', 'Martes', 'Miércoles', 'Jueves', 'Vie
 const Day = new Date().getDay()
 let currentDay = weekDaysNames[Day]
 let previousDays = Day !== 0? weekDaysNames[Day - 1].toString():weekDaysNames[6].toString()
+const numberWeek = DateTime.local().weekNumber
 
 const MetaDiaria = () => {
   const [dailyTaskItem, setDailyTaskItem] = useState([])
   const [valueInput, setValueInput] = useState('')
   const [bellRemember, setBellRemember] = useState(false)
   const [isDayChanged, setIsDayChanged] = useState(currentDay)
+  const [isWeekChanged, setIsWeekChanged] = useState(numberWeek)
   const isMountedRef = useIsMountedRef();
   const debugSetter = (setter, x, where) => {
     setter(prev => {
@@ -37,7 +40,6 @@ const MetaDiaria = () => {
       return typeof x === 'function' ? x(prev) : x
     })
   }
-
   useEffect(() => {
     AsyncStorage.getItem('taskForDay').then(json => {
       const parsedJson = JSON.parse(json) || []
@@ -53,11 +55,18 @@ const MetaDiaria = () => {
         day !== undefined && debugSetter(setIsDayChanged, day, 'L48')
       }
     })
+    AsyncStorage.getItem('lastUsedWeek').then(weekNumber => {
+      AsyncStorage.setItem('lastUsedWeek', JSON.stringify(numberWeek))
+      if (isMountedRef.current) {
+        const number = JSON.parse(weekNumber)
+        !!weekNumber && setIsWeekChanged(number)
+      }
+    })
   },[isMountedRef])
 
   useEffect(() => {
     if (isMountedRef.current && currentDay !== isDayChanged) {
-      if (currentDay !== 'Lunes') {
+      if (currentDay !== 'Lunes' && isWeekChanged === numberWeek) {
         console.log('aqui')
         changeDay({previousDays,setDailyTaskItem})
       }
