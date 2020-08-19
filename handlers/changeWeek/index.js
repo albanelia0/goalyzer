@@ -13,51 +13,26 @@ const weekDays = [
 
 const Day = new Date().getDay()
 
-export default function changeWeek(currentDay) {
+export default function changeWeek() {
 
-  if (currentDay === 'Lunes') {
-    AsyncStorage.getItem('allWeekDays').then(json => {
-      const parsedJson = JSON.parse(json) || []
-      const array = parsedJson === null || parsedJson.length === 0? weekDays : parsedJson
+  AsyncStorage.getItem('allWeekDays').then(json => {
+    const parsedJson = JSON.parse(json) || []
+    const array = parsedJson === null || parsedJson.length === 0? weekDays : parsedJson
 
-      if (array.some((day) => day.empty)) {
-        AsyncStorage.removeItem('textFromWeek')
-      }
+    const newArray = array.map(day => {
+      const newValue = {day: day.day, done: false,allTask: null, status: false, empty: false }
+      if (day.empty === true || !!day.allTask) {
+        if(day.day === 'D') {
 
-      const newArray = array.map(day => {
-        const newValue = {day: day.day, done: false,allTask: null, status: false, empty: false }
-        if (day.empty === true || !!day.allTask) {
-          if(day.day === 'D') {
-
-            return newValue
-          }
           return newValue
-        }else {
-          return day
         }
-      })
-      AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
-    })
-  } else {
-    AsyncStorage.getItem('allWeekDays').then(json => {
-      const parsedJson = JSON.parse(json) || []
-      const array = parsedJson ?  parsedJson: weekDays
-      if (!!array) {
-        const newArray = array.map((day,i) => {
-
-          if (day.empty === false) {
-            return {...day, empty: true}
-          }
-          if(Day+1 <= i){
-            console.log('Day+1', Day+1, 'i', i)
-            return day
-          } else {
-            return {...day, done: false,allTask: null, status: false, empty: true }
-          }
-        })
-
-        AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
+        return newValue
+      }else {
+        return day
       }
     })
-  }
+    AsyncStorage.removeItem('textFromWeek')
+    AsyncStorage.removeItem('textFromDay')
+    AsyncStorage.setItem('allWeekDays', JSON.stringify(newArray))
+  })
 }

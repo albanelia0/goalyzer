@@ -69,8 +69,9 @@ console.log('week', isWeekChanged === numberWeek)
     if (isMountedRef.current && currentDay !== isDayChanged) {
       if (currentDay !== 'Lunes' && isWeekChanged === numberWeek) {
         changeDay({previousDays,setDailyTaskItem})
+      } else {
+        changeWeek()
       }
-      changeWeek(currentDay)
     }
   },[isDayChanged,changeDay,changeWeek, isMountedRef])
 

@@ -30,7 +30,7 @@ console.log('previousDays',previousDays)
             parsedJson.find(item => item.day === `${previousDays.charAt(0)}` && item.day !== 'X' && item.day !== 'M')
 
           if (newArray && parsedAllPreviousTask.length > 0 && !!currentStatus) {
-            const arrayFromPreviousDay = {...newArray, allTask: parsedAllPreviousTask, status: currentStatus}
+            const arrayFromPreviousDay = {...newArray, allTask: parsedAllPreviousTask, status: currentStatus, empty: true}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
                 if (JSON.stringify(item) === JSON.stringify(newArray) ) return arrayFromPreviousDay
                 return item
@@ -39,7 +39,7 @@ console.log('previousDays',previousDays)
             AsyncStorage.removeItem('textFromDay')
 
           } else if(newArrayFromTuesday && parsedAllPreviousTask.length > 0 && !!currentStatus) {
-            const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask, status: currentStatus}
+            const arrayFromPreviousDay = {...newArrayFromTuesday, allTask: parsedAllPreviousTask, status: currentStatus, empty: true}
             const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
                 if (JSON.stringify(item) === JSON.stringify(newArrayFromTuesday) ) return arrayFromPreviousDay
                 return item
@@ -49,7 +49,7 @@ console.log('previousDays',previousDays)
 
           } else if(theOthers && parsedAllPreviousTask.length > 0 && !!currentStatus) {
             if (theOthers.day === 'D') {
-              const arrayFromPreviousDay = {day: theOthers.day, done: false, allTask: null, status: false, empty: false }
+              const arrayFromPreviousDay = {day: theOthers.day, done: false, allTask: null, status: false, empty: true }
               const newArrayWithAllTaskUpdatedFromPreviousDay = parsedJson.map(item => {
                   if (JSON.stringify(item) === JSON.stringify(theOthers)) return arrayFromPreviousDay
                   return item
