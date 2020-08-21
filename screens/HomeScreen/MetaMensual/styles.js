@@ -11,7 +11,8 @@ export const styles = StyleSheet.create({
   },
   goalContainer: {
     marginBottom: 20,
-    marginTop: 20
+    marginTop: 20,
+    position: "relative"
   },
   titleMonth:{
     color: color.titleColor,
@@ -37,5 +38,22 @@ export const styles = StyleSheet.create({
   default: {
     backgroundColor: color.goalNotDone,
     borderColor: 'transparent'
+  },
+  mision:{
+    backgroundColor: '#e7dfd58f',
+    borderBottomWidth: 0.5,
+    borderColor: 'black',
+    borderTopWidth: 0.5,
+    color: 'black',
+    fontSize: 40,
+    left: 0,
+    margin:10,
+    position: 'absolute',
+    padding: 10,
+    right: 0,
+    textAlign: 'center',
+    top: 50,
+    transform: [{ rotate: '-45deg'}],
+    zIndex: 200,
   },
 })

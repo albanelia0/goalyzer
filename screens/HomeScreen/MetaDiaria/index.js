@@ -64,7 +64,6 @@ const MetaDiaria = () => {
       }
     })
   },[isMountedRef])
-console.log('week', isWeekChanged === numberWeek)
   useEffect(() => {
     if (isMountedRef.current && currentDay !== isDayChanged) {
       if (currentDay !== 'Lunes' && isWeekChanged === numberWeek) {
@@ -116,6 +115,7 @@ console.log('week', isWeekChanged === numberWeek)
             onChangeText={(text) => setValueInput(text)}
             taskToCreate="Task"
           />
+        <View style={styles.subContainer}>
           {dailyTaskItem.length
           ?
           <DisplayAllGoal dailyTaskItem={dailyTaskItem} setDailyTaskItem={setDailyTaskItem} storage='taskForDay'/>
@@ -123,6 +123,9 @@ console.log('week', isWeekChanged === numberWeek)
           <Text style={{fontSize: 20, padding: 10, color:'#c99b9b'}}>
             No hay metas para mostrar 🥺...
           </Text>}
+          {dailyTaskItem.length > 1 && dailyTaskItem.every(val => val.success) &&
+            <Text style={styles.mision}>😱MISIÓN CUMPLIDA!🌟🥳🎊</Text>}
+        </View>
       </ScrollView>
       {bellRemember && <Modal onClose={() => {  setBellRemember(false)}} />}
     </KeyboardAvoidingView>

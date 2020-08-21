@@ -76,7 +76,6 @@ export default function MetaMensual() {
       setInputValue('')
     } else return
   }
-
   return (
     <KeyboardAvoidingView>
       <ScrollView style={styles.container}>
@@ -104,6 +103,9 @@ export default function MetaMensual() {
             <Text style={{fontSize: 20, padding: 10, color:'#c99b9b'}}>
               No hay metas para mostrar 🥺... este mes va chungo...🤐
             </Text>}
+          {currentMonthGoal.length > 1 && currentMonthGoal.every(val => val.success) &&
+            <Text style={styles.mision}>😱MISIÓN CUMPLIDA!🌟🥳🎊</Text>}
+
           </View>
         </View>
       </ScrollView>

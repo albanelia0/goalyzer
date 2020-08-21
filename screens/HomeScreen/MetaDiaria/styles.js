@@ -6,6 +6,9 @@ export const styles = StyleSheet.create({
   container: {
     margin: 40,
   },
+  subContainer: {
+    position: "relative"
+  },
   title: {
     fontSize: 35,
     color: colors.titleColor
@@ -61,5 +64,22 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: 'pink',
     minWidth: '80%'
+  },
+  mision:{
+    backgroundColor: '#e7dfd58f',
+    borderBottomWidth: 0.5,
+    borderColor: 'black',
+    borderTopWidth: 0.5,
+    color: 'black',
+    fontSize: 40,
+    left: 0,
+    margin:10,
+    position: 'absolute',
+    padding: 10,
+    right: 0,
+    textAlign: 'center',
+    top: 50,
+    transform: [{ rotate: '-45deg'}],
+    zIndex: 200,
   },
 });
