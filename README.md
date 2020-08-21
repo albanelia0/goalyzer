@@ -4,7 +4,7 @@
  yarn start
  
  #### To download the apk (Platform Android)
- [Goalyzer-apk](https://expo.io/artifacts/ae44c68f-b92e-498f-afc4-cecdf8315eae)
+ [Goalyzer-apk](https://expo.io/artifacts/8adf5a93-4c1a-42e5-9b02-c050741245df)
  
  #### Technical description
   - React
