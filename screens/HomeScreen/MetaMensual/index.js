@@ -90,7 +90,7 @@ export default function MetaMensual() {
             taskToCreate='goal'
             />
           <View style={styles.goalContainer}>
-            { allMonthGoal.length
+            { currentMonthGoal.length
               ?
             <DisplayAllGoal
               allMonthGoal={allMonthGoal}
@@ -103,7 +103,8 @@ export default function MetaMensual() {
             <Text style={{fontSize: 20, padding: 10, color:'#c99b9b'}}>
               No hay metas para mostrar 🥺... este mes va chungo...🤐
             </Text>}
-          {currentMonthGoal.length > 1 && currentMonthGoal.every(val => val.success) &&
+
+            {currentMonthGoal.length > 1 && currentMonthGoal.every(val => val.success) &&
             <Text style={styles.mision}>😱MISIÓN CUMPLIDA!🌟🥳🎊</Text>}
 
           </View>

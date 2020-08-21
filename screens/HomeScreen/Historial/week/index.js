@@ -83,7 +83,7 @@ const changeLetterFromDayToCompletName = [
     <ScrollView>
       <View style={styles.wrapper}>
           <View style={styles.container}>
-            {taskHistory && taskHistory.map((item, i) => {
+            {taskHistory ? taskHistory.map((item, i) => {
               if (item.allTask !== null) {
                 const nameToDay = changeLetterFromDayToCompletName.find(day => day.day === item.day)
                 return(
@@ -95,7 +95,11 @@ const changeLetterFromDayToCompletName = [
                   </View>
                 )
               }
-            })}
+            })
+          :
+          <Text style={{fontSize: 20, padding: 10, color:'#c99b9b'}}>
+            No hay registro 🧐
+          </Text>}
         </View>
       </View>
     </ScrollView>

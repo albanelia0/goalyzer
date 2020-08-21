@@ -89,7 +89,11 @@ export default function Month() {
           <View style={styles.container}>
             {allMonthName.map((item,i) => {
               if (item === undefined) {
-                return <View key={i+2}><Text>No hay registro</Text></View>
+                return <View key={i+2}>
+                  <Text style={{fontSize: 20, padding: 10, color:'#c99b9b'}}>
+                      No hay registro 🧐
+                  </Text>
+                </View>
               } else {
 
                 return (
