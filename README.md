@@ -3,9 +3,6 @@
  #### To start the App
  yarn start
  
- #### To download the apk (Platform Android)
- [Goalyzer-apk](https://expo.io/artifacts/8adf5a93-4c1a-42e5-9b02-c050741245df)
- 
  #### Technical description
   - React
   - React native
